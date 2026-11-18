@@ -7,6 +7,7 @@ export const site = {
   firstName: 'Abyasa',
   role: 'Photographer, designer & developer',
   location: 'Yogyakarta, Indonesia',
+  availability: 'Open for selected projects',
   email: 'test@gmail.com',
   description:
     'Portfolio of Abyasa Pradhipta — photographic series, design systems, and selected web projects.',

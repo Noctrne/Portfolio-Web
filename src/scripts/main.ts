@@ -1,5 +1,6 @@
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let revealObserver: IntersectionObserver | null = null;
+let cleanupHeader: (() => void) | null = null;
 
 function initReveal() {
   revealObserver?.disconnect();
@@ -25,18 +26,62 @@ function initReveal() {
   items.forEach((item) => revealObserver?.observe(item));
 }
 
-function closeMenu() {
+function setMenu(open: boolean) {
   const toggle = document.querySelector<HTMLElement>('[data-menu-toggle]');
-  const menu = document.getElementById('mobile-menu');
+  const panel = document.querySelector<HTMLElement>('[data-mobile-panel]');
+  const label = toggle?.querySelector<HTMLElement>('[data-menu-text]');
 
-  if (toggle) {
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.classList.remove('is-open');
+  toggle?.classList.toggle('is-open', open);
+  toggle?.setAttribute('aria-expanded', String(open));
+  if (label) label.textContent = open ? 'Close' : 'Menu';
+
+  if (panel) {
+    panel.classList.toggle('is-open', open);
+    panel.setAttribute('aria-hidden', String(!open));
+    panel.inert = !open;
   }
 
-  if (menu) menu.hidden = true;
+  document.body.classList.toggle('no-scroll', open);
+}
 
-  document.body.classList.remove('no-scroll');
+function initHeader() {
+  cleanupHeader?.();
+
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
+  if (!header) return;
+
+  let lastY = window.scrollY;
+  let ticking = false;
+
+  const update = () => {
+    const y = Math.max(window.scrollY, 0);
+    const delta = y - lastY;
+
+    if (y <= 24) {
+      header.dataset.condensed = 'false';
+      header.dataset.hidden = 'false';
+    } else {
+      header.dataset.condensed = 'true';
+
+      // Hysteresis: ignore small scroll jitter so the bar does not flicker.
+      if (Math.abs(delta) > 6) {
+        header.dataset.hidden = String(delta > 0 && y > 160);
+      }
+    }
+
+    lastY = y;
+    ticking = false;
+  };
+
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  };
+
+  update();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  cleanupHeader = () => window.removeEventListener('scroll', onScroll);
 }
 
 function applyFilter(value: string) {
@@ -66,14 +111,8 @@ document.addEventListener('click', (event) => {
 
   const toggle = target.closest<HTMLElement>('[data-menu-toggle]');
   if (toggle) {
-    const menu = document.getElementById('mobile-menu');
-    if (!menu) return;
-
     const isOpen = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', String(!isOpen));
-    toggle.classList.toggle('is-open', !isOpen);
-    menu.hidden = isOpen;
-    document.body.classList.toggle('no-scroll', !isOpen);
+    setMenu(!isOpen);
     return;
   }
 
@@ -84,16 +123,25 @@ document.addEventListener('click', (event) => {
 });
 
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') closeMenu();
+  if (event.key === 'Escape') setMenu(false);
 });
 
 document.addEventListener('astro:page-load', () => {
   initReveal();
-  closeMenu();
+  initHeader();
+  setMenu(false);
 });
 
-document.addEventListener('astro:before-swap', closeMenu);
+document.addEventListener('astro:before-swap', () => {
+  cleanupHeader?.();
+  setMenu(false);
+});
+
+window.matchMedia('(min-width: 768px)').addEventListener('change', (event) => {
+  if (event.matches) setMenu(false);
+});
 
 reduceMotion.addEventListener('change', initReveal);
 
 initReveal();
+initHeader();

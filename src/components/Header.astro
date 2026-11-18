@@ -1,0 +1,82 @@
+---
+import { site, nav } from '../data/site';
+
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
+---
+
+<header class="site-header">
+  <div class="wrap flex h-16 items-center justify-between gap-6 md:h-20">
+    <a href="/" class="group flex items-baseline gap-2.5" aria-label={`${site.name} — home`}>
+      <span class="font-display text-[1.2rem] leading-none tracking-[-0.02em]">{site.name}</span>
+      <span
+        class="mb-[3px] h-1 w-1 rounded-full bg-clay transition-transform duration-500 ease-out-expo group-hover:scale-150"
+        aria-hidden="true"></span>
+    </a>
+
+    <nav class="hidden items-center gap-9 md:flex" aria-label="Primary">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            class:list={['nav-link', { 'is-active': isActive(item.href) }]}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="hidden md:block">
+      <a href={`mailto:${site.email}`} class="arrow-link">
+        Get in touch
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path
+            d="M3 8h10M9 4l4 4-4 4"
+            stroke="currentColor"
+            stroke-width="1.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </a>
+    </div>
+
+    <button
+      type="button"
+      class="flex h-10 w-10 items-center justify-center md:hidden"
+      data-menu-toggle
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span class="sr-only">Toggle menu</span>
+      <span class="relative block h-3 w-5" aria-hidden="true">
+        <span
+          data-menu-bar="top"
+          class="absolute left-0 top-0 h-px w-full bg-ink transition-transform duration-300 ease-out-expo"
+        ></span>
+        <span
+          data-menu-bar="bottom"
+          class="absolute bottom-0 left-0 h-px w-full bg-ink transition-transform duration-300 ease-out-expo"
+        ></span>
+      </span>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="border-t border-line bg-paper md:hidden" hidden>
+    <nav class="wrap flex flex-col py-4" aria-label="Mobile">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            class="border-b border-line py-3 font-display text-xl last:border-0"
+            aria-current={isActive(item.href) ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a href={`mailto:${site.email}`} class="py-4 text-sm text-muted">{site.email}</a>
+    </nav>
+  </div>
+</header>

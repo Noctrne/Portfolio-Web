@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://abyvictus.com/sitemap-index.xml

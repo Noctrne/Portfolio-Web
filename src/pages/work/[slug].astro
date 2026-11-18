@@ -1,0 +1,151 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+type Props = { entry: CollectionEntry<'work'> };
+
+export async function getStaticPaths() {
+  const works = await getCollection('work');
+
+  return works.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const { title, category, year, summary, role, tools, cover, coverAlt, links } = entry.data;
+
+const all = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
+const currentIndex = all.findIndex((item) => item.id === entry.id);
+const next = all[(currentIndex + 1) % all.length];
+---
+
+<BaseLayout title={title} description={summary} ogType="article">
+  <article>
+    <header class="wrap pt-[clamp(2.5rem,5vw,4.5rem)]">
+      <a href="/work" class="arrow-link text-muted">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path
+            d="M13 8H3M7 4L3 8l4 4"
+            stroke="currentColor"
+            stroke-width="1.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+        All work
+      </a>
+
+      <div class="mt-[clamp(2rem,4vw,3.5rem)] grid gap-10 md:grid-cols-12 md:items-end lg:gap-16">
+        <div class="md:col-span-7">
+          <p class="eyebrow" data-reveal>{category} — {year}</p>
+          <h1 class="mt-4 max-w-[24ch] text-hero text-balance" data-reveal style="--reveal-delay: 70ms">
+            {title}
+          </h1>
+          <p
+            class="mt-6 max-w-[46ch] text-lede text-ink-soft text-pretty"
+            data-reveal
+            style="--reveal-delay: 140ms">
+            {summary}
+          </p>
+        </div>
+
+        <div class="md:col-span-5" data-reveal="pop" style="--reveal-delay: 120ms">
+          <div class="aspect-[4/5] overflow-hidden bg-paper-deep">
+            <Image
+              src={cover}
+              alt={coverAlt || title}
+              widths={[480, 720, 960, 1200]}
+              sizes="(min-width: 768px) 38vw, 100vw"
+              loading="eager"
+              decoding="async"
+              class="h-full w-full object-cover"
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="wrap mt-[clamp(2.5rem,5vw,4rem)]">
+      <dl class="grid gap-6 border-t border-line pt-6 sm:grid-cols-2 lg:grid-cols-4" data-reveal>
+        {
+          role && (
+            <div>
+              <dt class="eyebrow">Role</dt>
+              <dd class="mt-2 text-sm text-ink-soft">{role}</dd>
+            </div>
+          )
+        }
+        <div>
+          <dt class="eyebrow">Year</dt>
+          <dd class="mt-2 text-sm text-ink-soft">{year}</dd>
+        </div>
+        {
+          tools.length > 0 && (
+            <div>
+              <dt class="eyebrow">Tools</dt>
+              <dd class="mt-2 text-sm text-ink-soft">{tools.join(' · ')}</dd>
+            </div>
+          )
+        }
+        {
+          links.length > 0 && (
+            <div>
+              <dt class="eyebrow">Links</dt>
+              <dd class="mt-2 flex flex-col gap-1 text-sm">
+                {links.map((link) => (
+                  <a href={link.href} target="_blank" rel="noreferrer" class="link w-fit">
+                    {link.label} ↗
+                  </a>
+                ))}
+              </dd>
+            </div>
+          )
+        }
+      </dl>
+    </section>
+
+    <section class="wrap section">
+      <div class="grid gap-8 md:grid-cols-12">
+        <div class="md:col-span-3">
+          <p class="eyebrow" data-reveal>Notes</p>
+        </div>
+        <div class="md:col-span-7 md:col-start-5">
+          <div class="editorial-prose" data-reveal>
+            <Content />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <a
+        href={`/work/${next.id}/`}
+        class="group flex items-end justify-between gap-6 border-t border-line py-8 md:py-10"
+      >
+        <div>
+          <p class="eyebrow">Next project</p>
+          <p class="mt-2 font-display text-[clamp(1.5rem,3vw,2.25rem)] leading-tight tracking-[-0.02em] transition-colors duration-300 group-hover:text-clay">
+            {next.data.title}
+          </p>
+        </div>
+        <span
+          class="mb-1 shrink-0 text-muted transition-transform duration-300 ease-out-expo group-hover:translate-x-1"
+          aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M3 8h10M9 4l4 4-4 4"
+              stroke="currentColor"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </span>
+      </a>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,55 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'work'>;
+  delay?: number;
+  sizes?: string;
+}
+
+const {
+  entry,
+  delay = 0,
+  sizes = '(min-width: 1024px) 40vw, (min-width: 640px) 45vw, 100vw',
+} = Astro.props;
+
+const { title, category, year, cover, coverAlt } = entry.data;
+---
+
+<article
+  class="group"
+  data-reveal
+  data-work
+  data-category={category}
+  style={`--reveal-delay: ${delay}ms`}
+>
+  <a href={`/work/${entry.id}/`} class="block">
+    <div class="relative aspect-[4/5] overflow-hidden bg-paper-deep">
+      <Image
+        src={cover}
+        alt={coverAlt || title}
+        widths={[480, 720, 960, 1200]}
+        sizes={sizes}
+        loading="lazy"
+        decoding="async"
+        class="h-full w-full object-cover transition-transform duration-[1200ms] ease-out-expo group-hover:scale-[1.035]"
+      />
+      <div
+        class="pointer-events-none absolute inset-0 bg-ink/0 transition-colors duration-500 group-hover:bg-ink/[0.04]"
+        aria-hidden="true">
+      </div>
+    </div>
+
+    <div class="mt-4 flex items-start justify-between gap-6 border-t border-line pt-4">
+      <div>
+        <p class="eyebrow">{category}</p>
+        <h3
+          class="mt-1.5 text-[1.2rem] leading-snug tracking-[-0.01em] transition-colors duration-300 group-hover:text-clay">
+          {title}
+        </h3>
+      </div>
+      <span class="pt-0.5 text-xs tabular-nums text-muted">{year}</span>
+    </div>
+  </a>
+</article>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#faf8f4"/>
+  <rect x="40" y="40" width="1120" height="550" fill="none" stroke="#e3ddd1" stroke-width="1"/>
+  <circle cx="930" cy="250" r="170" fill="none" stroke="#c9bda7" stroke-width="1"/>
+  <circle cx="930" cy="250" r="120" fill="#ede6d9"/>
+  <circle cx="930" cy="250" r="5" fill="#8a4a32"/>
+  <text x="96" y="286" font-family="Georgia, 'Times New Roman', serif" font-size="86" fill="#17140f">Aby Victus</text>
+  <text x="100" y="342" font-family="Georgia, 'Times New Roman', serif" font-size="30" font-style="italic" fill="#4a443b">Photography, design, and the web.</text>
+  <line x1="96" y1="404" x2="420" y2="404" stroke="#e3ddd1" stroke-width="1"/>
+  <text x="96" y="470" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="4" fill="#7d766a">PHOTOGRAPHY — DESIGN — DEVELOPMENT</text>
+  <text x="96" y="536" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="2" fill="#7d766a">abyvictus.com</text>
+</svg>

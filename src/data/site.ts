@@ -3,20 +3,19 @@
  * Ganti nilai di sini sebelum deploy — nama, email, sosial, dan domain.
  */
 export const site = {
-  name: 'Aby Victus',
-  firstName: 'Aby',
+  name: 'Abyasa Pradhipta',
+  firstName: 'Abyasa',
   role: 'Photographer, designer & developer',
-  location: 'Jakarta, Indonesia',
-  email: 'hello@abyvictus.com',
+  location: 'Yogyakarta, Indonesia',
+  email: 'test@gmail.com',
   description:
-    'Portfolio of Aby Victus — photographic series, design systems, and selected web projects.',
-  url: 'https://abyvictus.com',
+    'Portfolio of Abyasa Pradhipta — photographic series, design systems, and selected web projects.',
+  url: 'https://pradhipta.vercel.app',
   year: 2026,
   socials: [
-    { label: 'Instagram', href: 'https://instagram.com/' },
-    { label: 'GitHub', href: 'https://github.com/' },
-    { label: 'LinkedIn', href: 'https://linkedin.com/in/' },
-    { label: 'Behance', href: 'https://behance.net/' },
+    { label: 'Instagram', href: 'https://instagram.com/dhiptaby' },
+    { label: 'GitHub', href: 'https://github.com/Noctrne' },
+    { label: 'LinkedIn', href: 'https://linkedin.com/in/abyasa-pradhipta' },
   ],
 } as const;
 

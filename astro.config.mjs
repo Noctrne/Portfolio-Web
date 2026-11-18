@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // TODO: ganti dengan domain final sebelum deploy.
 export default defineConfig({
-  site: 'https://abyvictus.com',
+  site: 'https://pradhipta.vercel.app',
   integrations: [sitemap()],
   prefetch: true,
   vite: {

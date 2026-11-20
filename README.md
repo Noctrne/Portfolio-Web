@@ -2,14 +2,14 @@
 
 Personal portfolio multi-halaman dengan arah visual *light editorial*: kertas sejuk,
 tipografi serif, hairline border, dan banyak whitespace. Menggabungkan proyek
-engineering, pengalaman, dan galeri karya seni dalam satu situs. Konten dikelola
-lewat Markdown, output sepenuhnya statis.
+engineering, pengalaman, galeri karya seni, dan blog pribadi dalam satu situs.
+Konten dikelola lewat Markdown, output sepenuhnya statis.
 
 ## Stack
 
 - **Astro 7** — static site, hampir tanpa JavaScript
 - **Tailwind CSS 4** — token warna, tipografi, spacing, breakpoint
-- **Content Collections + Markdown** — `src/content/work/*.md`
+- **Content Collections + Markdown** — `src/content/work/*.md`, `src/content/blog/*.md`
 - **astro:assets (sharp)** — resize & konversi gambar ke WebP saat build
 - **View Transitions** — transisi antar halaman
 - **Font self-host** — Newsreader (display) + Inter (teks)
@@ -43,12 +43,14 @@ Dev server: <http://localhost:4321>
 ```text
 src/
 ├── assets/                 # gambar sumber (dioptimasi saat build)
-├── components/             # Header, Footer, WorkCard, ContactSection
+├── components/             # Header, Footer, WorkCard, ContactSection, Icon, Ornament
 ├── content/work/           # satu file .md per proyek engineering
 ├── content/gallery/        # satu file .md per karya seni
+├── content/blog/           # satu file .md per tulisan blog
 ├── data/site.ts            # nama, email, sosial, lokasi
 ├── layouts/BaseLayout.astro
-├── pages/                  # index, work, gallery, about, contact, 404
+├── lib/blog.ts             # format tanggal & estimasi waktu baca
+├── pages/                  # index, work, gallery, blog, about, contact, 404
 ├── scripts/main.ts         # reveal on scroll, menu, filter, lightbox
 └── styles/global.css       # design tokens + komponen dasar
 ```
@@ -142,6 +144,30 @@ Untuk video, simpan file di `public/gallery/` lalu isi `video` dengan path publi
 (`/gallery/nama-file.mp4`). `cover` tetap dipakai sebagai poster dan thumbnail.
 Video contoh `field-record.mp4` dibuat dari poster SVG memakai ffmpeg; ganti dengan
 hasil karya sendiri.
+
+## Menulis blog
+
+1. Buat file `src/content/blog/nama-tulisan.md`.
+2. Isi frontmatter:
+
+```yaml
+---
+title: Judul tulisan
+description: Satu atau dua kalimat ringkas untuk kartu dan meta description.
+date: 2026-11-20
+updated: 2026-11-22   # opsional
+tags: [notes, process] # opsional
+draft: false           # true = tidak ikut build, index, dan Home
+---
+```
+
+3. Tulis body Markdown di bawah frontmatter. URL otomatis menjadi
+   `/blog/nama-tulisan`.
+
+Tulisan diurutkan dari tanggal terbaru. Waktu baca dihitung otomatis dari jumlah
+kata (asumsi 220 kata/menit). Halaman index ada di `/blog`, dan dua tulisan
+terbaru tampil di Home. Tiga tulisan yang ada sekarang adalah contoh — ganti
+dengan tulisan sendiri.
 
 ## Mengganti identitas
 

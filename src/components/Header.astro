@@ -9,7 +9,8 @@ const year = new Date().getFullYear();
 const navIcons: Record<string, string> = {
   Work: 'layers',
   Gallery: 'camera',
-  About: 'pen',
+  Blog: 'book',
+  About: 'user',
   Contact: 'mail',
 };
 ---
@@ -38,7 +39,7 @@ const navIcons: Record<string, string> = {
         }
       </nav>
 
-      <div class="hidden items-center gap-5 justify-self-end md:flex">
+      <div class="hidden items-center gap-5 justify-self-end lg:flex">
         <span class="header-status hidden xl:inline-flex">
           <span class="status-dot" aria-hidden="true"></span>
           <span>{site.availability}</span>

@@ -101,6 +101,26 @@ gallery.video = {
 await page.keyboard.press('Escape');
 await wait(200);
 
+// --- Blog index and article ---
+await page.setViewport({ width: 1280, height: 900 });
+await page.goto(`${base}/blog`, { waitUntil: 'networkidle0' });
+await wait(400);
+
+const blog = {
+  entries: await page.$$eval('a[href^="/blog/"]', (links) => links.length),
+  titles: await page.$$eval('a[href^="/blog/"] h2, a[href^="/blog/"] .font-display', (items) =>
+    items.map((item) => item.textContent?.trim()),
+  ),
+};
+
+await page.goto(`${base}/blog/what-the-pool-taught-the-software`, { waitUntil: 'networkidle0' });
+await wait(400);
+blog.article = {
+  title: await page.$eval('h1', (el) => el.textContent?.trim()),
+  paragraphs: await page.$$eval('.blog-prose p', (items) => items.length),
+  hasNextNote: await page.$eval('.next-link', (el) => !!el.getAttribute('href')),
+};
+
 // --- Mobile menu + client router ---
 await page.setViewport({ width: 390, height: 844 });
 await page.goto(`${base}/`, { waitUntil: 'networkidle0' });
@@ -146,6 +166,6 @@ const navigation = {
 await page.goto(`${base}/`, { waitUntil: 'networkidle0' });
 const footerText = await page.$eval('footer', (el) => el.innerText.replace(/\s+/g, ' ').trim());
 
-console.log(JSON.stringify({ work, gallery, menu, navigation, footerText, errors }, null, 2));
+console.log(JSON.stringify({ work, gallery, blog, menu, navigation, footerText, errors }, null, 2));
 
 await browser.close();

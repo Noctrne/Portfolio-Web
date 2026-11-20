@@ -18,6 +18,18 @@ const shots = [
   { name: 'detail-mobile', path: '/work/orca', width: 390 },
   { name: 'gallery-desktop', path: '/gallery', width: 1440 },
   { name: 'gallery-mobile', path: '/gallery', width: 390 },
+  { name: 'blog-desktop', path: '/blog', width: 1440 },
+  { name: 'blog-mobile', path: '/blog', width: 390 },
+  {
+    name: 'blog-post-desktop',
+    path: '/blog/what-the-pool-taught-the-software',
+    width: 1440,
+  },
+  {
+    name: 'blog-post-mobile',
+    path: '/blog/what-the-pool-taught-the-software',
+    width: 390,
+  },
   { name: 'about-desktop', path: '/about', width: 1440 },
   { name: 'contact-desktop', path: '/contact', width: 1440 },
 ];

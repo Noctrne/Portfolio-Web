@@ -4,7 +4,16 @@ const executablePath =
   process.env.CHROME_PATH ?? 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const base = process.env.BASE_URL ?? 'http://localhost:4321';
 const widths = [360, 390, 768, 1024, 1440];
-const routes = ['/', '/work', '/work/orca', '/gallery', '/about', '/contact'];
+const routes = [
+  '/',
+  '/work',
+  '/work/orca',
+  '/gallery',
+  '/blog',
+  '/blog/what-the-pool-taught-the-software',
+  '/about',
+  '/contact',
+];
 
 const browser = await puppeteer.launch({
   executablePath,

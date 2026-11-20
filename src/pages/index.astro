@@ -7,12 +7,18 @@ import Icon from '../components/Icon.astro';
 import Ornament from '../components/Ornament.astro';
 import { getCollection } from 'astro:content';
 import { capabilities, experience, site } from '../data/site';
+import { byNewest, formatDate, readingTime } from '../lib/blog';
 
 const works = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
 const selected = works.filter((work) => work.data.featured).slice(0, 4);
 
 const gallery = (await getCollection('gallery')).sort((a, b) => a.data.order - b.data.order);
 const art = gallery.filter((entry) => entry.data.featured).slice(0, 3);
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort(byNewest)
+  .slice(0, 2);
 
 const capabilityIcons = ['orbit', 'chip', 'pen'];
 ---
@@ -300,6 +306,72 @@ const capabilityIcons = ['orbit', 'chip', 'pen'];
       </section>
     )
   }
+
+  <section class="section border-t border-line">
+    <div class="wrap">
+      <div class="flex flex-wrap items-end justify-between gap-6">
+        <div>
+          <p class="eyebrow eyebrow-row" data-reveal>
+            <Icon name="book" size={12} />
+            Blog
+          </p>
+          <h2 class="mt-5 text-h2" data-reveal style="--reveal-delay: 60ms">
+            Notes &amp; essays.
+          </h2>
+        </div>
+        <a href="/blog" class="arrow-link" data-reveal style="--reveal-delay: 120ms">
+          All notes
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M3 8h10M9 4l4 4-4 4"
+              stroke="currentColor"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </a>
+      </div>
+
+      <ul class="mt-10 border-t border-line">
+        {posts.map((post, index) => (
+          <li
+            class="border-b border-line"
+            data-reveal
+            style={`--reveal-delay: ${index * 60}ms`}
+          >
+            <a
+              href={`/blog/${post.id}/`}
+              class="next-link group grid gap-3 py-6 md:grid-cols-12 md:items-baseline"
+            >
+              <span class="flex items-center gap-2 text-xs tabular-nums text-muted md:col-span-3 lg:col-span-2">
+                <Icon name="calendar" size={12} />
+                <time class="whitespace-nowrap" datetime={post.data.date.toISOString().slice(0, 10)}>
+                  {formatDate(post.data.date)}
+                </time>
+              </span>
+              <span class="block md:col-span-6 lg:col-span-7">
+                <span class="block font-display text-[clamp(1.3rem,2.2vw,1.7rem)] leading-snug tracking-[-0.01em] transition-colors duration-300 group-hover:text-clay-deep">
+                  {post.data.title}
+                </span>
+                <span class="mt-1.5 block max-w-[58ch] text-sm leading-relaxed text-ink-soft">
+                  {post.data.description}
+                </span>
+              </span>
+              <span class="flex items-center justify-between gap-4 md:col-span-3 md:justify-end">
+                <span class="flex items-center gap-1.5 text-xs text-muted">
+                  <Icon name="clock" size={12} />
+                  {readingTime(post.body)} min read
+                </span>
+                <span class="next-link-circle" aria-hidden="true">
+                  <Icon name="arrow-right" size={14} />
+                </span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
 
   <ContactSection />
 </BaseLayout>

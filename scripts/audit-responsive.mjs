@@ -25,9 +25,23 @@ for (const width of widths) {
       const vw = document.documentElement.clientWidth;
       const offenders = [];
 
+      const isClipped = (el) => {
+        let parent = el.parentElement;
+        while (parent && parent !== document.body) {
+          const style = getComputedStyle(parent);
+          if (style.overflowX === 'hidden' || style.overflowX === 'clip') return true;
+          parent = parent.parentElement;
+        }
+        return false;
+      };
+
       for (const el of document.querySelectorAll('body *')) {
         const rect = el.getBoundingClientRect();
         if (rect.width === 0) continue;
+
+        // Decorative ornaments are intentionally allowed to bleed past the
+        // viewport as long as an ancestor clips them; they never cause scroll.
+        if (el.closest('[aria-hidden="true"]') || isClipped(el)) continue;
 
         if (rect.right > vw + 1 || rect.left < -1) {
           offenders.push({
@@ -43,6 +57,7 @@ for (const width of widths) {
       return {
         vw,
         scrollWidth: document.documentElement.scrollWidth,
+        hasOverflow: document.documentElement.scrollWidth > vw + 1,
         offenders: offenders.slice(0, 12),
       };
     });

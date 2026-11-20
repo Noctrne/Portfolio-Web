@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import Ornament from '../components/Ornament.astro';
 import { site } from '../data/site';
 ---
 
@@ -7,8 +9,15 @@ import { site } from '../data/site';
   title="Contact"
   description={`Get in touch with ${site.name} — engineering, photography, design, and collaborations.`}
 >
-  <header class="wrap pt-[clamp(3rem,7vw,6rem)]">
-    <p class="eyebrow" data-reveal>Contact</p>
+  <header class="wrap relative overflow-hidden pt-[clamp(3rem,7vw,6rem)]">
+    <Ornament
+      variant="arcs"
+      class="absolute -right-40 -top-24 hidden w-[30rem] text-clay opacity-40 md:block"
+    />
+    <p class="eyebrow eyebrow-row" data-reveal>
+      <Icon name="mail" size={12} />
+      Contact
+    </p>
     <h1 class="mt-6 max-w-[18ch] text-hero text-balance" data-reveal style="--reveal-delay: 80ms">
       Say hello.
     </h1>
@@ -19,12 +28,19 @@ import { site } from '../data/site';
     </p>
   </header>
 
-  <section class="wrap mt-[clamp(3rem,6vw,5rem)]">
+  <section class="wrap relative mt-[clamp(3rem,6vw,5rem)]">
+    <Ornament
+      variant="scribble"
+      class="absolute right-0 top-4 hidden w-20 text-clay opacity-60 lg:block"
+    />
     <a
       href={`mailto:${site.email}`}
-      class="group inline-flex items-center font-display text-[clamp(1.5rem,3vw,2.25rem)] leading-none tracking-[-0.02em]"
+      class="contact-mail-link group inline-flex items-center font-display text-[clamp(1.5rem,3vw,2.25rem)] leading-none tracking-[-0.02em]"
       data-reveal
     >
+      <span class="contact-mail-icon" aria-hidden="true">
+        <Icon name="mail" size={16} />
+      </span>
       <span
         class="border-b border-line pb-1.5 transition-colors duration-300 group-hover:border-clay-deep group-hover:text-clay-deep">
         {site.email}
@@ -40,8 +56,9 @@ import { site } from '../data/site';
           {
             site.socials.map((social) => (
               <li>
-                <a href={social.href} target="_blank" rel="noreferrer" class="link text-sm">
+                <a href={social.href} target="_blank" rel="noreferrer" class="link social-link text-sm">
                   {social.label}
+                  <Icon name="arrow-up-right" size={11} />
                 </a>
               </li>
             ))
@@ -52,10 +69,22 @@ import { site } from '../data/site';
       <div class="md:col-span-5 md:col-start-6">
         <p class="eyebrow" data-reveal>Helpful to include</p>
         <ul class="mt-5 space-y-3 text-sm text-ink-soft" data-reveal style="--reveal-delay: 60ms">
-          <li class="border-t border-line pt-3">What you're making, and where it stands</li>
-          <li class="border-t border-line pt-3">Timeline and how you'd like to work together</li>
-          <li class="border-t border-line pt-3">Scope — engineering, visuals, or both</li>
-          <li class="border-t border-line pt-3">Links to your team or existing work</li>
+          <li class="flex items-baseline gap-3 border-t border-line pt-3">
+            <span class="text-[0.65rem] tracking-[0.18em] text-muted">01</span>
+            <span>What you're making, and where it stands</span>
+          </li>
+          <li class="flex items-baseline gap-3 border-t border-line pt-3">
+            <span class="text-[0.65rem] tracking-[0.18em] text-muted">02</span>
+            <span>Timeline and how you'd like to work together</span>
+          </li>
+          <li class="flex items-baseline gap-3 border-t border-line pt-3">
+            <span class="text-[0.65rem] tracking-[0.18em] text-muted">03</span>
+            <span>Scope — engineering, visuals, or both</span>
+          </li>
+          <li class="flex items-baseline gap-3 border-t border-line pt-3">
+            <span class="text-[0.65rem] tracking-[0.18em] text-muted">04</span>
+            <span>Links to your team or existing work</span>
+          </li>
         </ul>
       </div>
 

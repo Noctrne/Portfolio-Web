@@ -1,20 +1,29 @@
 ---
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
 
 interface Props {
   entry: CollectionEntry<'work'>;
+  index?: number;
   delay?: number;
   sizes?: string;
 }
 
 const {
   entry,
+  index,
   delay = 0,
   sizes = '(min-width: 1024px) 40vw, (min-width: 640px) 45vw, 100vw',
 } = Astro.props;
 
 const { title, category, year, cover, coverAlt } = entry.data;
+
+const categoryIcons: Record<string, string> = {
+  autonomy: 'orbit',
+  software: 'code',
+  embedded: 'chip',
+};
 ---
 
 <article
@@ -39,11 +48,24 @@ const { title, category, year, cover, coverAlt } = entry.data;
         class="pointer-events-none absolute inset-0 bg-ink/0 transition-colors duration-500 group-hover:bg-ink/[0.04]"
         aria-hidden="true">
       </div>
+      {
+        index !== undefined && (
+          <span class="card-index" aria-hidden="true">
+            {String(index).padStart(2, '0')}
+          </span>
+        )
+      }
+      <span class="card-arrow" aria-hidden="true">
+        <Icon name="arrow-up-right" size={14} />
+      </span>
     </div>
 
     <div class="mt-4 flex items-start justify-between gap-6 border-t border-line pt-4">
       <div>
-        <p class="eyebrow">{category}</p>
+        <p class="eyebrow eyebrow-row">
+          <Icon name={categoryIcons[category]} size={11} />
+          {category}
+        </p>
         <h3
           class="mt-1.5 text-[1.2rem] leading-snug tracking-[-0.01em] transition-colors duration-300 group-hover:text-clay-deep">
           {title}

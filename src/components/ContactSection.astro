@@ -1,10 +1,19 @@
 ---
 import { site } from '../data/site';
+import Icon from './Icon.astro';
+import Ornament from './Ornament.astro';
 ---
 
-<section class="section border-t border-line">
-  <div class="wrap">
-    <p class="eyebrow" data-reveal>Contact</p>
+<section class="section relative overflow-hidden border-t border-line">
+  <Ornament
+    variant="orbit"
+    class="absolute -right-10 top-12 hidden w-40 text-clay opacity-25 md:block"
+  />
+  <div class="wrap relative z-10">
+    <p class="eyebrow eyebrow-row" data-reveal>
+      <Icon name="mail" size={12} />
+      Contact
+    </p>
     <h2 class="mt-6 max-w-[18ch] text-h2 text-balance" data-reveal style="--reveal-delay: 60ms">
       Building something? I'd like to hear about it.
     </h2>
@@ -16,8 +25,11 @@ import { site } from '../data/site';
     >
       <a
         href={`mailto:${site.email}`}
-        class="group inline-flex items-center font-display text-[clamp(1.35rem,2.6vw,2rem)] leading-none tracking-[-0.02em]"
+        class="contact-mail-link group inline-flex items-center font-display text-[clamp(1.35rem,2.6vw,2rem)] leading-none tracking-[-0.02em]"
       >
+        <span class="contact-mail-icon" aria-hidden="true">
+          <Icon name="mail" size={15} />
+        </span>
         <span
           class="border-b border-line pb-1 transition-colors duration-300 group-hover:border-clay-deep group-hover:text-clay-deep">
           {site.email}

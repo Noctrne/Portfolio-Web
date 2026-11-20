@@ -1,9 +1,17 @@
 ---
 import { site, nav } from '../data/site';
+import Icon from './Icon.astro';
 
 const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
 const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
 const year = new Date().getFullYear();
+
+const navIcons: Record<string, string> = {
+  Work: 'layers',
+  Gallery: 'camera',
+  About: 'pen',
+  Contact: 'mail',
+};
 ---
 
 <header class="header-shell" data-site-header data-condensed="false">
@@ -39,15 +47,10 @@ const year = new Date().getFullYear();
         <span class="header-divider hidden lg:block" aria-hidden="true"></span>
 
         <a href={`mailto:${site.email}`} class="arrow-link shrink-0">
+          <span class="header-contact-icon" aria-hidden="true">
+            <Icon name="mail" size={12} />
+          </span>
           <span class="whitespace-nowrap">Get in touch</span>
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path
-              d="M3 8h10M9 4l4 4-4 4"
-              stroke="currentColor"
-              stroke-width="1.2"
-              stroke-linecap="round"
-              stroke-linejoin="round"></path>
-          </svg>
         </a>
       </div>
 
@@ -87,6 +90,7 @@ const year = new Date().getFullYear();
           >
             <span class="mobile-index">{String(index + 1).padStart(2, '0')}</span>
             <span class="mobile-label">{item.label}</span>
+            <Icon name={navIcons[item.label]} size={16} class="ml-auto self-center text-clay" />
           </a>
         ))
       }

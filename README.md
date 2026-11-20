@@ -70,6 +70,22 @@ hairline, whitespace, dan gambar, bukan lewat section berwarna gelap. Token
 tersedia di `src/styles/global.css` sebagai `--color-paper`, `--color-ink`,
 `--color-line`, dan seterusnya.
 
+## Ornamen & ikon
+
+Dekorasi dibuat dari elemen vektor ringan, bukan gambar raster:
+
+- `src/components/Icon.astro` — ikon stroke-only 24×24 dengan `currentColor`.
+  Dipakai untuk eyebrow section, filter, kategori karya, metadata proyek, dan
+  tautan sosial.
+- `src/components/Ornament.astro` — lekuk garis dekoratif: `arcs`, `orbit`,
+  `corners`, `wave`, `ticks`, dan `scribble`.
+- `src/styles/global.css` — kelas bantu seperti `.timeline-item`, `.cap-icon`,
+  `.card-index`, `.card-arrow`, `.curve-underline`, dan `.dot-grid`.
+
+Semua dekorasi memakai `aria-hidden` dan `pointer-events: none`. Ornamen boleh
+melewati tepi viewport asalkan parent-nya memakai `overflow-hidden`; ornamen
+tidak boleh menambah `scrollWidth` halaman.
+
 ## Menambah karya
 
 1. Buat file `src/content/work/nama-proyek.md`.

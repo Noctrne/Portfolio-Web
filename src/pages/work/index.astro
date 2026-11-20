@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import WorkCard from '../../components/WorkCard.astro';
+import Icon from '../../components/Icon.astro';
+import Ornament from '../../components/Ornament.astro';
 import { getCollection } from 'astro:content';
 
 const works = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
@@ -12,6 +14,13 @@ const categories = [
   { value: 'embedded', label: 'Embedded', count: works.filter((w) => w.data.category === 'embedded').length },
 ];
 
+const categoryIcons: Record<string, string> = {
+  all: 'asterisk',
+  autonomy: 'orbit',
+  software: 'code',
+  embedded: 'chip',
+};
+
 const pad = (value: number) => String(value).padStart(2, '0');
 ---
 
@@ -19,8 +28,15 @@ const pad = (value: number) => String(value).padStart(2, '0');
   title="Work"
   description="Selected engineering projects across autonomy, computer vision, and embedded systems."
 >
-  <header class="wrap pt-[clamp(3rem,7vw,6rem)] pb-[clamp(2rem,4vw,3rem)]">
-    <p class="eyebrow" data-reveal>Index — {pad(works.length)} projects</p>
+  <header class="wrap relative overflow-hidden pt-[clamp(3rem,7vw,6rem)] pb-[clamp(2rem,4vw,3rem)]">
+    <Ornament
+      variant="arcs"
+      class="absolute -right-40 -top-24 hidden w-[30rem] text-clay opacity-40 md:block"
+    />
+    <p class="eyebrow eyebrow-row" data-reveal>
+      <Icon name="layers" size={12} />
+      Index — {pad(works.length)} projects
+    </p>
     <h1 class="mt-6 text-hero" data-reveal style="--reveal-delay: 80ms">Work</h1>
 
     <div class="mt-8 grid gap-8 md:grid-cols-12" data-reveal style="--reveal-delay: 150ms">
@@ -42,6 +58,7 @@ const pad = (value: number) => String(value).padStart(2, '0');
               data-filter={category.value}
               aria-pressed={category.value === 'all' ? 'true' : 'false'}
             >
+              <Icon name={categoryIcons[category.value]} size={12} class="self-center" />
               {category.label}
               <span class="text-[0.7rem] tabular-nums text-muted">{pad(category.count)}</span>
             </button>
@@ -57,7 +74,12 @@ const pad = (value: number) => String(value).padStart(2, '0');
     <div class="mt-12 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10">
       {
         works.map((entry, index) => (
-          <WorkCard entry={entry} delay={Math.min(index, 5) * 60} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw" />
+          <WorkCard
+            entry={entry}
+            index={index + 1}
+            delay={Math.min(index, 5) * 60}
+            sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
+          />
         ))
       }
     </div>

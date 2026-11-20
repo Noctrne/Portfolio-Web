@@ -16,7 +16,7 @@ const art = gallery.filter((entry) => entry.data.featured).slice(0, 3);
 <BaseLayout>
   <section class="wrap pt-[clamp(3.5rem,8vw,7rem)] pb-[clamp(3rem,6vw,5rem)]">
     <div class="flex flex-wrap items-center gap-x-4 gap-y-2" data-reveal>
-      <p class="eyebrow">Engineering portfolio — {site.year}</p>
+      <p class="eyebrow">Personal portfolio — {site.year}</p>
       <span class="hidden h-px w-8 bg-line sm:block" aria-hidden="true"></span>
       <p class="eyebrow">{site.location}</p>
     </div>
@@ -26,7 +26,7 @@ const art = gallery.filter((entry) => entry.data.featured).slice(0, 3);
       data-reveal
       style="--reveal-delay: 80ms"
     >
-      Robots, interfaces, and the <em class="font-light italic text-clay-deep">quiet</em> space
+      An engineer, a camera, and the <em class="font-light italic text-clay-deep">quiet</em> space
       between.
     </h1>
 
@@ -38,9 +38,9 @@ const art = gallery.filter((entry) => entry.data.featured).slice(0, 3);
       <p
         class="text-lede text-ink-soft text-pretty md:col-span-6 md:col-start-6 lg:col-span-5 lg:col-start-8"
       >
-        I'm {site.firstName} — a robotics software engineer and Electronics & Instrumentation
-        student at UGM. I build autonomous vehicles, computer-vision systems, and the occasional
-        interface; I also photograph, design, and teach.
+        I'm {site.firstName} — a robotics engineer, photographer, and Electronics & Instrumentation
+        student in Yogyakarta. I build autonomous vehicles and computer-vision systems; away from
+        the lab I photograph, design, and teach. This site keeps both.
       </p>
     </div>
 
@@ -51,7 +51,7 @@ const art = gallery.filter((entry) => entry.data.featured).slice(0, 3);
     >
       <div>
         <dt class="eyebrow">Practice</dt>
-        <dd class="mt-2 text-sm text-ink-soft">Autonomy · Embedded software · Visual design</dd>
+        <dd class="mt-2 text-sm text-ink-soft">Engineering · Photography · Design</dd>
       </div>
       <div>
         <dt class="eyebrow">Based in</dt>
@@ -166,9 +166,8 @@ const art = gallery.filter((entry) => entry.data.featured).slice(0, 3);
           way back, a sensor reading you can trust, a page that loads before you notice.
         </p>
         <p class="mt-6 max-w-[46ch] text-sm leading-relaxed text-ink-soft" data-reveal style="--reveal-delay: 60ms">
-          My work moves between autonomy, embedded software, and visual design. Different tools,
-          same instinct: understand the constraint, remove what isn't needed, then make the rest
-          dependable.
+          My practice moves between engineering and image-making. Different tools, same instinct:
+          understand the constraint, remove what isn't needed, then make the rest dependable.
         </p>
         <a href="/about" class="arrow-link mt-8" data-reveal style="--reveal-delay: 120ms">
           More about me

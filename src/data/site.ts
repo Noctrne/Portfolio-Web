@@ -5,12 +5,12 @@
 export const site = {
   name: 'Abyasa Pradhipta',
   firstName: 'Abyasa',
-  role: 'Robotics engineer & software developer',
+  role: 'Engineer, photographer & designer',
   location: 'Yogyakarta, Indonesia',
-  availability: 'Open to engineering roles',
+  availability: 'Open to new work',
   email: 'dhiipt32@gmail.com',
   description:
-    'Portfolio of Abyasa Pradhipta — autonomous systems, computer vision, embedded software, and visual work.',
+    'Personal portfolio of Abyasa Pradhipta — engineering projects, photography, and design.',
   url: 'https://pradhipta.vercel.app',
   year: 2026,
   socials: [

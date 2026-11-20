@@ -1,8 +1,9 @@
-# Portfolio — Astro
+# Personal portfolio — Astro
 
-Portfolio multi-halaman dengan arah visual *light editorial*: kertas hangat, tipografi
-serif, hairline border, dan banyak whitespace. Berisi proyek engineering, pengalaman,
-dan galeri karya seni. Konten dikelola lewat Markdown, output sepenuhnya statis.
+Personal portfolio multi-halaman dengan arah visual *light editorial*: kertas sejuk,
+tipografi serif, hairline border, dan banyak whitespace. Menggabungkan proyek
+engineering, pengalaman, dan galeri karya seni dalam satu situs. Konten dikelola
+lewat Markdown, output sepenuhnya statis.
 
 ## Stack
 

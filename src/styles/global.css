@@ -1,14 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  /* Palette — warm paper, near-black ink, one clay accent */
-  --color-paper: #faf8f4;
-  --color-paper-deep: #f1ece3;
-  --color-ink: #17140f;
-  --color-ink-soft: #4a443b;
-  --color-muted: #7d766a;
-  --color-line: #e3ddd1;
-  --color-clay: #8a4a32;
+  /* Palette — deep navy, brass accent, warm cream */
+  --color-paper: #f2ede3;
+  --color-paper-deep: #e7e1d3;
+  --color-ink: #17324a;
+  --color-ink-soft: #435769;
+  --color-muted: #5d6e7b;
+  --color-line: #ddd6c7;
+  --color-clay: #b08d57;
+  --color-clay-deep: #8a6a3a;
 
   /* Type */
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -108,7 +109,7 @@
   }
 
   .link:hover {
-    color: var(--color-clay);
+    color: var(--color-clay-deep);
     text-decoration-color: currentColor;
   }
 
@@ -130,7 +131,7 @@
   }
 
   .arrow-link:hover {
-    color: var(--color-clay);
+    color: var(--color-clay-deep);
   }
 
   .nav-link {
@@ -178,7 +179,7 @@
   .filter-btn.is-active {
     color: var(--color-ink);
     border-color: var(--color-line);
-    background-color: #fffdf9;
+    background-color: var(--color-paper-deep);
   }
 
   /* ------------------------------------------------------- header capsule */
@@ -212,14 +213,15 @@
     border: 1px solid transparent;
     border-radius: 0;
     background-color: transparent;
-    backdrop-filter: blur(30px) saturate(1.6);
+    backdrop-filter: blur(0px) saturate(1);
     transition:
       height 0.55s var(--ease-out-expo),
       max-width 0.6s var(--ease-out-expo),
       border-radius 0.55s var(--ease-out-expo),
       background-color 0.4s var(--ease-out-expo),
       border-color 0.4s var(--ease-out-expo),
-      box-shadow 0.5s var(--ease-out-expo);
+      box-shadow 0.5s var(--ease-out-expo),
+      backdrop-filter 0.4s var(--ease-out-expo);
   }
 
   @media (min-width: 768px) {
@@ -243,9 +245,10 @@
     border-radius: 999px;
     border-color: var(--color-line);
     background-color: color-mix(in srgb, var(--color-paper) 58%, transparent);
+    backdrop-filter: blur(30px) saturate(1.6);
     box-shadow:
-      0 20px 50px -32px rgba(23, 20, 15, 0.45),
-      inset 0 1px 0 rgba(255, 255, 255, 0.45);
+      0 20px 50px -32px color-mix(in srgb, var(--color-ink) 30%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--color-paper) 55%, transparent);
   }
 
   .header-shell[data-condensed="true"] .header-inner {
@@ -514,7 +517,7 @@
 }
 
 .editorial-prose a:hover {
-  color: var(--color-clay);
+  color: var(--color-clay-deep);
 }
 
 .editorial-prose blockquote {

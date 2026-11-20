@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500" width="1200" height="1500">
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500" width="1200" height="1500">
   <rect width="1200" height="1500" fill="#e9e2d5"/>
   <rect x="0" y="0" width="1200" height="1500" fill="url(#warm)"/>
   <defs>
@@ -9,5 +9,5 @@
   </defs>
   <circle cx="780" cy="520" r="350" fill="#ddd2bf" opacity="0.9"/>
   <line x1="300" y1="240" x2="300" y2="1240" stroke="#c6bba7" stroke-width="1"/>
-  <circle cx="300" cy="960" r="9" fill="#a9705a"/>
+  <circle cx="300" cy="960" r="9" fill="#b08d57"/>
 </svg>

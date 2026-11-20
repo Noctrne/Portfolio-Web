@@ -212,8 +212,7 @@
     border: 1px solid transparent;
     border-radius: 0;
     background-color: transparent;
-    backdrop-filter: blur(22px) saturate(1.4);
-    -webkit-backdrop-filter: blur(22px) saturate(1.4);
+    backdrop-filter: blur(30px) saturate(1.6);
     transition:
       height 0.55s var(--ease-out-expo),
       max-width 0.6s var(--ease-out-expo),
@@ -243,7 +242,7 @@
     height: 3.5rem;
     border-radius: 999px;
     border-color: var(--color-line);
-    background-color: color-mix(in srgb, var(--color-paper) 62%, transparent);
+    background-color: color-mix(in srgb, var(--color-paper) 58%, transparent);
     box-shadow:
       0 20px 50px -32px rgba(23, 20, 15, 0.45),
       inset 0 1px 0 rgba(255, 255, 255, 0.45);
@@ -256,6 +255,12 @@
   @media (max-width: 767px) {
     .header-shell[data-condensed="true"] .header-pill {
       height: 3.25rem;
+    }
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .header-shell[data-condensed="true"] .header-pill {
+      background-color: var(--color-paper);
     }
   }
 

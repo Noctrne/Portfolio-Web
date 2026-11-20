@@ -91,7 +91,7 @@ const art = gallery.filter((entry) => entry.data.featured).slice(0, 3);
     </div>
   </section>
 
-  <section class="section tone-ink border-t border-line">
+  <section class="section border-t border-line">
     <div class="wrap grid gap-10 md:grid-cols-12">
       <div class="md:col-span-3">
         <p class="eyebrow" data-reveal>Experience</p>
@@ -187,7 +187,7 @@ const art = gallery.filter((entry) => entry.data.featured).slice(0, 3);
 
   {
     art.length > 0 && (
-      <section class="section tone-ink border-t border-line">
+      <section class="section border-t border-line">
         <div class="wrap">
           <div class="flex flex-wrap items-end justify-between gap-6">
             <div>
@@ -210,36 +210,34 @@ const art = gallery.filter((entry) => entry.data.featured).slice(0, 3);
             </a>
           </div>
 
-          <div class="tone-brass mt-10 p-4 sm:p-10 lg:p-16">
-            <div class="grid grid-cols-2 items-end gap-4 sm:grid-cols-12 sm:gap-6">
-              {art.map((entry, index) => (
-                <a
-                  href="/gallery"
-                  class:list={[
-                    'group block',
-                    index === 0 ? 'sm:col-span-5' : index === 1 ? 'sm:col-span-4' : 'col-span-2 sm:col-span-3',
-                  ]}
-                  data-reveal
-                  style={`--reveal-delay: ${index * 80}ms`}
-                >
-                  <span class="block overflow-hidden bg-paper-deep">
-                    <Image
-                      src={entry.data.cover}
-                      alt={entry.data.coverAlt || entry.data.title}
-                      widths={[480, 720, 960]}
-                      sizes="(min-width: 640px) 30vw, 50vw"
-                      loading="lazy"
-                      decoding="async"
-                      class="h-auto w-full transition-transform duration-[1200ms] ease-out-expo group-hover:scale-[1.03]"
-                    />
-                  </span>
-                  <span class="mt-3 flex items-baseline justify-between gap-3 border-t border-line pt-2.5">
-                    <span class="text-sm">{entry.data.title}</span>
-                    <span class="eyebrow">{entry.data.medium}</span>
-                  </span>
-                </a>
-              ))}
-            </div>
+          <div class="mt-10 grid grid-cols-2 items-end gap-4 sm:grid-cols-12 sm:gap-6">
+            {art.map((entry, index) => (
+              <a
+                href="/gallery"
+                class:list={[
+                  'group block',
+                  index === 0 ? 'sm:col-span-5' : index === 1 ? 'sm:col-span-4' : 'col-span-2 sm:col-span-3',
+                ]}
+                data-reveal
+                style={`--reveal-delay: ${index * 80}ms`}
+              >
+                <span class="block overflow-hidden bg-paper-deep">
+                  <Image
+                    src={entry.data.cover}
+                    alt={entry.data.coverAlt || entry.data.title}
+                    widths={[480, 720, 960]}
+                    sizes="(min-width: 640px) 30vw, 50vw"
+                    loading="lazy"
+                    decoding="async"
+                    class="h-auto w-full transition-transform duration-[1200ms] ease-out-expo group-hover:scale-[1.03]"
+                  />
+                </span>
+                <span class="mt-3 flex items-baseline justify-between gap-3 border-t border-line pt-2.5">
+                  <span class="text-sm">{entry.data.title}</span>
+                  <span class="eyebrow">{entry.data.medium}</span>
+                </span>
+              </a>
+            ))}
           </div>
         </div>
       </section>

@@ -1,12 +1,12 @@
 ﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
-  <rect width="1200" height="630" fill="#f2ede3"/>
-  <rect x="40" y="40" width="1120" height="550" fill="none" stroke="#ddd6c7" stroke-width="1"/>
-  <circle cx="930" cy="250" r="170" fill="none" stroke="#b08d57" stroke-width="1"/>
-  <circle cx="930" cy="250" r="120" fill="#e7e1d3"/>
-  <circle cx="930" cy="250" r="5" fill="#b08d57"/>
-  <text x="96" y="286" font-family="Georgia, 'Times New Roman', serif" font-size="74" fill="#17324a">Abyasa Pradhipta</text>
-  <text x="100" y="342" font-family="Georgia, 'Times New Roman', serif" font-size="30" font-style="italic" fill="#435769">Autonomous systems, software, and visual craft.</text>
-  <line x1="96" y1="404" x2="420" y2="404" stroke="#ddd6c7" stroke-width="1"/>
-  <text x="96" y="470" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="4" fill="#5d6e7b">AUTONOMY — SOFTWARE — EMBEDDED</text>
-  <text x="96" y="536" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="2" fill="#5d6e7b">pradhipta.vercel.app</text>
+  <rect width="1200" height="630" fill="#ecf0f1"/>
+  <rect x="40" y="40" width="1120" height="550" fill="none" stroke="#bdc3c7" stroke-width="1"/>
+  <circle cx="930" cy="250" r="170" fill="none" stroke="#7f8c8d" stroke-width="1"/>
+  <circle cx="930" cy="250" r="120" fill="#bdc3c7"/>
+  <circle cx="930" cy="250" r="5" fill="#7f8c8d"/>
+  <text x="96" y="286" font-family="Georgia, 'Times New Roman', serif" font-size="74" fill="#2c3e50">Abyasa Pradhipta</text>
+  <text x="100" y="342" font-family="Georgia, 'Times New Roman', serif" font-size="30" font-style="italic" fill="#34495e">Autonomous systems, software, and visual craft.</text>
+  <line x1="96" y1="404" x2="420" y2="404" stroke="#bdc3c7" stroke-width="1"/>
+  <text x="96" y="470" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="4" fill="#7f8c8d">AUTONOMY — SOFTWARE — EMBEDDED</text>
+  <text x="96" y="536" font-family="Helvetica, Arial, sans-serif" font-size="16" letter-spacing="2" fill="#7f8c8d">pradhipta.vercel.app</text>
 </svg>

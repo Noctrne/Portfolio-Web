@@ -6,7 +6,7 @@ summary: A computer-vision team project exploring sign language translation, ent
 role: Computer vision
 tools: [Python, Computer Vision, AI]
 cover: ../../assets/work/sign-language.jpg
-coverAlt: Hand landmarks connected in a line drawing, with brass fingertips
+coverAlt: Hand landmarks connected in a line drawing, with gray fingertips
 featured: false
 order: 5
 ---

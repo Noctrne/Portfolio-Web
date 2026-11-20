@@ -70,45 +70,43 @@ const next = all[(currentIndex + 1) % all.length];
       </div>
     </header>
 
-    <section class="tone-brass mt-[clamp(2.5rem,5vw,4rem)] py-8 md:py-10">
-      <div class="wrap">
-        <dl class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4" data-reveal>
-          {
-            role && (
-              <div>
-                <dt class="eyebrow">Role</dt>
-                <dd class="mt-2 text-sm text-ink-soft">{role}</dd>
-              </div>
-            )
-          }
-          <div>
-            <dt class="eyebrow">Year</dt>
-            <dd class="mt-2 text-sm text-ink-soft">{year}</dd>
-          </div>
-          {
-            tools.length > 0 && (
-              <div>
-                <dt class="eyebrow">Tools</dt>
-                <dd class="mt-2 text-sm text-ink-soft">{tools.join(' · ')}</dd>
-              </div>
-            )
-          }
-          {
-            links.length > 0 && (
-              <div>
-                <dt class="eyebrow">Links</dt>
-                <dd class="mt-2 flex flex-col gap-1 text-sm">
-                  {links.map((link) => (
-                    <a href={link.href} target="_blank" rel="noreferrer" class="link w-fit">
-                      {link.label} ↗
-                    </a>
-                  ))}
-                </dd>
-              </div>
-            )
-          }
-        </dl>
-      </div>
+    <section class="wrap mt-[clamp(2.5rem,5vw,4rem)]">
+      <dl class="grid gap-6 border-t border-line pt-6 sm:grid-cols-2 lg:grid-cols-4" data-reveal>
+        {
+          role && (
+            <div>
+              <dt class="eyebrow">Role</dt>
+              <dd class="mt-2 text-sm text-ink-soft">{role}</dd>
+            </div>
+          )
+        }
+        <div>
+          <dt class="eyebrow">Year</dt>
+          <dd class="mt-2 text-sm text-ink-soft">{year}</dd>
+        </div>
+        {
+          tools.length > 0 && (
+            <div>
+              <dt class="eyebrow">Tools</dt>
+              <dd class="mt-2 text-sm text-ink-soft">{tools.join(' · ')}</dd>
+            </div>
+          )
+        }
+        {
+          links.length > 0 && (
+            <div>
+              <dt class="eyebrow">Links</dt>
+              <dd class="mt-2 flex flex-col gap-1 text-sm">
+                {links.map((link) => (
+                  <a href={link.href} target="_blank" rel="noreferrer" class="link w-fit">
+                    {link.label} ↗
+                  </a>
+                ))}
+              </dd>
+            </div>
+          )
+        }
+      </dl>
     </section>
 
     <section class="wrap section">
@@ -124,32 +122,30 @@ const next = all[(currentIndex + 1) % all.length];
       </div>
     </section>
 
-    <div class="tone-ink">
-      <div class="wrap">
-        <a
-          href={`/work/${next.id}/`}
-          class="group flex items-end justify-between gap-6 py-8 md:py-10"
-        >
-          <div>
-            <p class="eyebrow">Next project</p>
-            <p class="mt-2 font-display text-[clamp(1.5rem,3vw,2.25rem)] leading-tight tracking-[-0.02em] transition-colors duration-300 group-hover:text-clay-deep">
-              {next.data.title}
-            </p>
-          </div>
-          <span
-            class="mb-1 shrink-0 text-muted transition-transform duration-300 ease-out-expo group-hover:translate-x-1"
-            aria-hidden="true">
-            <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
-              <path
-                d="M3 8h10M9 4l4 4-4 4"
-                stroke="currentColor"
-                stroke-width="1.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"></path>
-            </svg>
-          </span>
-        </a>
-      </div>
+    <div class="wrap">
+      <a
+        href={`/work/${next.id}/`}
+        class="group flex items-end justify-between gap-6 border-t border-line py-8 md:py-10"
+      >
+        <div>
+          <p class="eyebrow">Next project</p>
+          <p class="mt-2 font-display text-[clamp(1.5rem,3vw,2.25rem)] leading-tight tracking-[-0.02em] transition-colors duration-300 group-hover:text-clay-deep">
+            {next.data.title}
+          </p>
+        </div>
+        <span
+          class="mb-1 shrink-0 text-muted transition-transform duration-300 ease-out-expo group-hover:translate-x-1"
+          aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M3 8h10M9 4l4 4-4 4"
+              stroke="currentColor"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </span>
+      </a>
     </div>
   </article>
 </BaseLayout>

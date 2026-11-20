@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500" width="1200" height="1500">
   <defs>
     <pattern id="ceplok" width="300" height="300" patternUnits="userSpaceOnUse">
-      <path d="M 150 16 L 284 150 L 150 284 L 16 150 Z" fill="none" stroke="#17324a" stroke-width="1.4" opacity="0.35"/>
-      <path d="M 150 66 L 234 150 L 150 234 L 66 150 Z" fill="none" stroke="#17324a" stroke-width="1" opacity="0.22"/>
-      <circle cx="150" cy="150" r="38" fill="#e7e1d3" stroke="#17324a" stroke-width="1.2" opacity="0.75"/>
-      <circle cx="150" cy="150" r="7" fill="#b08d57"/>
-      <circle cx="150" cy="150" r="86" fill="none" stroke="#b08d57" stroke-width="1" opacity="0.35"/>
-      <g fill="#b08d57" opacity="0.65">
+      <path d="M 150 16 L 284 150 L 150 284 L 16 150 Z" fill="none" stroke="#2c3e50" stroke-width="1.4" opacity="0.35"/>
+      <path d="M 150 66 L 234 150 L 150 234 L 66 150 Z" fill="none" stroke="#2c3e50" stroke-width="1" opacity="0.22"/>
+      <circle cx="150" cy="150" r="38" fill="#bdc3c7" stroke="#2c3e50" stroke-width="1.2" opacity="0.75"/>
+      <circle cx="150" cy="150" r="7" fill="#7f8c8d"/>
+      <circle cx="150" cy="150" r="86" fill="none" stroke="#7f8c8d" stroke-width="1" opacity="0.35"/>
+      <g fill="#7f8c8d" opacity="0.65">
         <circle cx="150" cy="16" r="4"/>
         <circle cx="284" cy="150" r="4"/>
         <circle cx="150" cy="284" r="4"/>
@@ -14,17 +14,17 @@
       </g>
     </pattern>
   </defs>
-  <rect width="1200" height="1500" fill="#f2ede3"/>
+  <rect width="1200" height="1500" fill="#ecf0f1"/>
   <rect width="1200" height="1500" fill="url(#ceplok)"/>
   <g transform="rotate(-38 600 750)">
-    <rect x="-620" y="640" width="2440" height="220" fill="#f2ede3" opacity="0.82"/>
-    <line x1="-620" y1="640" x2="1820" y2="640" stroke="#17324a" stroke-width="1.2" opacity="0.3"/>
-    <line x1="-620" y1="860" x2="1820" y2="860" stroke="#17324a" stroke-width="1.2" opacity="0.3"/>
-    <line x1="-620" y1="750" x2="1820" y2="750" stroke="#b08d57" stroke-width="2" stroke-dasharray="18 16" opacity="0.55"/>
+    <rect x="-620" y="640" width="2440" height="220" fill="#ecf0f1" opacity="0.82"/>
+    <line x1="-620" y1="640" x2="1820" y2="640" stroke="#2c3e50" stroke-width="1.2" opacity="0.3"/>
+    <line x1="-620" y1="860" x2="1820" y2="860" stroke="#2c3e50" stroke-width="1.2" opacity="0.3"/>
+    <line x1="-620" y1="750" x2="1820" y2="750" stroke="#7f8c8d" stroke-width="2" stroke-dasharray="18 16" opacity="0.55"/>
   </g>
   <g transform="rotate(-38 600 750)">
-    <rect x="-620" y="1010" width="2440" height="120" fill="#e7e1d3" opacity="0.5"/>
-    <line x1="-620" y1="1010" x2="1820" y2="1010" stroke="#17324a" stroke-width="1" opacity="0.2"/>
+    <rect x="-620" y="1010" width="2440" height="120" fill="#bdc3c7" opacity="0.5"/>
+    <line x1="-620" y1="1010" x2="1820" y2="1010" stroke="#2c3e50" stroke-width="1" opacity="0.2"/>
   </g>
-  <rect x="40" y="40" width="1120" height="1420" fill="none" stroke="#17324a" stroke-width="1" opacity="0.12"/>
+  <rect x="40" y="40" width="1120" height="1420" fill="none" stroke="#2c3e50" stroke-width="1" opacity="0.12"/>
 </svg>

@@ -6,7 +6,7 @@ summary: A soil-moisture-driven watering system built during a student exchange 
 role: Embedded development
 tools: [Microcontroller, Soil sensors, C++]
 cover: ../../assets/work/plant-watering.jpg
-coverAlt: Soil sensors and a plant drawn in navy line work with brass accents
+coverAlt: Soil sensors and a plant drawn in slate line work with gray accents
 featured: true
 order: 3
 ---

@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1500" width="1000" height="1500">
-  <rect width="1000" height="1500" fill="#f2ede3"/>
-  <line x1="120" y1="1290" x2="880" y2="1290" stroke="#17324a" stroke-width="1" opacity="0.2"/>
-  <path d="M 500 1290 C 498 1120, 502 960, 500 800 C 498 660, 500 520, 500 380" fill="none" stroke="#17324a" stroke-width="2" opacity="0.65"/>
-  <g fill="#e7e1d3" stroke="#17324a" stroke-width="1.6" opacity="0.8">
+  <rect width="1000" height="1500" fill="#ecf0f1"/>
+  <line x1="120" y1="1290" x2="880" y2="1290" stroke="#2c3e50" stroke-width="1" opacity="0.2"/>
+  <path d="M 500 1290 C 498 1120, 502 960, 500 800 C 498 660, 500 520, 500 380" fill="none" stroke="#2c3e50" stroke-width="2" opacity="0.65"/>
+  <g fill="#bdc3c7" stroke="#2c3e50" stroke-width="1.6" opacity="0.8">
     <path d="M 500 1150 C 360 1140, 270 1060, 280 960 C 400 960, 490 1040, 500 1140 Z"/>
     <path d="M 500 1030 C 640 1010, 720 930, 710 830 C 590 840, 510 920, 500 1020 Z"/>
     <path d="M 500 910 C 370 890, 300 810, 310 720 C 420 730, 490 800, 500 900 Z"/>
@@ -10,11 +10,11 @@
     <path d="M 500 670 C 390 650, 330 580, 340 500 C 440 510, 490 570, 500 660 Z"/>
     <path d="M 500 550 C 600 530, 660 470, 650 400 C 560 410, 510 460, 500 540 Z"/>
   </g>
-  <circle cx="500" cy="350" r="46" fill="none" stroke="#b08d57" stroke-width="2"/>
-  <circle cx="500" cy="350" r="10" fill="#b08d57"/>
-  <g stroke="#17324a" stroke-width="1" opacity="0.16">
+  <circle cx="500" cy="350" r="46" fill="none" stroke="#7f8c8d" stroke-width="2"/>
+  <circle cx="500" cy="350" r="10" fill="#7f8c8d"/>
+  <g stroke="#2c3e50" stroke-width="1" opacity="0.16">
     <line x1="120" y1="200" x2="280" y2="200"/>
     <line x1="120" y1="236" x2="230" y2="236"/>
   </g>
-  <circle cx="840" cy="240" r="5" fill="#b08d57"/>
+  <circle cx="840" cy="240" r="5" fill="#7f8c8d"/>
 </svg>

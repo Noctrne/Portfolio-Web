@@ -1,19 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500" width="1200" height="1500">
-  <rect width="1200" height="1500" fill="#f2ede3"/>
+  <rect width="1200" height="1500" fill="#ecf0f1"/>
   <defs>
     <linearGradient id="morning" x1="0" y1="0" x2="0.7" y2="1">
-      <stop offset="0" stop-color="#f7f2e8"/>
-      <stop offset="1" stop-color="#e7e1d3"/>
+      <stop offset="0" stop-color="#ecf0f1"/>
+      <stop offset="1" stop-color="#bdc3c7"/>
     </linearGradient>
   </defs>
   <rect width="1200" height="1500" fill="url(#morning)"/>
-  <path d="M 0 0 H 540 L 900 1500 H 0 Z" fill="#f2ede3" opacity="0.35"/>
-  <path d="M 330 1210 V 620 C 330 460, 440 350, 600 350 C 760 350, 870 460, 870 620 V 1210 Z" fill="#e7e1d3"/>
-  <path d="M 390 1210 V 640 C 390 510, 480 420, 600 420 C 720 420, 810 510, 810 640 V 1210 Z" fill="#f2ede3" opacity="0.55"/>
-  <line x1="0" y1="1210" x2="1200" y2="1210" stroke="#17324a" stroke-width="1" opacity="0.25"/>
-  <line x1="180" y1="1260" x2="420" y2="1260" stroke="#b08d57" stroke-width="1.5" opacity="0.7"/>
-  <circle cx="600" cy="1290" r="5" fill="#b08d57"/>
-  <g stroke="#17324a" stroke-width="1" opacity="0.14">
+  <path d="M 0 0 H 540 L 900 1500 H 0 Z" fill="#ecf0f1" opacity="0.35"/>
+  <path d="M 330 1210 V 620 C 330 460, 440 350, 600 350 C 760 350, 870 460, 870 620 V 1210 Z" fill="#bdc3c7"/>
+  <path d="M 390 1210 V 640 C 390 510, 480 420, 600 420 C 720 420, 810 510, 810 640 V 1210 Z" fill="#ecf0f1" opacity="0.55"/>
+  <line x1="0" y1="1210" x2="1200" y2="1210" stroke="#2c3e50" stroke-width="1" opacity="0.25"/>
+  <line x1="180" y1="1260" x2="420" y2="1260" stroke="#7f8c8d" stroke-width="1.5" opacity="0.7"/>
+  <circle cx="600" cy="1290" r="5" fill="#7f8c8d"/>
+  <g stroke="#2c3e50" stroke-width="1" opacity="0.14">
     <line x1="1030" y1="380" x2="1120" y2="380"/>
     <line x1="1030" y1="420" x2="1090" y2="420"/>
     <line x1="1030" y1="460" x2="1120" y2="460"/>

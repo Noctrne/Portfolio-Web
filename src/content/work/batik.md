@@ -6,7 +6,7 @@ summary: An image-classification model for identifying batik motifs, built durin
 role: Machine learning & computer vision
 tools: [Python, Computer Vision, Machine Learning]
 cover: ../../assets/work/batik.jpg
-coverAlt: A repeated batik ceplok motif in navy line work with brass dots
+coverAlt: A repeated batik ceplok motif in slate line work with gray dots
 featured: true
 order: 4
 ---

@@ -6,7 +6,7 @@ summary: A conversational assistant for exploring Yogyakarta, built during a stu
 role: Conversational design & development
 tools: [Python, Conversational design]
 cover: ../../assets/work/chatbot.jpg
-coverAlt: Overlapping chat bubbles with a map pin, drawn in navy and brass
+coverAlt: Overlapping chat bubbles with a map pin, drawn in slate and gray
 featured: false
 order: 6
 ---

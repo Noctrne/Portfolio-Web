@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import WorkCard from '../../components/WorkCard.astro';
-import ContactSection from '../../components/ContactSection.astro';
 import { getCollection } from 'astro:content';
 
 const works = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
@@ -20,17 +19,15 @@ const pad = (value: number) => String(value).padStart(2, '0');
   title="Work"
   description="Selected engineering projects across autonomy, computer vision, and embedded systems."
 >
-  <header class="tone-brass border-b border-line">
-    <div class="wrap pt-[clamp(3rem,7vw,6rem)] pb-[clamp(2rem,4vw,3rem)]">
-      <p class="eyebrow" data-reveal>Index — {pad(works.length)} projects</p>
-      <h1 class="mt-6 text-hero" data-reveal style="--reveal-delay: 80ms">Work</h1>
+  <header class="wrap pt-[clamp(3rem,7vw,6rem)] pb-[clamp(2rem,4vw,3rem)]">
+    <p class="eyebrow" data-reveal>Index — {pad(works.length)} projects</p>
+    <h1 class="mt-6 text-hero" data-reveal style="--reveal-delay: 80ms">Work</h1>
 
-      <div class="mt-8 grid gap-8 md:grid-cols-12" data-reveal style="--reveal-delay: 150ms">
-        <p class="max-w-[46ch] text-lede text-ink-soft text-pretty md:col-span-6 md:col-start-6">
-          Selected work across autonomous systems, computer vision, and embedded software — each
-          one documented from first constraint to final detail.
-        </p>
-      </div>
+    <div class="mt-8 grid gap-8 md:grid-cols-12" data-reveal style="--reveal-delay: 150ms">
+      <p class="max-w-[46ch] text-lede text-ink-soft text-pretty md:col-span-6 md:col-start-6">
+        Selected work across autonomous systems, computer vision, and embedded software — each
+        one documented from first constraint to final detail.
+      </p>
     </div>
   </header>
 
@@ -65,6 +62,4 @@ const pad = (value: number) => String(value).padStart(2, '0');
       }
     </div>
   </section>
-
-  <ContactSection />
 </BaseLayout>

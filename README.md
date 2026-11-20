@@ -54,20 +54,20 @@ src/
 
 ## Warna
 
-Palet dibatasi tiga warna dengan pembagian **60 / 30 / 10**:
+Palet dibatasi lima warna slate/fog tanpa blok warna besar:
 
-| Warna | Hex | Porsi | Peran |
-| --- | --- | --- | --- |
-| Cream | `#F2EDE3` | 60% | kanvas halaman dan area baca |
-| Navy | `#17324A` | 30% | blok struktural, footer, penutup |
-| Brass | `#B08D57` | 10% | aksen, panel karya, band penutup |
+| Warna | Hex | Peran |
+| --- | --- | --- |
+| Slate | `#2C3E50` | teks utama dan judul |
+| Slate light | `#34495E` | teks sekunder, hover, dan label |
+| Gray | `#7F8C8D` | aksen dekoratif, garis fokus, dan detail |
+| Fog | `#BDC3C7` | border, garis pemisah, dan mat gambar |
+| Off-white | `#ECF0F1` | kanvas halaman dan area baca |
 
-Gunakan kelas `tone-ink` untuk blok navy dan `tone-brass` untuk blok brass.
-Keduanya menukar token semantik (`--color-paper`, `--color-ink`, `--color-line`,
-dan seterusnya) sehingga utility Tailwind di dalamnya otomatis memakai warna
-teks dan border yang tepat. Jangan menambah warna baru di luar tint/shade ketiga
-warna ini; untuk permukaan tambahan pakai `bg-paper-deep` atau `bg-ink/10` agar
-tetap mengikuti tone sekitarnya.
+Halaman tetap satu warna dasar off-white; hierarki dibangun lewat tipografi,
+hairline, whitespace, dan gambar, bukan lewat section berwarna gelap. Token
+tersedia di `src/styles/global.css` sebagai `--color-paper`, `--color-ink`,
+`--color-line`, dan seterusnya.
 
 ## Menambah karya
 

@@ -6,7 +6,7 @@ summary: Competition software for an autonomous underwater vehicle that placed T
 role: Captain & senior programmer
 tools: [C++, ROS2, Python, Computer Vision]
 cover: ../../assets/work/orca.jpg
-coverAlt: Sonar arcs and an autonomous underwater vehicle in navy and brass
+coverAlt: Sonar arcs and an autonomous underwater vehicle in slate and gray
 featured: true
 order: 1
 ---

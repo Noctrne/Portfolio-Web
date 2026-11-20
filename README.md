@@ -60,11 +60,11 @@ src/
 ```yaml
 ---
 title: Nama Proyek
-category: photography   # photography | design | code
+category: autonomy   # autonomy | software | embedded
 year: 2026
 summary: Satu kalimat ringkas.
-role: Photography, sequencing
-tools: [Digital, 35mm]
+role: Captain & senior programmer
+tools: [C++, ROS2, Python]
 cover: ../../assets/work/nama-proyek.jpg
 coverAlt: Deskripsi gambar untuk aksesibilitas
 featured: true          # tampil di Home

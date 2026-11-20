@@ -5,7 +5,7 @@ import { site } from '../data/site';
 
 <BaseLayout
   title="Contact"
-  description={`Get in touch with ${site.name} for commissions, collaborations, and questions.`}
+  description={`Get in touch with ${site.name} for engineering roles, research, and collaborations.`}
 >
   <header class="wrap pt-[clamp(3rem,7vw,6rem)]">
     <p class="eyebrow" data-reveal>Contact</p>
@@ -14,8 +14,9 @@ import { site } from '../data/site';
     </h1>
 
     <p class="mt-8 max-w-[46ch] text-lede text-ink-soft text-pretty" data-reveal style="--reveal-delay: 140ms">
-      For commissions, collaborations, or a question that doesn't fit either category — email is
-      the best way to reach me. I usually reply within two working days.
+      For engineering roles, research collaborations, or a project that needs someone who can work
+      across software and hardware — email is the best way to reach me. I usually reply within two
+      working days.
     </p>
   </header>
 
@@ -52,21 +53,21 @@ import { site } from '../data/site';
       <div class="md:col-span-5 md:col-start-6">
         <p class="eyebrow" data-reveal>Helpful to include</p>
         <ul class="mt-5 space-y-3 text-sm text-ink-soft" data-reveal style="--reveal-delay: 60ms">
-          <li class="border-t border-line pt-3">A short description of the project</li>
-          <li class="border-t border-line pt-3">Timeline and any fixed dates</li>
-          <li class="border-t border-line pt-3">A budget range, or the shape of one</li>
-          <li class="border-t border-line pt-3">Links to references or existing work</li>
+          <li class="border-t border-line pt-3">The role, project, or problem you have in mind</li>
+          <li class="border-t border-line pt-3">Timeline, location, and working arrangement</li>
+          <li class="border-t border-line pt-3">Technical scope — software, hardware, or both</li>
+          <li class="border-t border-line pt-3">Links to your team or existing work</li>
         </ul>
       </div>
 
       <div class="md:col-span-3 md:col-start-11 md:text-right">
-        <p class="eyebrow" data-reveal>Studio</p>
+        <p class="eyebrow" data-reveal>Base</p>
         <p class="mt-5 text-sm text-ink-soft" data-reveal style="--reveal-delay: 60ms">
           {site.location}<br />
-          Working remotely, worldwide.
+          Open to remote and on-site work.
         </p>
         <p class="mt-6 text-xs text-muted" data-reveal style="--reveal-delay: 90ms">
-          Currently open for selected projects.
+          Currently {site.availability.toLowerCase()}.
         </p>
       </div>
     </div>

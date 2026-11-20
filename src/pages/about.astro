@@ -3,24 +3,17 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactSection from '../components/ContactSection.astro';
 import portrait from '../assets/portrait.jpg';
-import { capabilities, site } from '../data/site';
-
-const timeline = [
-  { year: '2026', title: 'Independent practice', note: 'Photography, design, and web work for small studios.' },
-  { year: '2024', title: 'Design systems & product interfaces', note: 'Long-form reading tools and editorial platforms.' },
-  { year: '2022', title: 'Freelance photography', note: 'Editorial, portrait, and still life commissions.' },
-  { year: '2019', title: 'First commissioned work', note: 'Where the archive begins.' },
-];
+import { capabilities, education, experience, recognition, site } from '../data/site';
 ---
 
 <BaseLayout
   title="About"
-  description={`About ${site.name} — photographer, designer, and developer based in ${site.location}.`}
+  description={`About ${site.name} — robotics software engineer and Electronics & Instrumentation student at UGM, based in ${site.location}.`}
 >
   <header class="wrap pt-[clamp(3rem,7vw,6rem)] pb-[clamp(2.5rem,5vw,4rem)]">
     <p class="eyebrow" data-reveal>About</p>
     <h1 class="mt-6 max-w-[22ch] text-hero text-balance" data-reveal style="--reveal-delay: 80ms">
-      A photographer who learned to build.
+      An engineer who learned to see.
     </h1>
   </header>
 
@@ -43,21 +36,21 @@ const timeline = [
 
       <div class="md:col-span-6 md:col-start-7">
         <p class="text-lede text-ink-soft text-pretty" data-reveal>
-          I work across three disciplines that keep teaching each other things: photography trains
-          the eye, design trains the decision, and code keeps both honest about what is actually
-          possible.
+          I'm an Electronics and Instrumentation student at Universitas Gadjah Mada, working mostly
+          on autonomous systems: perception, control, and the software that holds a robot together.
         </p>
 
         <div class="mt-8 space-y-5 text-[0.95rem] leading-relaxed text-ink-soft" data-reveal style="--reveal-delay: 60ms">
           <p>
-            Most of my work starts with a constraint — one window, one typeface, one page that has
-            to load in under a second. Constraints make the decisions easier, and the result
-            calmer.
+            I lead the ORCA V3 sub-team at Gadjah Mada Robotic Team, where we took an autonomous
+            underwater vehicle to the Top 8 worldwide at SAUVC 2026. Before that I was a programmer
+            on the same team; now I also mentor programmers as senior programmer in Elins Research
+            Club's robotics division.
           </p>
           <p>
-            I'm based in {site.location} and work with people anywhere. I like projects with a
-            long horizon: a series that takes a year, a system that will outlive its first
-            redesign, a site that stays readable for a decade.
+            Alongside engineering I photograph, design, and teach. Those habits keep my technical
+            work clearer and more human — a system is finished when someone else can understand it,
+            not just when it runs.
           </p>
         </div>
 
@@ -68,15 +61,15 @@ const timeline = [
           </div>
           <div>
             <dt class="eyebrow">Focus</dt>
-            <dd class="mt-2 text-sm text-ink-soft">Photography · Editorial design · Web</dd>
+            <dd class="mt-2 text-sm text-ink-soft">Autonomous systems · Computer vision · Embedded software</dd>
           </div>
           <div>
             <dt class="eyebrow">Tools</dt>
-            <dd class="mt-2 text-sm text-ink-soft">Lightroom · Figma · Astro</dd>
+            <dd class="mt-2 text-sm text-ink-soft">C++ · Python · ROS2 · Linux · Fusion 360</dd>
           </div>
           <div>
             <dt class="eyebrow">Availability</dt>
-            <dd class="mt-2 text-sm text-ink-soft">Open for selected projects</dd>
+            <dd class="mt-2 text-sm text-ink-soft">{site.availability}</dd>
           </div>
         </dl>
       </div>
@@ -109,26 +102,69 @@ const timeline = [
   <section class="section border-t border-line">
     <div class="wrap grid gap-10 md:grid-cols-12">
       <div class="md:col-span-3">
-        <p class="eyebrow" data-reveal>Path</p>
+        <p class="eyebrow" data-reveal>Experience</p>
       </div>
 
       <ul class="md:col-span-8 md:col-start-5">
         {
-          timeline.map((item, index) => (
+          experience.map((item, index) => (
             <li
-              class="grid gap-2 border-t border-line py-6 sm:grid-cols-[6rem_1fr] sm:gap-6"
+              class="grid gap-2 border-t border-line py-6 sm:grid-cols-[7rem_1fr] sm:gap-6"
               data-reveal
-              style={`--reveal-delay: ${Math.min(index, 3) * 60}ms`}
+              style={`--reveal-delay: ${Math.min(index, 4) * 50}ms`}
             >
-              <span class="text-sm tabular-nums text-muted">{item.year}</span>
+              <span class="text-sm tabular-nums text-muted">{item.period}</span>
               <div>
                 <p class="font-display text-lg leading-snug">{item.title}</p>
-                <p class="mt-1 text-sm text-muted">{item.note}</p>
+                <p class="mt-1 text-sm text-muted">{item.org}</p>
+                <p class="mt-2 max-w-[48ch] text-sm leading-relaxed text-ink-soft">{item.note}</p>
               </div>
             </li>
           ))
         }
       </ul>
+    </div>
+  </section>
+
+  <section class="section border-t border-line">
+    <div class="wrap grid gap-10 md:grid-cols-12">
+      <div class="md:col-span-3">
+        <p class="eyebrow" data-reveal>Education</p>
+      </div>
+
+      <div class="md:col-span-8 md:col-start-5">
+        <ul>
+          {
+            education.map((item, index) => (
+              <li
+                class="grid gap-2 border-t border-line py-6 sm:grid-cols-[7rem_1fr] sm:gap-6"
+                data-reveal
+                style={`--reveal-delay: ${index * 60}ms`}
+              >
+                <span class="text-sm tabular-nums text-muted">{item.period}</span>
+                <div>
+                  <p class="font-display text-lg leading-snug">{item.title}</p>
+                  <p class="mt-1 text-sm text-muted">{item.note}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+
+        <ul class="mt-10 space-y-3">
+          {
+            recognition.map((item, index) => (
+              <li
+                class="border-t border-line pt-3 text-sm text-ink-soft"
+                data-reveal
+                style={`--reveal-delay: ${index * 40}ms`}
+              >
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
     </div>
   </section>
 

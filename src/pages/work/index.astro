@@ -7,9 +7,9 @@ const works = (await getCollection('work')).sort((a, b) => a.data.order - b.data
 
 const categories = [
   { value: 'all', label: 'All', count: works.length },
-  { value: 'photography', label: 'Photography', count: works.filter((w) => w.data.category === 'photography').length },
-  { value: 'design', label: 'Design', count: works.filter((w) => w.data.category === 'design').length },
-  { value: 'code', label: 'Code', count: works.filter((w) => w.data.category === 'code').length },
+  { value: 'autonomy', label: 'Autonomy', count: works.filter((w) => w.data.category === 'autonomy').length },
+  { value: 'software', label: 'Software', count: works.filter((w) => w.data.category === 'software').length },
+  { value: 'embedded', label: 'Embedded', count: works.filter((w) => w.data.category === 'embedded').length },
 ];
 
 const pad = (value: number) => String(value).padStart(2, '0');
@@ -17,7 +17,7 @@ const pad = (value: number) => String(value).padStart(2, '0');
 
 <BaseLayout
   title="Work"
-  description="Selected photographic series, design systems, and web projects."
+  description="Selected engineering projects across autonomy, computer vision, and embedded systems."
 >
   <header class="wrap pt-[clamp(3rem,7vw,6rem)] pb-[clamp(2rem,4vw,3rem)]">
     <p class="eyebrow" data-reveal>Index — {pad(works.length)} projects</p>
@@ -25,8 +25,8 @@ const pad = (value: number) => String(value).padStart(2, '0');
 
     <div class="mt-8 grid gap-8 md:grid-cols-12" data-reveal style="--reveal-delay: 150ms">
       <p class="max-w-[46ch] text-lede text-ink-soft text-pretty md:col-span-6 md:col-start-6">
-        A selection of photographic series, identity systems, and digital products — each one
-        documented from first constraint to final detail.
+        Selected work across autonomous systems, computer vision, and embedded software — each
+        one documented from first constraint to final detail.
       </p>
     </div>
   </header>

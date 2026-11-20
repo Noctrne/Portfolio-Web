@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import WorkCard from '../components/WorkCard.astro';
 import ContactSection from '../components/ContactSection.astro';
 import { getCollection } from 'astro:content';
-import { capabilities, site } from '../data/site';
+import { capabilities, experience, site } from '../data/site';
 
 const works = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
 const selected = works.filter((work) => work.data.featured).slice(0, 4);
@@ -12,7 +12,7 @@ const selected = works.filter((work) => work.data.featured).slice(0, 4);
 <BaseLayout>
   <section class="wrap pt-[clamp(3.5rem,8vw,7rem)] pb-[clamp(3rem,6vw,5rem)]">
     <div class="flex flex-wrap items-center gap-x-4 gap-y-2" data-reveal>
-      <p class="eyebrow">Portfolio — {site.year}</p>
+      <p class="eyebrow">Engineering portfolio — {site.year}</p>
       <span class="hidden h-px w-8 bg-line sm:block" aria-hidden="true"></span>
       <p class="eyebrow">{site.location}</p>
     </div>
@@ -22,7 +22,7 @@ const selected = works.filter((work) => work.data.featured).slice(0, 4);
       data-reveal
       style="--reveal-delay: 80ms"
     >
-      Photographs, interfaces, and the <em class="font-light italic text-clay-deep">quiet</em> space
+      Robots, interfaces, and the <em class="font-light italic text-clay-deep">quiet</em> space
       between.
     </h1>
 
@@ -34,8 +34,9 @@ const selected = works.filter((work) => work.data.featured).slice(0, 4);
       <p
         class="text-lede text-ink-soft text-pretty md:col-span-6 md:col-start-6 lg:col-span-5 lg:col-start-8"
       >
-        I'm {site.firstName} — a photographer and designer who also builds for the web. A record
-        of images, identities, and interfaces made with care.
+        I'm {site.firstName} — a robotics software engineer and Electronics & Instrumentation
+        student at UGM. I build autonomous vehicles, computer-vision systems, and the occasional
+        interface; I also photograph, design, and teach.
       </p>
     </div>
 
@@ -46,7 +47,7 @@ const selected = works.filter((work) => work.data.featured).slice(0, 4);
     >
       <div>
         <dt class="eyebrow">Practice</dt>
-        <dd class="mt-2 text-sm text-ink-soft">Photography · Design · Development</dd>
+        <dd class="mt-2 text-sm text-ink-soft">Autonomy · Embedded software · Visual design</dd>
       </div>
       <div>
         <dt class="eyebrow">Based in</dt>
@@ -54,7 +55,7 @@ const selected = works.filter((work) => work.data.featured).slice(0, 4);
       </div>
       <div>
         <dt class="eyebrow">Status</dt>
-        <dd class="mt-2 text-sm text-ink-soft">Open for selected projects</dd>
+        <dd class="mt-2 text-sm text-ink-soft">{site.availability}</dd>
       </div>
     </dl>
   </section>
@@ -82,6 +83,46 @@ const selected = works.filter((work) => work.data.featured).slice(0, 4);
             <WorkCard entry={entry} delay={Math.min(index, 3) * 70} />
           ))
         }
+      </div>
+    </div>
+  </section>
+
+  <section class="section border-t border-line">
+    <div class="wrap grid gap-10 md:grid-cols-12">
+      <div class="md:col-span-3">
+        <p class="eyebrow" data-reveal>Experience</p>
+      </div>
+
+      <div class="md:col-span-8 md:col-start-5">
+        <ul>
+          {
+            experience.slice(0, 3).map((item, index) => (
+              <li
+                class="grid gap-2 border-t border-line py-6 sm:grid-cols-[7rem_1fr] sm:gap-6"
+                data-reveal
+                style={`--reveal-delay: ${Math.min(index, 3) * 60}ms`}
+              >
+                <span class="text-sm tabular-nums text-muted">{item.period}</span>
+                <div>
+                  <p class="font-display text-lg leading-snug">{item.title}</p>
+                  <p class="mt-1 text-sm text-muted">{item.org}</p>
+                  <p class="mt-2 max-w-[46ch] text-sm leading-relaxed text-ink-soft">{item.note}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+        <a href="/about" class="arrow-link mt-8" data-reveal style="--reveal-delay: 200ms">
+          Full background
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M3 8h10M9 4l4 4-4 4"
+              stroke="currentColor"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </a>
       </div>
     </div>
   </section>
@@ -117,12 +158,13 @@ const selected = works.filter((work) => work.data.featured).slice(0, 4);
 
       <div class="md:col-span-7 md:col-start-5">
         <p class="font-display text-h3 leading-snug text-balance" data-reveal>
-          I care about the parts you don't notice — the margin before a heading, the second before
-          an animation settles, the weight of a photograph.
+          I care about systems that behave well when nobody is watching — a vehicle that finds its
+          way back, a sensor reading you can trust, a page that loads before you notice.
         </p>
         <p class="mt-6 max-w-[46ch] text-sm leading-relaxed text-ink-soft" data-reveal style="--reveal-delay: 60ms">
-          My work moves between photography, graphic design, and front-end development. Different
-          tools, same instinct: remove what isn't needed, then give the rest room to breathe.
+          My work moves between autonomy, embedded software, and visual design. Different tools,
+          same instinct: understand the constraint, remove what isn't needed, then make the rest
+          dependable.
         </p>
         <a href="/about" class="arrow-link mt-8" data-reveal style="--reveal-delay: 120ms">
           More about me

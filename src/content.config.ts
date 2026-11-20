@@ -7,7 +7,7 @@ const work = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(),
-      category: z.enum(['photography', 'design', 'code']),
+      category: z.enum(['autonomy', 'software', 'embedded']),
       year: z.number().int().min(2000).max(2100),
       summary: z.string(),
       role: z.string().optional(),

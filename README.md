@@ -47,10 +47,27 @@ src/
 ├── content/gallery/        # satu file .md per karya seni
 ├── data/site.ts            # nama, email, sosial, lokasi
 ├── layouts/BaseLayout.astro
-├── pages/                  # index, work, about, contact, 404
-├── scripts/main.ts         # reveal on scroll, menu, filter
+├── pages/                  # index, work, gallery, about, contact, 404
+├── scripts/main.ts         # reveal on scroll, menu, filter, lightbox
 └── styles/global.css       # design tokens + komponen dasar
 ```
+
+## Warna
+
+Palet dibatasi tiga warna dengan pembagian **60 / 30 / 10**:
+
+| Warna | Hex | Porsi | Peran |
+| --- | --- | --- | --- |
+| Cream | `#F2EDE3` | 60% | kanvas halaman dan area baca |
+| Navy | `#17324A` | 30% | blok struktural, footer, penutup |
+| Brass | `#B08D57` | 10% | aksen, panel karya, band penutup |
+
+Gunakan kelas `tone-ink` untuk blok navy dan `tone-brass` untuk blok brass.
+Keduanya menukar token semantik (`--color-paper`, `--color-ink`, `--color-line`,
+dan seterusnya) sehingga utility Tailwind di dalamnya otomatis memakai warna
+teks dan border yang tepat. Jangan menambah warna baru di luar tint/shade ketiga
+warna ini; untuk permukaan tambahan pakai `bg-paper-deep` atau `bg-ink/10` agar
+tetap mengikuti tone sekitarnya.
 
 ## Menambah karya
 

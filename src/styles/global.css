@@ -80,6 +80,39 @@
 }
 
 @layer components {
+  /* Colour blocking — 60% cream canvas, 30% navy structure, 10% brass accent.
+     The tone classes flip the semantic tokens so utilities inside inherit the
+     right text, border, and surface colours automatically. */
+  .tone-ink {
+    --color-paper: #17324a;
+    --color-paper-deep: #22415e;
+    --color-ink: #f2ede3;
+    --color-ink-soft: #d9d4c8;
+    --color-muted: #a7b0b8;
+    --color-line: #3a516a;
+    --color-clay: #b08d57;
+    --color-clay-deep: #d8bd8a;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  .tone-ink .eyebrow {
+    color: var(--color-clay-deep);
+  }
+
+  .tone-brass {
+    --color-paper: #b08d57;
+    --color-paper-deep: #c2a171;
+    --color-ink: #102538;
+    --color-ink-soft: #132c42;
+    --color-muted: #132c42;
+    --color-line: #94743f;
+    --color-clay: #102538;
+    --color-clay-deep: #0a1a29;
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+  }
+
   .wrap {
     width: 100%;
     max-width: 80rem;

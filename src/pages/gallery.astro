@@ -23,19 +23,21 @@ const pad = (value: number) => String(value).padStart(2, '0');
   title="Gallery"
   description={`Photographs, illustrations, and moving pieces by ${site.name}.`}
 >
-  <header class="wrap pt-[clamp(3rem,7vw,6rem)] pb-[clamp(2.5rem,5vw,4rem)]">
-    <p class="eyebrow" data-reveal>Gallery — {pad(works.length)} works</p>
+  <header class="tone-ink">
+    <div class="wrap pt-[clamp(3rem,7vw,6rem)] pb-[clamp(2.5rem,5vw,4rem)]">
+      <p class="eyebrow" data-reveal>Gallery — {pad(works.length)} works</p>
 
-    <div class="mt-6 grid gap-8 md:grid-cols-12 md:items-end">
-      <h1 class="text-hero md:col-span-7" data-reveal style="--reveal-delay: 80ms">Gallery</h1>
-      <p
-        class="max-w-[44ch] text-lede text-ink-soft text-pretty md:col-span-5"
-        data-reveal
-        style="--reveal-delay: 150ms"
-      >
-        Photographs, drawings, and moving pieces made outside the lab. Open any plate to see it
-        full size, with the notes behind it.
-      </p>
+      <div class="mt-6 grid gap-8 md:grid-cols-12 md:items-end">
+        <h1 class="text-hero md:col-span-7" data-reveal style="--reveal-delay: 80ms">Gallery</h1>
+        <p
+          class="max-w-[44ch] text-lede text-ink-soft text-pretty md:col-span-5"
+          data-reveal
+          style="--reveal-delay: 150ms"
+        >
+          Photographs, drawings, and moving pieces made outside the lab. Open any plate to see it
+          full size, with the notes behind it.
+        </p>
+      </div>
     </div>
   </header>
 
@@ -130,9 +132,51 @@ const pad = (value: number) => String(value).padStart(2, '0');
       }
     </div>
 
-    <p class="mt-10 max-w-[52ch] text-xs leading-relaxed text-muted">
-      All works © {site.name}. Please ask before reproducing.
-    </p>
+  </section>
+
+  <section class="tone-ink border-t border-line">
+    <div class="wrap grid gap-8 py-12 md:grid-cols-12 md:items-end md:py-16">
+      <div class="md:col-span-7">
+        <p class="eyebrow" data-reveal>Colophon</p>
+        <p
+          class="mt-5 max-w-[44ch] text-h3 font-display leading-snug text-balance"
+          data-reveal
+          style="--reveal-delay: 60ms"
+        >
+          An open archive of studies — new plates are added as they are finished.
+        </p>
+      </div>
+      <div class="md:col-span-4 md:col-start-9">
+        <p
+          class="text-sm leading-relaxed text-ink-soft"
+          data-reveal
+          style="--reveal-delay: 120ms"
+        >
+          Made between engineering work: photographs, drawings, and short films about light,
+          structure, and quiet.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="tone-brass border-t border-line">
+    <div class="wrap flex flex-wrap items-center justify-between gap-6 py-12 md:py-16">
+      <p class="max-w-[48ch] text-sm leading-relaxed text-ink-soft">
+        All works © {site.name}. Please ask before reproducing.
+      </p>
+
+      <a href={`mailto:${site.email}`} class="arrow-link">
+        Request a print
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path
+            d="M3 8h10M9 4l4 4-4 4"
+            stroke="currentColor"
+            stroke-width="1.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
+        </svg>
+      </a>
+    </div>
   </section>
 
   <dialog class="gallery-lightbox" data-gallery-lightbox aria-labelledby="gallery-lightbox-title">

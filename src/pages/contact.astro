@@ -20,17 +20,19 @@ import { site } from '../data/site';
     </p>
   </header>
 
-  <section class="wrap mt-[clamp(3rem,6vw,5rem)]">
-    <a
-      href={`mailto:${site.email}`}
-      class="group inline-flex items-center font-display text-[clamp(1.75rem,5vw,4rem)] leading-none tracking-[-0.03em]"
-      data-reveal
-    >
-      <span
-        class="border-b border-line pb-2 transition-colors duration-300 group-hover:border-clay-deep group-hover:text-clay-deep">
-        {site.email}
-      </span>
-    </a>
+  <section class="tone-brass mt-[clamp(3rem,6vw,5rem)] py-10 md:py-14">
+    <div class="wrap">
+      <a
+        href={`mailto:${site.email}`}
+        class="group inline-flex items-center font-display text-[clamp(1.75rem,5vw,4rem)] leading-none tracking-[-0.03em]"
+        data-reveal
+      >
+        <span
+          class="border-b border-line pb-2 transition-colors duration-300 group-hover:border-clay-deep group-hover:text-clay-deep">
+          {site.email}
+        </span>
+      </a>
+    </div>
   </section>
 
   <section class="section mt-[clamp(2rem,4vw,3rem)] border-t border-line">

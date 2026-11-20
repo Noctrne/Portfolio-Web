@@ -1,0 +1,171 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+
+const works = (await getCollection('gallery')).sort((a, b) => a.data.order - b.data.order);
+
+const mediums = Array.from(new Set(works.map((work) => work.data.medium)));
+const categories = [
+  { value: 'all', label: 'All', count: works.length },
+  ...mediums.map((medium) => ({
+    value: medium,
+    label: medium.charAt(0).toUpperCase() + medium.slice(1),
+    count: works.filter((work) => work.data.medium === medium).length,
+  })),
+];
+
+const pad = (value: number) => String(value).padStart(2, '0');
+---
+
+<BaseLayout
+  title="Gallery"
+  description={`Photographs, illustrations, and moving pieces by ${site.name}.`}
+>
+  <header class="wrap pt-[clamp(3rem,7vw,6rem)] pb-[clamp(2.5rem,5vw,4rem)]">
+    <p class="eyebrow" data-reveal>Gallery — {pad(works.length)} works</p>
+
+    <div class="mt-6 grid gap-8 md:grid-cols-12 md:items-end">
+      <h1 class="text-hero md:col-span-7" data-reveal style="--reveal-delay: 80ms">Gallery</h1>
+      <p
+        class="max-w-[44ch] text-lede text-ink-soft text-pretty md:col-span-5"
+        data-reveal
+        style="--reveal-delay: 150ms"
+      >
+        Photographs, drawings, and moving pieces made outside the lab. Open any plate to see it
+        full size, with the notes behind it.
+      </p>
+    </div>
+  </header>
+
+  <section class="wrap pb-[clamp(4rem,8vw,7rem)]">
+    <div class="flex flex-wrap items-center justify-between gap-4 border-y border-line py-4" data-reveal>
+      <div class="flex flex-wrap gap-1" role="group" aria-label="Filter gallery by medium">
+        {
+          categories.map((category) => (
+            <button
+              type="button"
+              class:list={['filter-btn', { 'is-active': category.value === 'all' }]}
+              data-gallery-filter={category.value}
+              aria-pressed={category.value === 'all' ? 'true' : 'false'}
+            >
+              {category.label}
+              <span class="text-[0.7rem] tabular-nums text-muted">{pad(category.count)}</span>
+            </button>
+          ))
+        }
+      </div>
+
+      <p class="hidden text-xs text-muted sm:block">
+        <span data-gallery-count class="tabular-nums">{pad(works.length)}</span> shown
+      </p>
+    </div>
+
+    <div class="gallery-grid mt-10">
+      {
+        works.map((entry, index) => {
+          const { title, medium, year, description, cover, coverAlt, video } = entry.data;
+          return (
+            <figure
+              class="gallery-card"
+              data-gallery-card
+              data-medium={medium}
+              data-reveal
+              style={`--reveal-delay: ${Math.min(index, 5) * 60}ms`}
+            >
+              <button
+                type="button"
+                class="gallery-item group block w-full text-left"
+                data-gallery-item
+                data-title={title}
+                data-medium={medium}
+                data-year={String(year)}
+                data-description={description}
+                data-src={cover.src}
+                data-poster={video ? cover.src : undefined}
+                data-video={video}
+                data-alt={coverAlt || title}
+                data-plate={pad(index + 1)}
+                aria-label={`Open ${title} — ${medium}, ${year}`}
+              >
+                <div class="gallery-frame">
+                  <Image
+                    src={cover}
+                    alt={coverAlt || title}
+                    widths={[480, 720, 960, 1200]}
+                    sizes="(min-width: 1024px) 31vw, (min-width: 640px) 46vw, 100vw"
+                    loading={index < 3 ? 'eager' : 'lazy'}
+                    decoding="async"
+                    class="gallery-image"
+                  />
+                  <span class="gallery-plate" aria-hidden="true">P. {pad(index + 1)}</span>
+                  {
+                    video && (
+                      <span class="gallery-play" aria-hidden="true">
+                        <span class="gallery-play-icon">
+                          <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+                            <path d="M1 1.3v11.4L11 7 1 1.3Z" fill="currentColor" />
+                          </svg>
+                        </span>
+                      </span>
+                    )
+                  }
+                  <span class="gallery-scrim" aria-hidden="true"></span>
+                </div>
+
+                <span class="mt-3 flex items-start justify-between gap-4 border-t border-line pt-3">
+                  <span class="block">
+                    <span class="eyebrow block">{medium}</span>
+                    <span class="gallery-title mt-1 block font-display leading-snug tracking-[-0.01em]">
+                      {title}
+                    </span>
+                  </span>
+                  <span class="pt-0.5 text-xs tabular-nums text-muted">{year}</span>
+                </span>
+              </button>
+            </figure>
+          );
+        })
+      }
+    </div>
+
+    <p class="mt-10 max-w-[52ch] text-xs leading-relaxed text-muted">
+      All works © {site.name}. Please ask before reproducing.
+    </p>
+  </section>
+
+  <dialog class="gallery-lightbox" data-gallery-lightbox aria-labelledby="gallery-lightbox-title">
+    <div class="gallery-lightbox-frame">
+      <div class="gallery-lightbox-top">
+        <p class="gallery-lightbox-counter" data-lb-counter></p>
+        <button type="button" class="gallery-lightbox-close" data-lb-close aria-label="Close viewer">
+          <span>Close</span>
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M4 4l8 8M12 4l-8 8"
+              stroke="currentColor"
+              stroke-width="1.2"
+              stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="gallery-lightbox-body">
+        <div class="gallery-lightbox-media" data-lb-media></div>
+
+        <aside class="gallery-lightbox-meta">
+          <p class="eyebrow" data-lb-medium></p>
+          <h2 id="gallery-lightbox-title" class="gallery-lightbox-title mt-3" data-lb-title></h2>
+          <p class="gallery-lightbox-year mt-2" data-lb-year></p>
+          <p class="gallery-lightbox-desc mt-5" data-lb-description></p>
+
+          <div class="gallery-lightbox-nav">
+            <button type="button" data-lb-prev>← Previous</button>
+            <button type="button" data-lb-next>Next →</button>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </dialog>
+</BaseLayout>

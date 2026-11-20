@@ -14,8 +14,10 @@ const shots = [
   { name: 'home-mobile', path: '/', width: 390 },
   { name: 'work-desktop', path: '/work', width: 1440 },
   { name: 'work-mobile', path: '/work', width: 390 },
-  { name: 'detail-desktop', path: '/work/stillness', width: 1440 },
-  { name: 'detail-mobile', path: '/work/stillness', width: 390 },
+  { name: 'detail-desktop', path: '/work/orca', width: 1440 },
+  { name: 'detail-mobile', path: '/work/orca', width: 390 },
+  { name: 'gallery-desktop', path: '/gallery', width: 1440 },
+  { name: 'gallery-mobile', path: '/gallery', width: 390 },
   { name: 'about-desktop', path: '/about', width: 1440 },
   { name: 'contact-desktop', path: '/contact', width: 1440 },
 ];
@@ -34,6 +36,14 @@ for (const shot of shots) {
   await page.evaluate(() => document.fonts.ready);
   await page.evaluate(() => {
     document.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('is-visible'));
+  });
+  await page.evaluate(async () => {
+    const step = window.innerHeight * 0.8;
+    for (let y = 0; y <= document.body.scrollHeight; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    }
+    window.scrollTo(0, 0);
   });
   await new Promise((resolve) => setTimeout(resolve, 900));
 

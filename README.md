@@ -1,8 +1,8 @@
 # Portfolio — Astro
 
-Portfolio satu halaman dengan arah visual *light editorial*: kertas hangat, tipografi
-serif, hairline border, dan banyak whitespace. Konten dikelola lewat Markdown, output
-sepenuhnya statis.
+Portfolio multi-halaman dengan arah visual *light editorial*: kertas hangat, tipografi
+serif, hairline border, dan banyak whitespace. Berisi proyek engineering, pengalaman,
+dan galeri karya seni. Konten dikelola lewat Markdown, output sepenuhnya statis.
 
 ## Stack
 
@@ -43,7 +43,8 @@ Dev server: <http://localhost:4321>
 src/
 ├── assets/                 # gambar sumber (dioptimasi saat build)
 ├── components/             # Header, Footer, WorkCard, ContactSection
-├── content/work/           # satu file .md per karya
+├── content/work/           # satu file .md per proyek engineering
+├── content/gallery/        # satu file .md per karya seni
 ├── data/site.ts            # nama, email, sosial, lokasi
 ├── layouts/BaseLayout.astro
 ├── pages/                  # index, work, about, contact, 404
@@ -77,6 +78,36 @@ links:
 
 Body Markdown di bawah frontmatter otomatis menjadi halaman studi kasus di
 `/work/nama-proyek`.
+
+## Menambah karya galeri
+
+Galeri memakai content collection terpisah dan tidak memerlukan body Markdown.
+
+1. Taruh gambar di `src/assets/gallery/` (rasio bebas — grid memakai masonry).
+2. Buat file `src/content/gallery/nama-karya.md`.
+3. Isi frontmatter:
+
+```yaml
+---
+title: Nama Karya
+medium: photography   # photography | illustration | video | bebas
+year: 2026
+description: Satu kalimat tentang karya ini.
+cover: ../../assets/gallery/nama-karya.jpg
+coverAlt: Deskripsi gambar untuk aksesibilitas
+video: /gallery/nama-karya.mp4   # opsional, untuk medium video
+featured: true        # tampil di teaser Home
+order: 1              # urutan di galeri
+---
+```
+
+Filter medium dibuat otomatis dari nilai `medium`, jadi menambah kategori baru
+(misalnya `3d` atau `motion`) cukup dengan menulis nilainya di frontmatter.
+
+Untuk video, simpan file di `public/gallery/` lalu isi `video` dengan path publik
+(`/gallery/nama-file.mp4`). `cover` tetap dipakai sebagai poster dan thumbnail.
+Video contoh `field-record.mp4` dibuat dari poster SVG memakai ffmpeg; ganti dengan
+hasil karya sendiri.
 
 ## Mengganti identitas
 

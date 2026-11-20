@@ -25,46 +25,108 @@ await page.setViewport({ width: 1280, height: 900 });
 await page.goto(`${base}/work`, { waitUntil: 'networkidle0' });
 await wait(400);
 
-const countVisible = () =>
-  page.$$eval('[data-work]', (items) => items.filter((item) => !item.hidden).length);
+const countVisible = (selector) =>
+  page.$$eval(selector, (items) => items.filter((item) => !item.hidden).length);
 
-const filtered = {
-  initial: await countVisible(),
+const work = {
+  initial: await countVisible('[data-work]'),
 };
 
-await page.click('[data-filter="design"]');
-await wait(150);
-filtered.design = await countVisible();
-filtered.designPressed = await page.$eval(
-  '[data-filter="design"]',
+await page.click('[data-filter="autonomy"]');
+await wait(200);
+work.autonomy = await countVisible('[data-work]');
+work.autonomyPressed = await page.$eval(
+  '[data-filter="autonomy"]',
   (el) => el.getAttribute('aria-pressed'),
 );
 
 await page.click('[data-filter="all"]');
-await wait(150);
-filtered.all = await countVisible();
+await wait(200);
+work.all = await countVisible('[data-work]');
 
-// --- Mobile menu ---
+// --- Gallery filters and lightbox ---
+await page.goto(`${base}/gallery`, { waitUntil: 'networkidle0' });
+await wait(600);
+
+const gallery = {
+  initial: await countVisible('[data-gallery-card]'),
+};
+
+await page.click('[data-gallery-filter="illustration"]');
+await wait(250);
+gallery.illustration = await countVisible('[data-gallery-card]');
+gallery.countLabel = await page.$eval('[data-gallery-count]', (el) => el.textContent);
+gallery.illustrationPressed = await page.$eval(
+  '[data-gallery-filter="illustration"]',
+  (el) => el.getAttribute('aria-pressed'),
+);
+
+await page.click('[data-gallery-filter="all"]');
+await wait(200);
+await page.click('[data-gallery-item]');
+await wait(500);
+
+gallery.lightbox = {
+  open: await page.$eval('[data-gallery-lightbox]', (el) => el.hasAttribute('open')),
+  title: await page.$eval('[data-lb-title]', (el) => el.textContent),
+  counter: await page.$eval('[data-lb-counter]', (el) => el.textContent),
+  hasImage: await page.$eval('[data-lb-media]', (el) => !!el.querySelector('img')),
+  bodyLocked: await page.evaluate(() => document.body.classList.contains('no-scroll')),
+};
+
+await page.keyboard.press('ArrowRight');
+await wait(250);
+gallery.nextTitle = await page.$eval('[data-lb-title]', (el) => el.textContent);
+
+await page.keyboard.press('Escape');
+await wait(300);
+gallery.closed = {
+  open: await page.$eval('[data-gallery-lightbox]', (el) => el.hasAttribute('open')),
+  bodyUnlocked: await page.evaluate(() => !document.body.classList.contains('no-scroll')),
+};
+
+await page.click('[data-gallery-filter="video"]');
+await wait(250);
+await page.evaluate(() => {
+  document
+    .querySelector('[data-gallery-card][data-medium="video"] [data-gallery-item]')
+    ?.click();
+});
+await wait(900);
+gallery.video = {
+  hasVideo: await page.$eval('[data-lb-media]', (el) => !!el.querySelector('video')),
+  title: await page.$eval('[data-lb-title]', (el) => el.textContent),
+  readyState: await page.$eval('[data-lb-media] video', (el) => el.readyState),
+};
+await page.keyboard.press('Escape');
+await wait(200);
+
+// --- Mobile menu + client router ---
 await page.setViewport({ width: 390, height: 844 });
 await page.goto(`${base}/`, { waitUntil: 'networkidle0' });
 await wait(500);
 
+const panelState = () => ({
+  ariaHidden: document.querySelector('#mobile-menu')?.getAttribute('aria-hidden'),
+  inert: document.querySelector('#mobile-menu')?.inert,
+  openClass: document.querySelector('#mobile-menu')?.classList.contains('is-open'),
+});
+
 const menu = {
-  startHidden: await page.$eval('#mobile-menu', (el) => el.hidden),
+  start: await page.evaluate(panelState),
 };
 
 await page.click('[data-menu-toggle]');
-await wait(120);
-menu.openHidden = await page.$eval('#mobile-menu', (el) => el.hidden);
+await wait(150);
+menu.open = await page.evaluate(panelState);
 menu.expanded = await page.$eval('[data-menu-toggle]', (el) => el.getAttribute('aria-expanded'));
 menu.bodyLocked = await page.evaluate(() => document.body.classList.contains('no-scroll'));
 
 await page.keyboard.press('Escape');
-await wait(120);
-menu.closedAfterEscape = await page.$eval('#mobile-menu', (el) => el.hidden);
+await wait(150);
+menu.closed = await page.evaluate(panelState);
 menu.bodyUnlocked = await page.evaluate(() => !document.body.classList.contains('no-scroll'));
 
-// --- ClientRouter navigation + reveal ---
 await page.click('[data-menu-toggle]');
 await wait(120);
 await page.click('#mobile-menu a[href="/work"]');
@@ -72,43 +134,18 @@ await wait(900);
 
 const navigation = {
   url: page.url(),
+  menuClosed: await page.evaluate(panelState),
   visibleReveals: await page.$$eval(
     '[data-reveal]',
     (items) => items.filter((item) => item.classList.contains('is-visible')).length,
   ),
   totalReveals: await page.$$eval('[data-reveal]', (items) => items.length),
-  menuClosedAfterNav: await page.$eval('#mobile-menu', (el) => el.hidden),
 };
-
-// --- Overflow across routes and breakpoints ---
-const overflow = [];
-const routes = ['/', '/work', '/work/stillness', '/about', '/contact'];
-
-for (const width of [360, 390, 768, 1024, 1440]) {
-  await page.setViewport({ width, height: 900 });
-  for (const route of routes) {
-    await page.goto(base + route, { waitUntil: 'networkidle0' });
-    const result = await page.evaluate(() => ({
-      viewport: document.documentElement.clientWidth,
-      scroll: document.documentElement.scrollWidth,
-    }));
-
-    if (result.scroll > result.viewport + 1) {
-      overflow.push({ width, route, ...result });
-    }
-  }
-}
 
 // --- Footer check ---
 await page.goto(`${base}/`, { waitUntil: 'networkidle0' });
 const footerText = await page.$eval('footer', (el) => el.innerText.replace(/\s+/g, ' ').trim());
 
-console.log(
-  JSON.stringify(
-    { filtered, menu, navigation, overflow, footerText, errors },
-    null,
-    2,
-  ),
-);
+console.log(JSON.stringify({ work, gallery, menu, navigation, footerText, errors }, null, 2));
 
 await browser.close();

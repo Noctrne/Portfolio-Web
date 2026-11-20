@@ -90,6 +90,150 @@ function applyFilter(value: string) {
   if (count) count.textContent = String(visible).padStart(2, '0');
 }
 
+function applyGalleryFilter(value: string) {
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-gallery-card]'));
+  if (cards.length === 0) return;
+
+  for (const card of cards) {
+    const matches = value === 'all' || card.dataset.medium === value;
+    card.hidden = !matches;
+    if (matches) card.classList.add('is-visible');
+  }
+
+  for (const button of document.querySelectorAll<HTMLElement>('[data-gallery-filter]')) {
+    const active = button.dataset.galleryFilter === value;
+    button.setAttribute('aria-pressed', String(active));
+    button.classList.toggle('is-active', active);
+  }
+
+  const visible = cards.filter((card) => !card.hidden).length;
+  const count = document.querySelector<HTMLElement>('[data-gallery-count]');
+  if (count) count.textContent = String(visible).padStart(2, '0');
+}
+
+type GalleryState = {
+  items: HTMLElement[];
+  index: number;
+  trigger: HTMLElement | null;
+};
+
+let galleryState: GalleryState | null = null;
+
+function visibleGalleryItems() {
+  return Array.from(document.querySelectorAll<HTMLElement>('[data-gallery-item]')).filter((item) => {
+    const card = item.closest<HTMLElement>('[data-gallery-card]');
+    return !card?.hidden;
+  });
+}
+
+function renderGallery() {
+  const dialog = document.querySelector<HTMLDialogElement>('[data-gallery-lightbox]');
+  if (!dialog || !galleryState) return;
+
+  const current = galleryState.items[galleryState.index];
+  if (!current) return;
+
+  const setText = (selector: string, value: string | undefined) => {
+    const node = dialog.querySelector<HTMLElement>(selector);
+    if (node) node.textContent = value ?? '';
+  };
+
+  const total = String(galleryState.items.length).padStart(2, '0');
+  setText('[data-lb-counter]', `${current.dataset.plate ?? '01'} / ${total}`);
+  setText('[data-lb-medium]', current.dataset.medium);
+  setText('[data-lb-title]', current.dataset.title);
+  setText('[data-lb-year]', current.dataset.year);
+  setText('[data-lb-description]', current.dataset.description);
+
+  const description = dialog.querySelector<HTMLElement>('[data-lb-description]');
+  if (description) description.hidden = !current.dataset.description;
+
+  const media = dialog.querySelector<HTMLElement>('[data-lb-media]');
+  if (!media) return;
+  media.replaceChildren();
+
+  if (current.dataset.video) {
+    const video = document.createElement('video');
+    video.src = current.dataset.video;
+    video.poster = current.dataset.poster ?? current.dataset.src ?? '';
+    video.controls = true;
+    video.autoplay = true;
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.setAttribute('aria-label', current.dataset.title ?? 'Video');
+    media.append(video);
+  } else if (current.dataset.src) {
+    const image = document.createElement('img');
+    image.src = current.dataset.src;
+    image.alt = current.dataset.alt ?? '';
+    media.append(image);
+  }
+
+  const single = galleryState.items.length <= 1;
+  const prev = dialog.querySelector<HTMLButtonElement>('[data-lb-prev]');
+  const next = dialog.querySelector<HTMLButtonElement>('[data-lb-next]');
+  if (prev) prev.disabled = single;
+  if (next) next.disabled = single;
+}
+
+function openGallery(trigger: HTMLElement) {
+  const dialog = document.querySelector<HTMLDialogElement>('[data-gallery-lightbox]');
+  if (!dialog) return;
+
+  const items = visibleGalleryItems();
+  const index = items.indexOf(trigger);
+
+  galleryState = { items, index: index < 0 ? 0 : index, trigger };
+  renderGallery();
+
+  if (!dialog.open) dialog.showModal();
+  document.body.classList.add('no-scroll');
+  dialog.querySelector<HTMLElement>('[data-lb-close]')?.focus();
+}
+
+function stepGallery(delta: number) {
+  if (!galleryState || galleryState.items.length === 0) return;
+  const total = galleryState.items.length;
+  galleryState.index = (galleryState.index + delta + total) % total;
+  renderGallery();
+}
+
+function closeGallery() {
+  document.querySelector<HTMLDialogElement>('[data-gallery-lightbox]')?.close();
+}
+
+function initGallery() {
+  const dialog = document.querySelector<HTMLDialogElement>('[data-gallery-lightbox]');
+  if (!dialog || dialog.dataset.bound === 'true') return;
+  dialog.dataset.bound = 'true';
+
+  dialog.querySelector('[data-lb-close]')?.addEventListener('click', closeGallery);
+  dialog.querySelector('[data-lb-prev]')?.addEventListener('click', () => stepGallery(-1));
+  dialog.querySelector('[data-lb-next]')?.addEventListener('click', () => stepGallery(1));
+
+  dialog.addEventListener('close', () => {
+    document.body.classList.remove('no-scroll');
+    const media = dialog.querySelector<HTMLElement>('[data-lb-media]');
+    media?.replaceChildren();
+    const trigger = galleryState?.trigger;
+    galleryState = null;
+    trigger?.focus();
+  });
+
+  dialog.addEventListener('keydown', (event) => {
+    if (event.target instanceof HTMLElement && event.target.closest('video')) return;
+
+    if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      stepGallery(1);
+    } else if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      stepGallery(-1);
+    }
+  });
+}
+
 document.addEventListener('click', (event) => {
   const target = event.target;
   if (!(target instanceof Element)) return;
@@ -98,6 +242,19 @@ document.addEventListener('click', (event) => {
   if (toggle) {
     const isOpen = toggle.getAttribute('aria-expanded') === 'true';
     setMenu(!isOpen);
+    return;
+  }
+
+  const galleryTrigger = target.closest<HTMLElement>('[data-gallery-item]');
+  if (galleryTrigger) {
+    event.preventDefault();
+    openGallery(galleryTrigger);
+    return;
+  }
+
+  const galleryFilter = target.closest<HTMLElement>('[data-gallery-filter]');
+  if (galleryFilter?.dataset.galleryFilter) {
+    applyGalleryFilter(galleryFilter.dataset.galleryFilter);
     return;
   }
 
@@ -114,11 +271,13 @@ document.addEventListener('keydown', (event) => {
 document.addEventListener('astro:page-load', () => {
   initReveal();
   initHeader();
+  initGallery();
   setMenu(false);
 });
 
 document.addEventListener('astro:before-swap', () => {
   cleanupHeader?.();
+  closeGallery();
   setMenu(false);
 });
 
@@ -130,3 +289,4 @@ reduceMotion.addEventListener('change', initReveal);
 
 initReveal();
 initHeader();
+initGallery();

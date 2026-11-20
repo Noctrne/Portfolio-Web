@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500" width="1200" height="1500">
+  <rect width="1200" height="1500" fill="#17324a"/>
+  <circle cx="600" cy="720" r="340" fill="#f2ede3" opacity="0.05"/>
+  <path d="M 640 320 C 720 320, 780 380, 780 460 C 780 520, 740 560, 730 610 C 720 660, 750 690, 740 730 C 730 770, 690 780, 670 770 C 680 800, 670 830, 640 840 C 610 850, 590 830, 590 810 C 560 820, 530 800, 535 775 C 500 770, 490 740, 510 720 C 480 700, 490 670, 515 660 C 495 630, 510 600, 535 595 C 540 540, 560 480, 600 430 C 620 390, 630 350, 640 320 Z" fill="none" stroke="#f2ede3" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M 640 840 C 648 900, 622 950, 590 1000 C 560 1046, 550 1090, 570 1130" fill="none" stroke="#f2ede3" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 740 780 C 758 858, 762 940, 806 1010 C 840 1064, 860 1110, 852 1150" fill="none" stroke="#f2ede3" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 600 430 C 640 400, 700 396, 738 424" fill="none" stroke="#f2ede3" stroke-width="2" opacity="0.6"/>
+  <circle cx="612" cy="520" r="8" fill="#b08d57"/>
+  <path d="M 592 496 C 610 486, 632 488, 648 498" fill="none" stroke="#f2ede3" stroke-width="2" opacity="0.7"/>
+  <g stroke="#f2ede3" stroke-width="1" opacity="0.2">
+    <line x1="120" y1="1250" x2="1080" y2="1250"/>
+    <line x1="120" y1="1290" x2="620" y2="1290"/>
+  </g>
+  <circle cx="980" cy="1290" r="5" fill="#b08d57"/>
+</svg>

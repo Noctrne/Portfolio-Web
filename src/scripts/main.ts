@@ -50,26 +50,11 @@ function initHeader() {
   const header = document.querySelector<HTMLElement>('[data-site-header]');
   if (!header) return;
 
-  let lastY = window.scrollY;
   let ticking = false;
 
   const update = () => {
     const y = Math.max(window.scrollY, 0);
-    const delta = y - lastY;
-
-    if (y <= 24) {
-      header.dataset.condensed = 'false';
-      header.dataset.hidden = 'false';
-    } else {
-      header.dataset.condensed = 'true';
-
-      // Hysteresis: ignore small scroll jitter so the bar does not flicker.
-      if (Math.abs(delta) > 6) {
-        header.dataset.hidden = String(delta > 0 && y > 160);
-      }
-    }
-
-    lastY = y;
+    header.dataset.condensed = String(y > 8);
     ticking = false;
   };
 

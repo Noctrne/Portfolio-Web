@@ -17,7 +17,15 @@ const capabilityIcons = ['orbit', 'chip', 'pen'];
   <header class="wrap relative overflow-hidden pt-[clamp(3rem,7vw,6rem)] pb-[clamp(2.5rem,5vw,4rem)]">
     <Ornament
       variant="arcs"
-      class="absolute -right-36 -top-24 hidden w-[26rem] text-clay opacity-40 md:block"
+      class="ornament-spin absolute -right-36 -top-24 hidden w-[26rem] text-clay opacity-40 md:block"
+    />
+    <Ornament
+      variant="arcs"
+      class="ornament-spin-reverse absolute -right-20 top-16 w-56 text-clay opacity-25 md:hidden"
+    />
+    <Ornament
+      variant="field"
+      class="absolute right-8 bottom-3 hidden w-28 text-clay opacity-25 lg:block"
     />
     <p class="eyebrow eyebrow-row" data-reveal>
       <Icon name="pen" size={12} />
@@ -30,7 +38,7 @@ const capabilityIcons = ['orbit', 'chip', 'pen'];
 
   <section class="wrap pb-[clamp(4rem,8vw,7rem)]">
     <div class="grid gap-10 md:grid-cols-12 lg:gap-16">
-      <div class="md:col-span-5" data-reveal="pop">
+      <div class="relative md:col-span-5" data-reveal="pop">
         <div class="relative aspect-[4/5] overflow-hidden bg-paper-deep">
           <Image
             src={portrait}
@@ -48,6 +56,10 @@ const capabilityIcons = ['orbit', 'chip', 'pen'];
           Portrait — replace with your own photograph.
         </p>
         <Ornament variant="ticks" class="mt-4 h-3 w-full text-clay opacity-40" />
+        <Ornament
+          variant="spark"
+          class="ornament-twinkle absolute -right-3 top-8 hidden w-4 text-clay opacity-60 lg:block"
+        />
       </div>
 
       <div class="md:col-span-6 md:col-start-7">

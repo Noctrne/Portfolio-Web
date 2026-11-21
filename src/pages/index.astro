@@ -5,6 +5,8 @@ import WorkCard from '../components/WorkCard.astro';
 import ContactSection from '../components/ContactSection.astro';
 import Icon from '../components/Icon.astro';
 import Ornament from '../components/Ornament.astro';
+import Seal from '../components/Seal.astro';
+import Ticker from '../components/Ticker.astro';
 import { getCollection } from 'astro:content';
 import { capabilities, experience, site } from '../data/site';
 import { byNewest, formatDate, readingTime } from '../lib/blog';
@@ -24,20 +26,50 @@ const capabilityIcons = ['orbit', 'chip', 'pen'];
 ---
 
 <BaseLayout>
-  <section class="wrap relative overflow-hidden pt-[clamp(3.5rem,8vw,7rem)] pb-[clamp(3rem,6vw,5rem)]">
+  <section
+    class="wrap relative overflow-hidden pt-[clamp(3.5rem,8vw,7rem)] pb-[clamp(3rem,6vw,5rem)]"
+    data-parallax-scene
+  >
     <Ornament
       variant="arcs"
-      class="absolute -right-40 -top-24 hidden w-[32rem] text-clay opacity-50 md:block"
+      class="ornament-spin absolute -right-40 -top-24 hidden w-[32rem] text-clay opacity-50 md:block"
     />
     <Ornament
       variant="arcs"
-      class="absolute -right-16 top-28 w-64 text-clay opacity-30 md:hidden"
+      class="ornament-spin-reverse absolute -right-16 top-28 w-64 text-clay opacity-30 md:hidden"
+    />
+    <Ornament
+      variant="spark"
+      class="ornament-twinkle absolute right-3 top-9 w-4 text-clay opacity-55 md:hidden"
+    />
+    <Ornament
+      variant="field"
+      class="absolute right-10 bottom-6 hidden w-40 text-clay opacity-30 lg:block"
     />
     <div
-      class="dot-grid absolute top-16 right-8 hidden h-32 w-44 md:block"
+      class="dot-grid ornament-float absolute top-16 right-8 hidden h-32 w-44 md:block"
       aria-hidden="true"
     >
     </div>
+
+    <span
+      class="parallax-item absolute right-[4%] top-[12.5rem] hidden w-28 text-clay opacity-60 xl:block"
+      style="--depth: 12"
+    >
+      <Seal id="seal-home" class="w-full" />
+    </span>
+
+    <span
+      class="parallax-item absolute right-[27%] top-[9.25rem] hidden w-4 text-clay opacity-70 md:block"
+      style="--depth: 6"
+    >
+      <Ornament variant="spark" class="ornament-twinkle w-4" />
+    </span>
+
+    <Ornament
+      variant="cross"
+      class="ornament-float absolute left-6 bottom-12 hidden w-3.5 text-clay opacity-55 md:block"
+    />
 
     <div class="flex flex-wrap items-center gap-x-4 gap-y-2" data-reveal>
       <p class="eyebrow eyebrow-row">
@@ -95,7 +127,9 @@ const capabilityIcons = ['orbit', 'chip', 'pen'];
     </dl>
   </section>
 
-  <section class="section border-t border-line">
+  <Ticker />
+
+  <section class="section">
     <div class="wrap">
       <div class="flex flex-wrap items-end justify-between gap-6">
         <div>
@@ -128,7 +162,11 @@ const capabilityIcons = ['orbit', 'chip', 'pen'];
     </div>
   </section>
 
-  <section class="section border-t border-line">
+  <section class="section relative overflow-hidden border-t border-line">
+    <Ornament
+      variant="field"
+      class="absolute right-4 top-16 hidden w-28 text-clay opacity-20 xl:block"
+    />
     <div class="wrap grid gap-10 md:grid-cols-12">
       <div class="md:col-span-3">
         <p class="eyebrow eyebrow-row" data-reveal>
@@ -204,7 +242,11 @@ const capabilityIcons = ['orbit', 'chip', 'pen'];
     </div>
   </section>
 
-  <section class="section border-t border-line">
+  <section class="section relative overflow-hidden border-t border-line">
+    <Ornament
+      variant="cross"
+      class="ornament-float absolute left-6 top-16 hidden w-4 text-clay opacity-50 xl:block"
+    />
     <div class="wrap grid gap-10 md:grid-cols-12">
       <div class="md:col-span-3">
         <p class="eyebrow eyebrow-row" data-reveal>
@@ -307,7 +349,11 @@ const capabilityIcons = ['orbit', 'chip', 'pen'];
     )
   }
 
-  <section class="section border-t border-line">
+  <section class="section relative overflow-hidden border-t border-line">
+    <Ornament
+      variant="spark"
+      class="ornament-twinkle absolute right-6 top-16 hidden w-4 text-clay opacity-50 xl:block"
+    />
     <div class="wrap">
       <div class="flex flex-wrap items-end justify-between gap-6">
         <div>
@@ -341,7 +387,7 @@ const capabilityIcons = ['orbit', 'chip', 'pen'];
           >
             <a
               href={`/blog/${post.id}/`}
-              class="next-link group grid gap-3 py-6 md:grid-cols-12 md:items-baseline"
+              class="next-link index-row group grid gap-3 py-6 md:grid-cols-12 md:items-baseline"
             >
               <span class="flex items-center gap-2 text-xs tabular-nums text-muted md:col-span-3 lg:col-span-2">
                 <Icon name="calendar" size={12} />

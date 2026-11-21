@@ -29,7 +29,15 @@ const next = all[(currentIndex + 1) % all.length];
 
 <BaseLayout title={title} description={summary} ogType="article">
   <article>
-    <header class="wrap pt-[clamp(2.5rem,5vw,4.5rem)]">
+    <header class="wrap relative overflow-hidden pt-[clamp(2.5rem,5vw,4.5rem)]">
+      <Ornament
+        variant="arcs"
+        class="ornament-spin-reverse absolute -right-20 top-10 w-52 text-clay opacity-20 md:hidden"
+      />
+      <Ornament
+        variant="spark"
+        class="ornament-twinkle absolute left-[46%] top-6 hidden w-4 text-clay opacity-55 md:block"
+      />
       <a href="/work" class="arrow-link text-muted">
         <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
           <path

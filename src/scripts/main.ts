@@ -1,6 +1,7 @@
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let revealObserver: IntersectionObserver | null = null;
 let cleanupHeader: (() => void) | null = null;
+let cleanupParallax: (() => void) | null = null;
 
 function initReveal() {
   revealObserver?.disconnect();
@@ -67,6 +68,52 @@ function initHeader() {
   update();
   window.addEventListener('scroll', onScroll, { passive: true });
   cleanupHeader = () => window.removeEventListener('scroll', onScroll);
+}
+
+function initParallax() {
+  cleanupParallax?.();
+  cleanupParallax = null;
+
+  const scenes = Array.from(document.querySelectorAll<HTMLElement>('[data-parallax-scene]'));
+  if (scenes.length === 0 || reduceMotion.matches) return;
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+
+  let frame = 0;
+
+  const setPosition = (event: PointerEvent) => {
+    for (const scene of scenes) {
+      const rect = scene.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) continue;
+
+      const mx = (event.clientX - rect.left) / rect.width - 0.5;
+      const my = (event.clientY - rect.top) / rect.height - 0.5;
+
+      scene.style.setProperty('--mx', Math.max(-1, Math.min(1, mx * 2)).toFixed(3));
+      scene.style.setProperty('--my', Math.max(-1, Math.min(1, my * 2)).toFixed(3));
+    }
+    frame = 0;
+  };
+
+  const onPointerMove = (event: PointerEvent) => {
+    if (frame) return;
+    frame = requestAnimationFrame(() => setPosition(event));
+  };
+
+  const reset = () => {
+    for (const scene of scenes) {
+      scene.style.setProperty('--mx', '0');
+      scene.style.setProperty('--my', '0');
+    }
+  };
+
+  window.addEventListener('pointermove', onPointerMove, { passive: true });
+  document.addEventListener('mouseleave', reset);
+  cleanupParallax = () => {
+    cancelAnimationFrame(frame);
+    window.removeEventListener('pointermove', onPointerMove);
+    document.removeEventListener('mouseleave', reset);
+    reset();
+  };
 }
 
 function applyFilter(value: string) {
@@ -271,12 +318,14 @@ document.addEventListener('keydown', (event) => {
 document.addEventListener('astro:page-load', () => {
   initReveal();
   initHeader();
+  initParallax();
   initGallery();
   setMenu(false);
 });
 
 document.addEventListener('astro:before-swap', () => {
   cleanupHeader?.();
+  cleanupParallax?.();
   closeGallery();
   setMenu(false);
 });
@@ -285,8 +334,12 @@ window.matchMedia('(min-width: 768px)').addEventListener('change', (event) => {
   if (event.matches) setMenu(false);
 });
 
-reduceMotion.addEventListener('change', initReveal);
+reduceMotion.addEventListener('change', () => {
+  initReveal();
+  initParallax();
+});
 
 initReveal();
 initHeader();
+initParallax();
 initGallery();

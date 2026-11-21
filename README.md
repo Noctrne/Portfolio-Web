@@ -12,6 +12,7 @@ Konten dikelola lewat Markdown, output sepenuhnya statis.
 - **Content Collections + Markdown** — `src/content/work/*.md`, `src/content/blog/*.md`
 - **astro:assets (sharp)** — resize & konversi gambar ke WebP saat build
 - **View Transitions** — transisi antar halaman
+- **Animasi CSS + sedikit JavaScript** — ticker, ornamen berputar, parallax pointer, reveal on scroll
 - **Font self-host** — Newsreader (display) + Inter (teks)
 
 ## Menjalankan
@@ -43,7 +44,7 @@ Dev server: <http://localhost:4321>
 ```text
 src/
 ├── assets/                 # gambar sumber (dioptimasi saat build)
-├── components/             # Header, Footer, WorkCard, ContactSection, Icon, Ornament
+├── components/             # Header, Footer, WorkCard, Icon, Ornament, Seal, Ticker
 ├── content/work/           # satu file .md per proyek engineering
 ├── content/gallery/        # satu file .md per karya seni
 ├── content/blog/           # satu file .md per tulisan blog
@@ -51,7 +52,7 @@ src/
 ├── layouts/BaseLayout.astro
 ├── lib/blog.ts             # format tanggal & estimasi waktu baca
 ├── pages/                  # index, work, gallery, blog, about, contact, 404
-├── scripts/main.ts         # reveal on scroll, menu, filter, lightbox
+├── scripts/main.ts         # reveal, menu, filter, lightbox, parallax pointer
 └── styles/global.css       # design tokens + komponen dasar
 ```
 
@@ -80,13 +81,35 @@ Dekorasi dibuat dari elemen vektor ringan, bukan gambar raster:
   Dipakai untuk eyebrow section, filter, kategori karya, metadata proyek, dan
   tautan sosial.
 - `src/components/Ornament.astro` — lekuk garis dekoratif: `arcs`, `orbit`,
-  `corners`, `wave`, `ticks`, dan `scribble`.
+  `corners`, `wave`, `ticks`, `scribble`, `spark`, `cross`, dan `field`.
+- `src/components/Seal.astro` — stempel melingkar dengan teks di atas path;
+  teks berputar pelan, sementara tanda plus di tengah tetap tenang.
+- `src/components/Ticker.astro` — strip kata yang bergerak pelan di Home.
+  Berhenti saat di-hover dan menjadi statis jika pengguna memilih reduced motion.
 - `src/styles/global.css` — kelas bantu seperti `.timeline-item`, `.cap-icon`,
-  `.card-index`, `.card-arrow`, `.curve-underline`, dan `.dot-grid`.
+  `.card-index`, `.card-arrow`, `.curve-underline`, `.dot-grid`, `.seal`,
+  `.ticker`, dan `.index-row`.
 
 Semua dekorasi memakai `aria-hidden` dan `pointer-events: none`. Ornamen boleh
 melewati tepi viewport asalkan parent-nya memakai `overflow-hidden`; ornamen
 tidak boleh menambah `scrollWidth` halaman.
+
+## Animasi & performa
+
+Gerak dibuat dari properti yang murah untuk browser, terutama `transform` dan
+`opacity`:
+
+- ornamen `arcs` dan `orbit` berputar sangat pelan (`ornament-spin`),
+- `spark`/`cross` berkedip halus, `scribble` menggambar dirinya sekali,
+- garis bawah kata *quiet* di Home tergambar saat halaman dimuat,
+- pointer parallax hanya aktif di perangkat dengan pointer presisi dan hanya
+  mengubah CSS variable, tanpa membaca layout berulang di setiap event,
+- ticker memakai satu elemen track yang digeser dengan `transform`.
+
+Tidak ada library animasi. Semua keyframes ada di `src/styles/global.css`.
+Saat `prefers-reduced-motion: reduce`, animasi dimatikan, parallax tidak
+diinisialisasi, dan underline tetap terlihat penuh. Tidak ada animasi yang
+mengubah `width`, `height`, atau posisi layout.
 
 ## Menambah karya
 

@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
 import Icon from './Icon.astro';
+import Ornament from './Ornament.astro';
 
 interface Props {
   entry: CollectionEntry<'work'>;
@@ -48,6 +49,10 @@ const categoryIcons: Record<string, string> = {
         class="pointer-events-none absolute inset-0 bg-ink/0 transition-colors duration-500 group-hover:bg-ink/[0.04]"
         aria-hidden="true">
       </div>
+      <Ornament
+        variant="corners"
+        class="absolute inset-0 h-full w-full text-ink opacity-30"
+      />
       {
         index !== undefined && (
           <span class="card-index" aria-hidden="true">

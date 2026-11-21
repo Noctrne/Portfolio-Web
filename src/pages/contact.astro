@@ -12,7 +12,19 @@ import { site } from '../data/site';
   <header class="wrap relative overflow-hidden pt-[clamp(3rem,7vw,6rem)]">
     <Ornament
       variant="arcs"
-      class="absolute -right-40 -top-24 hidden w-[30rem] text-clay opacity-40 md:block"
+      class="ornament-spin absolute -right-40 -top-24 hidden w-[30rem] text-clay opacity-40 md:block"
+    />
+    <Ornament
+      variant="arcs"
+      class="ornament-spin-reverse absolute -right-20 top-16 w-60 text-clay opacity-25 md:hidden"
+    />
+    <Ornament
+      variant="field"
+      class="absolute right-8 bottom-3 hidden w-32 text-clay opacity-25 lg:block"
+    />
+    <Ornament
+      variant="spark"
+      class="ornament-twinkle absolute left-[46%] top-[7.5rem] hidden w-4 text-clay opacity-60 md:block"
     />
     <p class="eyebrow eyebrow-row" data-reveal>
       <Icon name="mail" size={12} />
@@ -31,7 +43,11 @@ import { site } from '../data/site';
   <section class="wrap relative mt-[clamp(3rem,6vw,5rem)]">
     <Ornament
       variant="scribble"
-      class="absolute right-0 top-4 hidden w-20 text-clay opacity-60 lg:block"
+      class="ornament-draw absolute right-0 top-4 hidden w-20 text-clay opacity-60 lg:block"
+    />
+    <Ornament
+      variant="cross"
+      class="ornament-float absolute right-[18%] -bottom-6 hidden w-3.5 text-clay opacity-50 md:block"
     />
     <a
       href={`mailto:${site.email}`}

@@ -20,7 +20,19 @@ const pad = (value: number) => String(value).padStart(2, '0');
   <header class="wrap relative overflow-hidden pt-[clamp(3rem,7vw,6rem)] pb-[clamp(2.5rem,5vw,4rem)]">
     <Ornament
       variant="arcs"
-      class="absolute -right-40 -top-24 hidden w-[30rem] text-clay opacity-40 md:block"
+      class="ornament-spin absolute -right-40 -top-24 hidden w-[30rem] text-clay opacity-40 md:block"
+    />
+    <Ornament
+      variant="arcs"
+      class="ornament-spin-reverse absolute -right-20 top-16 w-60 text-clay opacity-25 md:hidden"
+    />
+    <Ornament
+      variant="field"
+      class="absolute right-8 bottom-3 hidden w-32 text-clay opacity-25 lg:block"
+    />
+    <Ornament
+      variant="cross"
+      class="ornament-float absolute left-[46%] top-[7.75rem] hidden w-4 text-clay opacity-50 md:block"
     />
     <p class="eyebrow eyebrow-row" data-reveal>
       <Icon name="book" size={12} />
@@ -65,7 +77,7 @@ const pad = (value: number) => String(value).padStart(2, '0');
             >
               <a
                 href={`/blog/${post.id}/`}
-                class="next-link group grid gap-4 py-8 md:grid-cols-12 md:items-baseline"
+                class="next-link index-row group grid gap-4 py-8 md:grid-cols-12 md:items-baseline"
               >
                 <span class="flex items-center gap-3 text-xs tabular-nums text-muted md:col-span-3 lg:col-span-2">
                   <span class="text-[0.65rem] tracking-[0.18em]">{pad(index + 1)}</span>

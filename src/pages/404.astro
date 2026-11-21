@@ -8,7 +8,15 @@ import Ornament from '../components/Ornament.astro';
   <section class="wrap relative flex min-h-[60vh] flex-col justify-center overflow-hidden py-[clamp(4rem,10vw,8rem)]">
     <Ornament
       variant="arcs"
-      class="absolute right-6 top-1/2 hidden w-72 -translate-y-1/2 text-clay opacity-35 md:block"
+      class="ornament-spin absolute right-6 top-[calc(50%-9rem)] hidden w-72 text-clay opacity-35 md:block"
+    />
+    <Ornament
+      variant="arcs"
+      class="ornament-spin-reverse absolute -right-20 top-12 w-56 text-clay opacity-20 md:hidden"
+    />
+    <Ornament
+      variant="spark"
+      class="ornament-twinkle absolute left-[44%] top-[22%] hidden w-4 text-clay opacity-60 md:block"
     />
     <p class="eyebrow eyebrow-row" data-reveal>
       <Icon name="orbit" size={12} />

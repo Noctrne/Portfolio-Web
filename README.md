@@ -81,18 +81,21 @@ Dekorasi dibuat dari elemen vektor ringan, bukan gambar raster:
   Dipakai untuk eyebrow section, filter, kategori karya, metadata proyek, dan
   tautan sosial.
 - `src/components/Ornament.astro` — lekuk garis dekoratif: `arcs`, `orbit`,
-  `corners`, `wave`, `ticks`, `scribble`, `spark`, `cross`, dan `field`.
+  `corners`, `wave`, `ticks`, `scribble`, `spark`, `cross`, `field`,
+  `contour` (garis kontur tipis), `measure` (garis ukur bertakik), dan
+  `bloom` (ledakan garis radial).
 - `src/components/Seal.astro` — stempel melingkar dengan teks di atas path;
   teks berputar pelan, sementara tanda plus di tengah tetap tenang.
 - `src/components/Ticker.astro` — strip kata yang bergerak pelan di Home.
   Berhenti saat di-hover dan menjadi statis jika pengguna memilih reduced motion.
 - `src/styles/global.css` — kelas bantu seperti `.timeline-item`, `.cap-icon`,
   `.card-index`, `.card-arrow`, `.curve-underline`, `.dot-grid`, `.seal`,
-  `.ticker`, dan `.index-row`.
+  `.ticker`, `.page-rails`, dan `.index-row`.
 
-Semua dekorasi memakai `aria-hidden` dan `pointer-events: none`. Ornamen boleh
-melewati tepi viewport asalkan parent-nya memakai `overflow-hidden`; ornamen
-tidak boleh menambah `scrollWidth` halaman.
+`.page-rails` menggambar dua garis putus-putus vertikal di tepi viewport pada
+layar ≥1024px, seperti margin buku. Semua dekorasi memakai `aria-hidden` dan
+`pointer-events: none`. Ornamen boleh melewati tepi viewport asalkan parent-nya
+memakai `overflow-hidden`; ornamen tidak boleh menambah `scrollWidth` halaman.
 
 ## Animasi & performa
 
@@ -100,6 +103,8 @@ Gerak dibuat dari properti yang murah untuk browser, terutama `transform` dan
 `opacity`:
 
 - ornamen `arcs` dan `orbit` berputar sangat pelan (`ornament-spin`),
+- `contour` bergeser perlahan (`ornament-drift`) dan `bloom` bernapas
+  (`ornament-breathe`), keduanya hanya mengubah `transform`/`opacity`,
 - `spark`/`cross` berkedip halus, `scribble` menggambar dirinya sekali,
 - garis bawah kata *quiet* di Home tergambar saat halaman dimuat,
 - pointer parallax hanya aktif di perangkat dengan pointer presisi dan hanya

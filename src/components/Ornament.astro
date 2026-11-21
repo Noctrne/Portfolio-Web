@@ -9,7 +9,10 @@ interface Props {
     | 'scribble'
     | 'spark'
     | 'cross'
-    | 'field';
+    | 'field'
+    | 'contour'
+    | 'measure'
+    | 'bloom';
   class?: string;
 }
 
@@ -183,6 +186,111 @@ const { variant = 'arcs', class: className } = Astro.props;
         const y = 20 + Math.floor(index / 6) * 40;
         return <path d={`M${x} ${y - 3}v6M${x - 3} ${y}h6`} stroke-width="1" opacity="0.55" />;
       })}
+    </svg>
+  )
+}
+
+{
+  variant === 'contour' && (
+    <svg
+      class:list={['ornament', className]}
+      viewBox="0 0 640 360"
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path
+        d="M-30 324c96-42 151-24 228-55s146-82 250-52 129 49 218 13"
+        stroke-width="1"
+        opacity="0.46"
+      />
+      <path
+        d="M-30 296c91-35 144-22 221-50s147-80 250-51 126 45 211 14"
+        stroke-width="1"
+        opacity="0.34"
+      />
+      <path
+        d="M-30 268c88-31 144-19 218-45s148-78 251-50 122 41 208 14"
+        stroke-width="1"
+        opacity="0.28"
+      />
+      <path
+        d="M-30 240c84-27 141-16 215-40s149-76 251-48 119 37 206 12"
+        stroke-width="1"
+        opacity="0.22"
+      />
+      <path
+        d="M-30 212c80-23 138-13 211-35s150-74 251-46 117 33 204 10"
+        stroke-width="1"
+        opacity="0.18"
+      />
+      <path
+        d="M-30 184c77-19 135-10 208-30s151-71 252-44 114 29 201 8"
+        stroke-width="1"
+        opacity="0.14"
+      />
+    </svg>
+  )
+}
+
+{
+  variant === 'measure' && (
+    <svg
+      class:list={['ornament', className]}
+      viewBox="0 0 480 32"
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M4 16h472" stroke-width="1" opacity="0.65" />
+      <path d="M4 7v18M476 7v18" stroke-width="1" opacity="0.7" />
+      {Array.from({ length: 17 }).map((_, index) => {
+        const x = 4 + index * 29.5;
+        return (
+          <path
+            d={`M${x} 16V${index % 4 === 0 ? 5 : 10}`}
+            stroke-width="1"
+            opacity={index % 4 === 0 ? '0.55' : '0.35'}
+          />
+        );
+      })}
+    </svg>
+  )
+}
+
+{
+  variant === 'bloom' && (
+    <svg
+      class:list={['ornament', className]}
+      viewBox="0 0 200 200"
+      fill="none"
+      stroke="currentColor"
+      stroke-linecap="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      {Array.from({ length: 28 }).map((_, index) => {
+        const angle = (index * (360 / 28) * Math.PI) / 180;
+        const inner = 38;
+        const outer = index % 4 === 0 ? 94 : index % 2 === 0 ? 76 : 62;
+        const x1 = 100 + Math.cos(angle) * inner;
+        const y1 = 100 + Math.sin(angle) * inner;
+        const x2 = 100 + Math.cos(angle) * outer;
+        const y2 = 100 + Math.sin(angle) * outer;
+        return (
+          <path
+            d={`M${x1.toFixed(1)} ${y1.toFixed(1)}L${x2.toFixed(1)} ${y2.toFixed(1)}`}
+            stroke-width="1"
+            opacity={index % 4 === 0 ? '0.55' : '0.3'}
+          />
+        );
+      })}
+      <circle cx="100" cy="100" r="24" stroke-width="1" opacity="0.25" />
+      <circle cx="100" cy="100" r="4" fill="currentColor" stroke="none" opacity="0.55" />
     </svg>
   )
 }

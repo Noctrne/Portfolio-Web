@@ -35,6 +35,10 @@ const next = all[(currentIndex + 1) % all.length];
         class="ornament-spin-reverse absolute -right-20 top-10 w-52 text-clay opacity-20 md:hidden"
       />
       <Ornament
+        variant="contour"
+        class="ornament-drift absolute -left-24 bottom-4 hidden w-[30rem] text-clay opacity-10 lg:block"
+      />
+      <Ornament
         variant="spark"
         class="ornament-twinkle absolute left-[46%] top-6 hidden w-4 text-clay opacity-55 md:block"
       />
@@ -132,7 +136,15 @@ const next = all[(currentIndex + 1) % all.length];
       </dl>
     </section>
 
-    <section class="wrap section">
+    <section class="wrap section relative overflow-hidden">
+      <Ornament
+        variant="contour"
+        class="ornament-drift absolute -left-24 bottom-0 hidden w-[30rem] text-clay opacity-10 lg:block"
+      />
+      <Ornament
+        variant="field"
+        class="absolute right-4 top-8 hidden w-24 text-clay opacity-15 xl:block"
+      />
       <div class="grid gap-8 md:grid-cols-12">
         <div class="md:col-span-3">
           <p class="eyebrow" data-reveal>Notes</p>

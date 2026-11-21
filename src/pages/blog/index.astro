@@ -27,6 +27,14 @@ const pad = (value: number) => String(value).padStart(2, '0');
       class="ornament-spin-reverse absolute -right-20 top-16 w-60 text-clay opacity-25 md:hidden"
     />
     <Ornament
+      variant="contour"
+      class="ornament-drift absolute -left-24 bottom-0 hidden w-[34rem] text-clay opacity-15 lg:block"
+    />
+    <Ornament
+      variant="measure"
+      class="absolute right-10 bottom-2 hidden w-[26rem] text-clay opacity-25 xl:block"
+    />
+    <Ornament
       variant="field"
       class="absolute right-8 bottom-3 hidden w-32 text-clay opacity-25 lg:block"
     />
@@ -52,7 +60,15 @@ const pad = (value: number) => String(value).padStart(2, '0');
     </div>
   </header>
 
-  <section class="wrap pb-[clamp(5rem,10vw,9rem)]">
+  <section class="wrap relative overflow-hidden pb-[clamp(5rem,10vw,9rem)]">
+    <Ornament
+      variant="contour"
+      class="ornament-drift absolute -left-24 bottom-0 hidden w-[30rem] text-clay opacity-10 lg:block"
+    />
+    <Ornament
+      variant="field"
+      class="absolute right-6 bottom-8 hidden w-24 text-clay opacity-15 xl:block"
+    />
     <div
       class="flex flex-wrap items-center justify-between gap-4 border-y border-line py-4"
       data-reveal

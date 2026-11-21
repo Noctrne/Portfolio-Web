@@ -47,6 +47,10 @@ const minutes = readingTime(entry.body);
         variant="field"
         class="absolute right-8 bottom-3 hidden w-28 text-clay opacity-20 lg:block"
       />
+      <Ornament
+        variant="contour"
+        class="ornament-drift absolute -left-24 bottom-4 hidden w-[30rem] text-clay opacity-10 lg:block"
+      />
 
       <a href="/blog" class="arrow-link text-muted">
         <Icon name="arrow-left" size={14} />
@@ -87,7 +91,15 @@ const minutes = readingTime(entry.body);
       </div>
     </header>
 
-    <section class="wrap section">
+    <section class="wrap section relative overflow-hidden">
+      <Ornament
+        variant="contour"
+        class="ornament-drift absolute -left-24 bottom-0 hidden w-[30rem] text-clay opacity-10 lg:block"
+      />
+      <Ornament
+        variant="field"
+        class="absolute right-6 top-10 hidden w-24 text-clay opacity-15 xl:block"
+      />
       <div class="grid gap-12 md:grid-cols-12">
         <aside class="order-2 md:order-1 md:col-span-3" data-reveal>
           <div class="border-t border-line pt-5">

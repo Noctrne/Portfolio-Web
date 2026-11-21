@@ -19,6 +19,14 @@ import { site } from '../data/site';
       class="ornament-spin-reverse absolute -right-20 top-16 w-60 text-clay opacity-25 md:hidden"
     />
     <Ornament
+      variant="contour"
+      class="ornament-drift absolute -left-24 bottom-0 hidden w-[34rem] text-clay opacity-15 lg:block"
+    />
+    <Ornament
+      variant="bloom"
+      class="ornament-breathe absolute -right-24 top-24 hidden w-64 text-clay opacity-10 lg:block"
+    />
+    <Ornament
       variant="field"
       class="absolute right-8 bottom-3 hidden w-32 text-clay opacity-25 lg:block"
     />
@@ -64,7 +72,15 @@ import { site } from '../data/site';
     </a>
   </section>
 
-  <section class="section mt-[clamp(2rem,4vw,3rem)] border-t border-line">
+  <section class="section relative mt-[clamp(2rem,4vw,3rem)] overflow-hidden border-t border-line">
+    <Ornament
+      variant="contour"
+      class="ornament-drift absolute -left-24 bottom-0 hidden w-[30rem] text-clay opacity-10 lg:block"
+    />
+    <Ornament
+      variant="field"
+      class="absolute right-8 bottom-12 hidden w-24 text-clay opacity-20 xl:block"
+    />
     <div class="wrap grid gap-12 md:grid-cols-12">
       <div class="md:col-span-4">
         <p class="eyebrow" data-reveal>Elsewhere</p>

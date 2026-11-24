@@ -168,11 +168,11 @@ export const plates = {
   },
   'self-in-leaves': {
     src: selfInLeaves,
-    title: 'Self, in leaves',
+    title: 'Through the leaves',
     caption: 'Portraits 001',
     year: '2022',
     alt: 'A photographer holding a camera among broad green leaves',
-    description: 'A self-portrait made from inside the foliage.',
+    description: 'A photographer framed by leaves, camera raised.',
   },
   understory: {
     src: understory,

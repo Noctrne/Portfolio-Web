@@ -186,6 +186,170 @@ function initTilt() {
   };
 }
 
+let cleanupPortrait: (() => void) | null = null;
+
+function initPortrait() {
+  cleanupPortrait?.();
+  cleanupPortrait = null;
+
+  const plate = document.querySelector<HTMLElement>('[data-portrait]');
+  if (!plate) return;
+  if (reduceMotion.matches) return;
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+
+  const frame = plate.querySelector<HTMLElement>('[data-portrait-frame]');
+  if (!frame) return;
+
+  type Key = 'rx' | 'ry' | 'tx' | 'ty' | 'ox' | 'oy';
+
+  const keys: Key[] = ['rx', 'ry', 'tx', 'ty', 'ox', 'oy'];
+  const units: Record<Key, string> = {
+    rx: 'deg',
+    ry: 'deg',
+    tx: 'px',
+    ty: 'px',
+    ox: 'px',
+    oy: 'px',
+  };
+
+  const target: Record<Key, number> = { rx: 0, ry: 0, tx: 0, ty: 0, ox: 0, oy: 0 };
+  const current = { ...target };
+
+  let near = 0;
+  let nearTarget = 0;
+  let open = 0;
+  let openTarget = 0;
+  let focusing = false;
+  let raf = 0;
+
+  const apply = () => {
+    for (const key of keys) {
+      plate.style.setProperty(`--${key}`, `${current[key].toFixed(3)}${units[key]}`);
+    }
+    plate.style.setProperty('--near', near.toFixed(3));
+    plate.style.setProperty('--open', open.toFixed(3));
+    plate.style.setProperty('--zoom', (1 + open * 0.18).toFixed(3));
+  };
+
+  const tick = () => {
+    let moving = false;
+
+    for (const key of keys) {
+      const delta = target[key] - current[key];
+      if (Math.abs(delta) > 0.002) {
+        current[key] += delta * 0.16;
+        moving = true;
+      } else {
+        current[key] = target[key];
+      }
+    }
+
+    const deltaNear = nearTarget - near;
+    if (Math.abs(deltaNear) > 0.002) {
+      near += deltaNear * 0.16;
+      moving = true;
+    } else {
+      near = nearTarget;
+    }
+
+    const deltaOpen = openTarget - open;
+    if (Math.abs(deltaOpen) > 0.002) {
+      open += deltaOpen * 0.16;
+      moving = true;
+    } else {
+      open = openTarget;
+    }
+
+    apply();
+
+    if (moving) {
+      raf = requestAnimationFrame(tick);
+      return;
+    }
+
+    raf = 0;
+    if (near === 0 && !focusing) plate.classList.remove('is-near');
+  };
+
+  const start = () => {
+    if (!raf) raf = requestAnimationFrame(tick);
+  };
+
+  const onMove = (event: PointerEvent) => {
+    if (event.pointerType !== 'mouse') return;
+
+    const rect = frame.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return;
+
+    const { clientX: x, clientY: y } = event;
+    const inside = x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+
+    const gapX = Math.max(rect.left - x, 0, x - rect.right);
+    const gapY = Math.max(rect.top - y, 0, y - rect.bottom);
+    const distance = Math.hypot(gapX, gapY);
+
+    nearTarget = Math.max(0, 1 - distance / 320);
+    if (nearTarget > 0.01) plate.classList.add('is-near');
+
+    const nx = Math.max(-0.5, Math.min(0.5, (x - rect.left) / rect.width - 0.5));
+    const ny = Math.max(-0.5, Math.min(0.5, (y - rect.top) / rect.height - 0.5));
+
+    target.rx = -ny * 2.6 * nearTarget;
+    target.ry = nx * 3.4 * nearTarget;
+    target.tx = nx * 13 * nearTarget;
+    target.ty = ny * 10 * nearTarget;
+    target.ox = -nx * 16 * nearTarget;
+    target.oy = -ny * 13 * nearTarget;
+
+    if (nearTarget > 0.001) {
+      const lx = Math.min(Math.max(x, rect.left), rect.right);
+      const ly = Math.min(Math.max(y, rect.top), rect.bottom);
+      plate.style.setProperty('--mx', `${(((lx - rect.left) / rect.width) * 100).toFixed(2)}%`);
+      plate.style.setProperty('--my', `${(((ly - rect.top) / rect.height) * 100).toFixed(2)}%`);
+    }
+
+    openTarget = inside ? 1 : nearTarget;
+
+    if (inside) {
+      focusing = true;
+      plate.classList.add('is-focus');
+    } else {
+      focusing = false;
+      plate.classList.remove('is-focus');
+    }
+
+    start();
+  };
+
+  const reset = () => {
+    nearTarget = 0;
+    openTarget = 0;
+    focusing = false;
+    plate.classList.remove('is-focus');
+    plate.classList.remove('is-near');
+    for (const key of keys) target[key] = 0;
+    start();
+  };
+
+  window.addEventListener('pointermove', onMove, { passive: true });
+  window.addEventListener('blur', reset);
+  document.addEventListener('pointerleave', reset);
+
+  cleanupPortrait = () => {
+    if (raf) cancelAnimationFrame(raf);
+    window.removeEventListener('pointermove', onMove);
+    window.removeEventListener('blur', reset);
+    document.removeEventListener('pointerleave', reset);
+    plate.classList.remove('is-focus', 'is-near');
+    for (const key of keys) plate.style.removeProperty(`--${key}`);
+    plate.style.removeProperty('--mx');
+    plate.style.removeProperty('--my');
+    plate.style.removeProperty('--near');
+    plate.style.removeProperty('--open');
+    plate.style.removeProperty('--zoom');
+  };
+}
+
 function applyFilter(value: string) {
   const items = Array.from(document.querySelectorAll<HTMLElement>('[data-work]'));
   if (items.length === 0) return;
@@ -390,6 +554,7 @@ document.addEventListener('astro:page-load', () => {
   initHeader();
   initParallax();
   initTilt();
+  initPortrait();
   initGallery();
   setMenu(false);
 });
@@ -398,6 +563,7 @@ document.addEventListener('astro:before-swap', () => {
   cleanupHeader?.();
   cleanupParallax?.();
   cleanupTilt?.();
+  cleanupPortrait?.();
   closeGallery();
   setMenu(false);
 });
@@ -410,10 +576,12 @@ reduceMotion.addEventListener('change', () => {
   initReveal();
   initParallax();
   initTilt();
+  initPortrait();
 });
 
 initReveal();
 initHeader();
 initParallax();
 initTilt();
+initPortrait();
 initGallery();

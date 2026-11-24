@@ -6,7 +6,6 @@ import PortraitPlate from '../components/PortraitPlate.astro';
 import ContactSection from '../components/ContactSection.astro';
 import Icon from '../components/Icon.astro';
 import Ornament from '../components/Ornament.astro';
-import Seal from '../components/Seal.astro';
 import Ticker from '../components/Ticker.astro';
 import { getCollection } from 'astro:content';
 import { capabilities, experience, site } from '../data/site';
@@ -28,7 +27,7 @@ const capabilityIcons = ['orbit', 'chip', 'pen'];
 
 <BaseLayout>
   <section
-    class="wrap relative overflow-hidden pt-[clamp(3.5rem,8vw,7rem)] pb-[clamp(3rem,6vw,5rem)]"
+    class="wrap relative overflow-hidden pt-[clamp(2.75rem,6vw,5rem)] pb-[clamp(3rem,6vw,5rem)]"
     data-parallax-scene
   >
     <Ornament
@@ -44,10 +43,6 @@ const capabilityIcons = ['orbit', 'chip', 'pen'];
       class="ornament-twinkle absolute right-3 top-9 w-4 text-clay opacity-55 md:hidden"
     />
     <Ornament
-      variant="field"
-      class="absolute right-10 bottom-6 hidden w-40 text-clay opacity-30 lg:block"
-    />
-    <Ornament
       variant="contour"
       class="ornament-drift absolute -left-28 bottom-2 hidden w-[40rem] text-clay opacity-20 lg:block"
     />
@@ -60,20 +55,6 @@ const capabilityIcons = ['orbit', 'chip', 'pen'];
       aria-hidden="true"
     >
     </div>
-
-    <span
-      class="parallax-item absolute right-[4%] top-[12.5rem] hidden w-28 text-clay opacity-60 xl:block"
-      style="--depth: 12"
-    >
-      <Seal id="seal-home" class="w-full" />
-    </span>
-
-    <span
-      class="parallax-item absolute right-[27%] top-[9.25rem] hidden w-4 text-clay opacity-70 md:block"
-      style="--depth: 6"
-    >
-      <Ornament variant="spark" class="ornament-twinkle w-4" />
-    </span>
 
     <Ornament
       variant="cross"
@@ -89,35 +70,38 @@ const capabilityIcons = ['orbit', 'chip', 'pen'];
       <p class="eyebrow">{site.location}</p>
     </div>
 
-    <h1
-      class="mt-8 max-w-[24ch] text-hero text-balance"
-      data-reveal
-      style="--reveal-delay: 80ms"
-    >
-      An engineer, a camera, and the{' '}
-      <span class="relative inline-block">
-        <em class="font-light italic text-clay-deep">quiet</em>
-        <Ornament variant="wave" class="curve-underline" />
-      </span>{' '}
-      space between.
-    </h1>
+    <div class="mt-8 grid gap-10 md:grid-cols-12 md:items-start md:gap-8 lg:gap-12">
+      <div class="order-2 md:order-1 md:col-span-6 lg:col-span-7">
+        <h1 class="text-hero text-balance" data-reveal style="--reveal-delay: 80ms">
+          An engineer, a camera, and the{' '}
+          <span class="relative inline-block">
+            <em class="font-light italic text-clay-deep">quiet</em>
+            <Ornament variant="wave" class="curve-underline" />
+          </span>{' '}
+          space between.
+        </h1>
 
-    <div
-      class="mt-[clamp(2.5rem,6vw,4.5rem)] grid gap-8 md:grid-cols-12"
-      data-reveal
-      style="--reveal-delay: 160ms"
-    >
-      <p
-        class="text-lede text-ink-soft text-pretty md:col-span-6 md:col-start-6 lg:col-span-5 lg:col-start-8"
+        <p
+          class="mt-8 max-w-[46ch] text-lede text-ink-soft text-pretty"
+          data-reveal
+          style="--reveal-delay: 160ms"
+        >
+          I'm {site.firstName} — a robotics engineer, photographer, and Electronics & Instrumentation
+          student in Yogyakarta. I build autonomous vehicles and computer-vision systems; away from
+          the lab I photograph, design, and teach. This site keeps both.
+        </p>
+      </div>
+
+      <div
+        class="order-1 w-full max-w-[22rem] md:order-2 md:col-span-6 md:max-w-none lg:col-span-5"
+        data-reveal="pop"
       >
-        I'm {site.firstName} — a robotics engineer, photographer, and Electronics & Instrumentation
-        student in Yogyakarta. I build autonomous vehicles and computer-vision systems; away from
-        the lab I photograph, design, and teach. This site keeps both.
-      </p>
+        <PortraitPlate />
+      </div>
     </div>
 
     <dl
-      class="mt-[clamp(3rem,7vw,5.5rem)] grid gap-6 border-t border-line pt-6 sm:grid-cols-3"
+      class="mt-[clamp(2.5rem,6vw,4.5rem)] grid gap-6 border-t border-line pt-6 sm:grid-cols-3"
       data-reveal
       style="--reveal-delay: 230ms"
     >
@@ -280,19 +264,19 @@ const capabilityIcons = ['orbit', 'chip', 'pen'];
       variant="contour"
       class="ornament-drift absolute -right-28 bottom-0 hidden w-[36rem] text-clay opacity-15 xl:block"
     />
-    <div class="wrap grid gap-10 md:grid-cols-12 md:items-start">
-      <div class="md:col-span-12 lg:col-span-2">
+    <div class="wrap grid gap-10 md:grid-cols-12">
+      <div class="md:col-span-3">
         <p class="eyebrow eyebrow-row" data-reveal>
           <Icon name="pen" size={12} />
           About
         </p>
       </div>
 
-      <div class="md:col-span-6 lg:col-span-5" data-reveal="pop">
-        <PortraitPlate />
-      </div>
-
-      <div class="relative md:col-span-6 lg:col-span-5">
+      <div class="relative md:col-span-7 md:col-start-5">
+        <Ornament
+          variant="orbit"
+          class="absolute -left-24 top-2 hidden w-14 text-clay opacity-40 lg:block"
+        />
         <p class="font-display text-h3 leading-snug text-balance" data-reveal>
           I care about systems that behave well when nobody is watching — a vehicle that finds its
           way back, a sensor reading you can trust, a page that loads before you notice.

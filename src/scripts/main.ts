@@ -195,10 +195,11 @@ function initPortrait() {
   const plate = document.querySelector<HTMLElement>('[data-portrait]');
   if (!plate) return;
   if (reduceMotion.matches) return;
-  if (!window.matchMedia('(pointer: fine)').matches) return;
 
   const frame = plate.querySelector<HTMLElement>('[data-portrait-frame]');
   if (!frame) return;
+
+  const coarseQuery = window.matchMedia('(hover: none), (pointer: coarse)');
 
   type Key = 'rx' | 'ry' | 'tx' | 'ty' | 'ox' | 'oy';
 
@@ -222,6 +223,14 @@ function initPortrait() {
   let focusing = false;
   let raf = 0;
 
+  let autoOn = false;
+  let autoStart = 0;
+  let autoDelay = 0;
+  let isVisible = false;
+  let touching = false;
+  let touchId = -1;
+  let userTookOver = false;
+
   const apply = () => {
     for (const key of keys) {
       plate.style.setProperty(`--${key}`, `${current[key].toFixed(3)}${units[key]}`);
@@ -233,6 +242,16 @@ function initPortrait() {
 
   const tick = () => {
     let moving = false;
+
+    if (autoOn) {
+      const seconds = (performance.now() - autoStart) / 1000;
+      const mx = 50 + 15 * Math.sin(seconds * 0.45);
+      const my = 43 + 10 * Math.sin(seconds * 0.62);
+      plate.style.setProperty('--mx', `${mx.toFixed(2)}%`);
+      plate.style.setProperty('--my', `${my.toFixed(2)}%`);
+      openTarget = 0.76 + 0.16 * Math.sin(seconds * 0.85 + 0.4);
+      moving = true;
+    }
 
     for (const key of keys) {
       const delta = target[key] - current[key];
@@ -262,7 +281,7 @@ function initPortrait() {
 
     apply();
 
-    if (moving) {
+    if (moving || autoOn) {
       raf = requestAnimationFrame(tick);
       return;
     }
@@ -275,8 +294,37 @@ function initPortrait() {
     if (!raf) raf = requestAnimationFrame(tick);
   };
 
+  const setLoupePoint = (x: number, y: number) => {
+    const rect = frame.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return;
+
+    const lx = Math.min(Math.max(x, rect.left), rect.right);
+    const ly = Math.min(Math.max(y, rect.top), rect.bottom);
+    plate.style.setProperty('--mx', `${(((lx - rect.left) / rect.width) * 100).toFixed(2)}%`);
+    plate.style.setProperty('--my', `${(((ly - rect.top) / rect.height) * 100).toFixed(2)}%`);
+  };
+
+  const stopAuto = () => {
+    autoOn = false;
+  };
+
+  const startAuto = () => {
+    if (!coarseQuery.matches || reduceMotion.matches) return;
+    if (!isVisible || touching || autoOn || userTookOver) return;
+
+    autoOn = true;
+    autoStart = performance.now();
+    nearTarget = 0;
+    focusing = false;
+    plate.classList.remove('is-focus');
+    openTarget = 0.8;
+    start();
+  };
+
   const onMove = (event: PointerEvent) => {
     if (event.pointerType !== 'mouse') return;
+    if (coarseQuery.matches) return;
+    if (autoOn) stopAuto();
 
     const rect = frame.getBoundingClientRect();
     if (rect.width === 0 || rect.height === 0) return;
@@ -301,12 +349,7 @@ function initPortrait() {
     target.ox = -nx * 16 * nearTarget;
     target.oy = -ny * 13 * nearTarget;
 
-    if (nearTarget > 0.001) {
-      const lx = Math.min(Math.max(x, rect.left), rect.right);
-      const ly = Math.min(Math.max(y, rect.top), rect.bottom);
-      plate.style.setProperty('--mx', `${(((lx - rect.left) / rect.width) * 100).toFixed(2)}%`);
-      plate.style.setProperty('--my', `${(((ly - rect.top) / rect.height) * 100).toFixed(2)}%`);
-    }
+    if (nearTarget > 0.001) setLoupePoint(x, y);
 
     openTarget = inside ? 1 : nearTarget;
 
@@ -321,7 +364,46 @@ function initPortrait() {
     start();
   };
 
+  const onTouchStart = (event: PointerEvent) => {
+    if (event.pointerType !== 'touch') return;
+    if (touching) return;
+
+    touching = true;
+    touchId = event.pointerId;
+    userTookOver = true;
+    stopAuto();
+    if (autoDelay) {
+      clearTimeout(autoDelay);
+      autoDelay = 0;
+    }
+
+    setLoupePoint(event.clientX, event.clientY);
+    openTarget = 1;
+    nearTarget = 1;
+    focusing = true;
+    plate.classList.add('is-near', 'is-focus');
+    start();
+  };
+
+  const onTouchMove = (event: PointerEvent) => {
+    if (!touching || event.pointerId !== touchId) return;
+    setLoupePoint(event.clientX, event.clientY);
+    start();
+  };
+
+  const onTouchEnd = () => {
+    if (!touching) return;
+
+    touching = false;
+    touchId = -1;
+    focusing = false;
+    nearTarget = 0;
+    plate.classList.remove('is-focus');
+  };
+
   const reset = () => {
+    if (touching || autoOn) return;
+
     nearTarget = 0;
     openTarget = 0;
     focusing = false;
@@ -331,15 +413,56 @@ function initPortrait() {
     start();
   };
 
+  const onPointerLeave = (event: PointerEvent) => {
+    if (event.pointerType === 'mouse') reset();
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        isVisible = entry.isIntersecting;
+
+        if (!isVisible) {
+          stopAuto();
+          userTookOver = false;
+          if (autoDelay) {
+            clearTimeout(autoDelay);
+            autoDelay = 0;
+          }
+          continue;
+        }
+
+        if (autoDelay) clearTimeout(autoDelay);
+        autoDelay = window.setTimeout(() => {
+          autoDelay = 0;
+          if (!touching) startAuto();
+        }, 700);
+      }
+    },
+    { threshold: 0.35 },
+  );
+  observer.observe(plate);
+
   window.addEventListener('pointermove', onMove, { passive: true });
   window.addEventListener('blur', reset);
-  document.addEventListener('pointerleave', reset);
+  document.addEventListener('pointerleave', onPointerLeave);
+  frame.addEventListener('pointerdown', onTouchStart, { passive: true });
+  frame.addEventListener('pointermove', onTouchMove, { passive: true });
+  frame.addEventListener('pointerup', onTouchEnd);
+  frame.addEventListener('pointercancel', onTouchEnd);
 
   cleanupPortrait = () => {
     if (raf) cancelAnimationFrame(raf);
+    if (autoDelay) clearTimeout(autoDelay);
+    autoOn = false;
+    observer.disconnect();
     window.removeEventListener('pointermove', onMove);
     window.removeEventListener('blur', reset);
-    document.removeEventListener('pointerleave', reset);
+    document.removeEventListener('pointerleave', onPointerLeave);
+    frame.removeEventListener('pointerdown', onTouchStart);
+    frame.removeEventListener('pointermove', onTouchMove);
+    frame.removeEventListener('pointerup', onTouchEnd);
+    frame.removeEventListener('pointercancel', onTouchEnd);
     plate.classList.remove('is-focus', 'is-near');
     for (const key of keys) plate.style.removeProperty(`--${key}`);
     plate.style.removeProperty('--mx');

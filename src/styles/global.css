@@ -2102,6 +2102,10 @@
   animation: portrait-pulse 2.8s ease-in-out infinite;
 }
 
+.portrait-hint-touch {
+  display: none;
+}
+
 @keyframes portrait-pulse {
   0%,
   100% {
@@ -2121,22 +2125,16 @@
 }
 
 @media (hover: none), (pointer: coarse) {
-  .portrait-img--base {
-    filter: none;
+  .portrait-frame {
+    touch-action: pan-y;
   }
 
-  .portrait-halftone {
-    opacity: 0.08;
-  }
-
-  .portrait-ring,
-  .portrait-lens,
-  .portrait-hint {
+  .portrait-hint-mouse {
     display: none;
   }
 
-  .portrait-outline {
-    transform: none;
+  .portrait-hint-touch {
+    display: inline;
   }
 }
 

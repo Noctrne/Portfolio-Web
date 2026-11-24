@@ -5,7 +5,7 @@
 export const site = {
   name: 'Abyasa Pradhipta',
   firstName: 'Abyasa',
-  role: 'Engineer, photographer & designer',
+  role: 'Robotics engineer, photographer & designer',
   location: 'Yogyakarta, Indonesia',
   availability: 'Open to new work',
   email: 'dhiipt32@gmail.com',
@@ -31,54 +31,60 @@ export const nav = [
 export const capabilities = [
   {
     title: 'Autonomy & Software',
-    items: ['C++ & Python', 'ROS2', 'Computer vision', 'Linux'],
+    items: ['C++ & Python', 'ROS 2', 'Computer vision', 'Linux & Gazebo'],
   },
   {
     title: 'Hardware & Embedded',
-    items: ['Microcontrollers', 'Sensors & SBC', 'IoT systems', 'Fusion 360 / Inventor'],
+    items: ['Microcontrollers', 'Sensors & SBC', 'IoT systems', 'Wiring & integration'],
   },
   {
-    title: 'Communication & Craft',
-    items: ['Photography & video', 'Editorial design', 'Teaching & mentoring', 'Technical writing'],
+    title: 'Design & Communication',
+    items: ['Fusion 360 / Inventor', '3D printing', 'Photography & video', 'Teaching & mentoring'],
   },
 ];
 
 export const experience = [
   {
-    period: '2025 — 2026',
-    title: 'Captain, ORCA V3 Sub-team',
+    period: '2026',
+    title: 'Captain, ORCA AUV Sub-team',
     org: 'Gadjah Mada Robotic Team UGM',
     note: 'Led the autonomous underwater vehicle programme to a Top 8 world ranking at SAUVC 2026.',
   },
   {
-    period: '2026',
-    title: 'Research Intern, Autonomous Underwater Vehicle',
-    org: 'Elins Embedded System & Robotics Lab × CV Aksaka',
-    note: 'Researched AUV systems in an industry collaboration.',
-  },
-  {
-    period: '2026 — present',
+    period: '2026 — 2027',
     title: 'Senior Programmer, Robotics Division',
     org: 'Elins Research Club UGM',
-    note: 'Lead software development and mentor programmers within the division.',
+    note: 'Develops software for AUV and autonomous car projects, and mentors newer programmers.',
   },
   {
-    period: '2024 — 2026',
-    title: 'Programmer, ORCA Sub-team',
+    period: 'Jul — Dec 2026',
+    title: 'Research & Development Intern',
+    org: 'Elins Embedded System & Robotics Lab × CV Aksaka',
+    note: 'AUV research in an industry collaboration, alongside an autonomous car project with PT Stechoq Robotika Indonesia.',
+  },
+  {
+    period: '2024 — 2025',
+    title: 'Programmer, ORCA AUV Sub-team',
     org: 'Gadjah Mada Robotic Team UGM',
-    note: 'Developed competition software for the ORCA autonomous underwater vehicle.',
+    note: 'Built competition software for ORCA — sensor handling, perception, and mission behaviour.',
   },
   {
     period: '2025',
-    title: 'Subcoordinator, Line Follower Competition',
-    org: 'Elins Progressive Innovation and Robotics Event UGM',
-    note: 'Co-coordinated the competition and its event execution.',
+    title: 'Part-time Mentor, IoT Hydroponics',
+    org: 'Olimpiade Penelitian Siswa Indonesia (OPSI)',
+    note: 'Mentored a high-school team building “Hydro Mixer”, an IoT hydroponics system with solar cells.',
   },
   {
-    period: '2023 — 2024',
-    title: 'Master Trainer',
-    org: 'Yayasan Sagasitas Indonesia',
-    note: 'Taught cloud computing and robotics to high-school students nationwide.',
+    period: '2026',
+    title: 'Subcoordinator & Sole Track Designer',
+    org: 'INSPIRE UGM',
+    note: 'Designed the competition track and coordinated the event with the organising team.',
+  },
+  {
+    period: '2025 — 2026',
+    title: 'Academic & Advocacy Division',
+    org: 'HMEI UGM',
+    note: 'Senior staff in 2026 and staff in 2025, working on academic programmes for the department.',
   },
 ];
 
@@ -86,18 +92,18 @@ export const education = [
   {
     period: '2024 — present',
     title: 'Universitas Gadjah Mada',
-    note: 'B.Eng. Electronics & Instrumentation — GPA 3.88',
+    note: 'B.Eng. Electronics & Instrumentation — GPA 3.88 / 4.00',
   },
   {
     period: '2021 — 2024',
     title: 'SMA Negeri 6 Yogyakarta',
-    note: 'Science major — 1st place for best student',
+    note: 'Science major — Best Student of the Graduating Class',
   },
 ];
 
 export const recognition = [
   'Top 8 worldwide — SAUVC 2026, Singapore Autonomous Underwater Vehicle Challenge',
+  'Best Student of the Graduating Class — SMA Negeri 6 Yogyakarta',
   'National finalist — Kihajar STEM 2022',
   'Top 10 city level — National Science Olympiad (Informatics) 2023',
-  'Participant — Intel AI Global Impact Festival 2023',
 ];

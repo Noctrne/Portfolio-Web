@@ -12,6 +12,7 @@ const categories = [
   { value: 'autonomy', label: 'Autonomy', count: works.filter((w) => w.data.category === 'autonomy').length },
   { value: 'software', label: 'Software', count: works.filter((w) => w.data.category === 'software').length },
   { value: 'embedded', label: 'Embedded', count: works.filter((w) => w.data.category === 'embedded').length },
+  { value: 'design', label: 'Design', count: works.filter((w) => w.data.category === 'design').length },
 ];
 
 const categoryIcons: Record<string, string> = {
@@ -19,6 +20,7 @@ const categoryIcons: Record<string, string> = {
   autonomy: 'orbit',
   software: 'code',
   embedded: 'chip',
+  design: 'pen',
 };
 
 const pad = (value: number) => String(value).padStart(2, '0');

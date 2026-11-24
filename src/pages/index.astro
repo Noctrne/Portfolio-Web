@@ -9,13 +9,13 @@ import Seal from '../components/Seal.astro';
 import Ticker from '../components/Ticker.astro';
 import { getCollection } from 'astro:content';
 import { capabilities, experience, site } from '../data/site';
+import { plates, featuredPlates } from '../data/gallery';
 import { byNewest, formatDate, readingTime } from '../lib/blog';
 
 const works = (await getCollection('work')).sort((a, b) => a.data.order - b.data.order);
 const selected = works.filter((work) => work.data.featured).slice(0, 4);
 
-const gallery = (await getCollection('gallery')).sort((a, b) => a.data.order - b.data.order);
-const art = gallery.filter((entry) => entry.data.featured).slice(0, 3);
+const art = featuredPlates.map((key) => plates[key]);
 
 const posts = (await getCollection('blog'))
   .filter((post) => !post.data.draft)
@@ -351,26 +351,23 @@ const capabilityIcons = ['orbit', 'chip', 'pen'];
             </a>
           </div>
 
-          <div class="mt-10 grid grid-cols-2 items-end gap-4 sm:grid-cols-12 sm:gap-6">
-            {art.map((entry, index) => (
+          <div class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6">
+            {art.map((plate, index) => (
               <a
                 href="/gallery"
-                class:list={[
-                  'group block',
-                  index === 0 ? 'sm:col-span-5' : index === 1 ? 'sm:col-span-4' : 'col-span-2 sm:col-span-3',
-                ]}
+                class:list={['group block', { 'hidden sm:block': index === 2 }]}
                 data-reveal
                 style={`--reveal-delay: ${index * 80}ms`}
               >
-                <span class="relative block overflow-hidden bg-paper-deep">
+                <span class="relative block aspect-[4/5] overflow-hidden bg-paper-deep">
                   <Image
-                    src={entry.data.cover}
-                    alt={entry.data.coverAlt || entry.data.title}
+                    src={plate.src}
+                    alt={plate.alt}
                     widths={[480, 720, 960]}
                     sizes="(min-width: 640px) 30vw, 50vw"
                     loading="lazy"
                     decoding="async"
-                    class="h-auto w-full transition-transform duration-[1200ms] ease-out-expo group-hover:scale-[1.03]"
+                    class="h-full w-full object-cover transition-transform duration-[1200ms] ease-out-expo group-hover:scale-[1.03]"
                   />
                   <Ornament
                     variant="corners"
@@ -378,8 +375,8 @@ const capabilityIcons = ['orbit', 'chip', 'pen'];
                   />
                 </span>
                 <span class="mt-3 flex items-baseline justify-between gap-3 border-t border-line pt-2.5">
-                  <span class="text-sm">{entry.data.title}</span>
-                  <span class="eyebrow">{entry.data.medium}</span>
+                  <span class="text-sm">{plate.title}</span>
+                  <span class="eyebrow">{plate.year}</span>
                 </span>
               </a>
             ))}
@@ -426,44 +423,56 @@ const capabilityIcons = ['orbit', 'chip', 'pen'];
         </a>
       </div>
 
-      <ul class="mt-10 border-t border-line">
-        {posts.map((post, index) => (
-          <li
-            class="border-b border-line"
-            data-reveal
-            style={`--reveal-delay: ${index * 60}ms`}
-          >
-            <a
-              href={`/blog/${post.id}/`}
-              class="next-link index-row group grid gap-3 py-6 md:grid-cols-12 md:items-baseline"
-            >
-              <span class="flex items-center gap-2 text-xs tabular-nums text-muted md:col-span-3 lg:col-span-2">
-                <Icon name="calendar" size={12} />
-                <time class="whitespace-nowrap" datetime={post.data.date.toISOString().slice(0, 10)}>
-                  {formatDate(post.data.date)}
-                </time>
-              </span>
-              <span class="block md:col-span-6 lg:col-span-7">
-                <span class="block font-display text-[clamp(1.3rem,2.2vw,1.7rem)] leading-snug tracking-[-0.01em] transition-colors duration-300 group-hover:text-clay-deep">
-                  {post.data.title}
-                </span>
-                <span class="mt-1.5 block max-w-[58ch] text-sm leading-relaxed text-ink-soft">
-                  {post.data.description}
-                </span>
-              </span>
-              <span class="flex items-center justify-between gap-4 md:col-span-3 md:justify-end">
-                <span class="flex items-center gap-1.5 text-xs text-muted">
-                  <Icon name="clock" size={12} />
-                  {readingTime(post.body)} min read
-                </span>
-                <span class="next-link-circle" aria-hidden="true">
-                  <Icon name="arrow-right" size={14} />
-                </span>
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
+      {
+        posts.length > 0 ? (
+          <ul class="mt-10 border-t border-line">
+            {posts.map((post, index) => (
+              <li
+                class="border-b border-line"
+                data-reveal
+                style={`--reveal-delay: ${index * 60}ms`}
+              >
+                <a
+                  href={`/blog/${post.id}/`}
+                  class="next-link index-row group grid gap-3 py-6 md:grid-cols-12 md:items-baseline"
+                >
+                  <span class="flex items-center gap-2 text-xs tabular-nums text-muted md:col-span-3 lg:col-span-2">
+                    <Icon name="calendar" size={12} />
+                    <time class="whitespace-nowrap" datetime={post.data.date.toISOString().slice(0, 10)}>
+                      {formatDate(post.data.date)}
+                    </time>
+                  </span>
+                  <span class="block md:col-span-6 lg:col-span-7">
+                    <span class="block font-display text-[clamp(1.3rem,2.2vw,1.7rem)] leading-snug tracking-[-0.01em] transition-colors duration-300 group-hover:text-clay-deep">
+                      {post.data.title}
+                    </span>
+                    <span class="mt-1.5 block max-w-[58ch] text-sm leading-relaxed text-ink-soft">
+                      {post.data.description}
+                    </span>
+                  </span>
+                  <span class="flex items-center justify-between gap-4 md:col-span-3 md:justify-end">
+                    <span class="flex items-center gap-1.5 text-xs text-muted">
+                      <Icon name="clock" size={12} />
+                      {readingTime(post.body)} min read
+                    </span>
+                    <span class="next-link-circle" aria-hidden="true">
+                      <Icon name="arrow-right" size={14} />
+                    </span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div class="mt-10 border-t border-line pt-6 pb-2" data-reveal>
+            <p class="font-display text-h3">Nothing published yet.</p>
+            <p class="mt-3 max-w-[48ch] text-sm leading-relaxed text-ink-soft">
+              The first notes are still being written — field notes, build logs, and the occasional
+              thing learned the hard way.
+            </p>
+          </div>
+        )
+      }
     </div>
   </section>
 

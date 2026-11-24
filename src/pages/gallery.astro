@@ -1,65 +1,36 @@
 ---
-import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import GalleryPlate from '../components/GalleryPlate.astro';
 import Icon from '../components/Icon.astro';
-import Ornament from '../components/Ornament.astro';
+import { chapters, plates, plateCount, type PlateKey } from '../data/gallery';
 import { site } from '../data/site';
 
-const works = (await getCollection('gallery')).sort((a, b) => a.data.order - b.data.order);
-
-const mediums = Array.from(new Set(works.map((work) => work.data.medium)));
-const categories = [
-  { value: 'all', label: 'All', count: works.length },
-  ...mediums.map((medium) => ({
-    value: medium,
-    label: medium.charAt(0).toUpperCase() + medium.slice(1),
-    count: works.filter((work) => work.data.medium === medium).length,
-  })),
-];
-
-const mediumIcons: Record<string, string> = {
-  all: 'asterisk',
-  photography: 'camera',
-  illustration: 'pen',
-  video: 'play',
-};
-
 const pad = (value: number) => String(value).padStart(2, '0');
+
+const sequence = chapters.flatMap((chapter) =>
+  chapter.layout === 'hero-rows'
+    ? [chapter.hero, ...(chapter.rows ?? []).flat()]
+    : [chapter.lead, ...(chapter.stack ?? [])],
+) as PlateKey[];
+
+const numbers = new Map<PlateKey, string>(
+  sequence.map((key, index) => [key, pad(index + 1)] as [PlateKey, string]),
+);
+
+const chapterCount = (chapter: (typeof chapters)[number]) =>
+  chapter.layout === 'hero-rows'
+    ? 1 + (chapter.rows ?? []).reduce((total, row) => total + row.length, 0)
+    : 1 + (chapter.stack?.length ?? 0);
 ---
 
 <BaseLayout
   title="Gallery"
-  description={`Photographs, illustrations, and moving pieces by ${site.name}.`}
+  description={`Photographs by ${site.name} — mornings, small company, cities, and the dark.`}
 >
-  <header class="wrap relative overflow-hidden pt-[clamp(3rem,7vw,6rem)] pb-[clamp(2.5rem,5vw,4rem)]">
-    <Ornament
-      variant="arcs"
-      class="ornament-spin absolute -right-40 -top-24 hidden w-[30rem] text-clay opacity-40 md:block"
-    />
-    <Ornament
-      variant="arcs"
-      class="ornament-spin-reverse absolute -right-20 top-16 w-60 text-clay opacity-25 md:hidden"
-    />
-    <Ornament
-      variant="contour"
-      class="ornament-drift absolute -left-24 bottom-0 hidden w-[34rem] text-clay opacity-15 lg:block"
-    />
-    <Ornament
-      variant="bloom"
-      class="ornament-breathe absolute -right-20 top-16 hidden w-64 text-clay opacity-10 lg:block"
-    />
-    <Ornament
-      variant="field"
-      class="absolute right-8 bottom-3 hidden w-32 text-clay opacity-25 lg:block"
-    />
-    <Ornament
-      variant="spark"
-      class="ornament-twinkle absolute right-[17%] top-[7.5rem] hidden w-4 text-clay opacity-60 md:block"
-    />
+  <header class="gallery-intro wrap">
     <p class="eyebrow eyebrow-row" data-reveal>
       <Icon name="camera" size={12} />
-      Gallery — {pad(works.length)} works
+      Gallery — {pad(plateCount)} frames · 2022–2026
     </p>
 
     <div class="mt-6 grid gap-8 md:grid-cols-12 md:items-end">
@@ -69,126 +40,89 @@ const pad = (value: number) => String(value).padStart(2, '0');
         data-reveal
         style="--reveal-delay: 150ms"
       >
-        Photographs, drawings, and moving pieces made outside the lab. Open any plate to see it
-        full size, with the notes behind it.
+        Photographs made away from the workbench: slow mornings, small company, the city at a
+        distance, and whatever the dark was doing.
       </p>
     </div>
   </header>
 
-  <section class="wrap pb-[clamp(4rem,8vw,7rem)]">
-    <div class="flex flex-wrap items-center justify-between gap-4 border-y border-line py-4" data-reveal>
-      <div class="flex flex-wrap gap-1" role="group" aria-label="Filter gallery by medium">
-        {
-          categories.map((category) => (
-            <button
-              type="button"
-              class:list={['filter-btn', { 'is-active': category.value === 'all' }]}
-              data-gallery-filter={category.value}
-              aria-pressed={category.value === 'all' ? 'true' : 'false'}
-            >
-              <Icon name={mediumIcons[category.value] ?? 'asterisk'} size={12} class="self-center" />
-              {category.label}
-              <span class="text-[0.7rem] tabular-nums text-muted">{pad(category.count)}</span>
-            </button>
-          ))
-        }
-      </div>
+  {
+    chapters.map((chapter) => (
+      <section class:list={['gallery-chapter', `gallery-chapter--${chapter.layout}`]}>
+        <div class="chapter-head">
+          <p class="chapter-label">
+            <span class="chapter-number">{chapter.number}</span>
+            {chapter.label}
+          </p>
+          <p class="chapter-count">{pad(chapterCount(chapter))} frames</p>
+        </div>
 
-      <p class="hidden text-xs text-muted sm:block">
-        <span data-gallery-count class="tabular-nums">{pad(works.length)}</span> shown
-      </p>
-    </div>
+        {chapter.layout === 'hero-rows' && chapter.hero && (
+          <>
+            <GalleryPlate
+              plate={plates[chapter.hero]}
+              variant="hero"
+              number={numbers.get(chapter.hero) ?? '01'}
+              eager={chapter.number === '01'}
+            />
 
-    <div class="gallery-grid mt-10">
-      {
-        works.map((entry, index) => {
-          const { title, medium, year, description, cover, coverAlt, video } = entry.data;
-          return (
-            <figure
-              class="gallery-card"
-              data-gallery-card
-              data-medium={medium}
-              data-reveal
-              style={`--reveal-delay: ${Math.min(index, 5) * 60}ms`}
-            >
-              <button
-                type="button"
-                class="gallery-item group block w-full text-left"
-                data-gallery-item
-                data-title={title}
-                data-medium={medium}
-                data-year={String(year)}
-                data-description={description}
-                data-src={cover.src}
-                data-poster={video ? cover.src : undefined}
-                data-video={video}
-                data-alt={coverAlt || title}
-                data-plate={pad(index + 1)}
-                aria-label={`Open ${title} — ${medium}, ${year}`}
-              >
-                <div class="gallery-frame">
-                  <Image
-                    src={cover}
-                    alt={coverAlt || title}
-                    widths={[480, 720, 960, 1200]}
-                    sizes="(min-width: 1024px) 31vw, (min-width: 640px) 46vw, 100vw"
-                    loading={index < 3 ? 'eager' : 'lazy'}
-                    decoding="async"
-                    class="gallery-image"
+            {(chapter.rows ?? []).map((row) => (
+              <div class:list={['gallery-row', row.length === 2 ? 'gallery-row--two' : 'gallery-row--three']}>
+                {row.map((key, index) => (
+                  <GalleryPlate
+                    plate={plates[key]}
+                    variant="thumb"
+                    number={numbers.get(key) ?? pad(index + 1)}
+                    delay={Math.min(index, 3) * 60}
                   />
-                  <span class="gallery-plate" aria-hidden="true">P. {pad(index + 1)}</span>
-                  {
-                    video && (
-                      <span class="gallery-play" aria-hidden="true">
-                        <span class="gallery-play-icon">
-                          <Icon name="play" size={14} />
-                        </span>
-                      </span>
-                    )
-                  }
-                  <span class="gallery-scrim" aria-hidden="true"></span>
-                  <Ornament
-                    variant="corners"
-                    class="absolute inset-0 h-full w-full text-ink opacity-30"
-                  />
-                </div>
+                ))}
+              </div>
+            ))}
+          </>
+        )}
 
-                <span class="mt-3 flex items-start justify-between gap-4 border-t border-line pt-3">
-                  <span class="block">
-                    <span class="eyebrow eyebrow-row">
-                      <Icon name={mediumIcons[medium] ?? 'asterisk'} size={11} />
-                      {medium}
-                    </span>
-                    <span class="gallery-title mt-1 block font-display leading-snug tracking-[-0.01em]">
-                      {title}
-                    </span>
-                  </span>
-                  <span class="pt-0.5 text-xs tabular-nums text-muted">{year}</span>
-                </span>
-              </button>
-            </figure>
-          );
-        })
-      }
-    </div>
+        {chapter.layout === 'split' && chapter.lead && (
+          <div class="gallery-split">
+            <GalleryPlate
+              plate={plates[chapter.lead]}
+              variant="lead"
+              number={numbers.get(chapter.lead) ?? '01'}
+              delay={0}
+            />
 
-    <div class="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-4">
-      <p class="max-w-[52ch] text-xs leading-relaxed text-muted">
-        All works © {site.name}. Please ask before reproducing.
-      </p>
+            <div class="gallery-stack">
+              {(chapter.stack ?? []).map((key, index) => (
+                <GalleryPlate
+                  plate={plates[key]}
+                  variant="stack"
+                  number={numbers.get(key) ?? pad(index + 2)}
+                  delay={Math.min(index, 3) * 60}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
+    ))
+  }
 
-      <a href={`mailto:${site.email}`} class="arrow-link text-sm">
-        Request a print
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path
-            d="M3 8h10M9 4l4 4-4 4"
-            stroke="currentColor"
-            stroke-width="1.2"
-            stroke-linecap="round"
-            stroke-linejoin="round"></path>
-        </svg>
-      </a>
-    </div>
+  <section class="wrap gallery-end">
+    <p class="max-w-[54ch] text-xs leading-relaxed text-muted">
+      All photographs © {site.name}, {new Date().getFullYear()}. Please ask before reproducing.
+    </p>
+
+    <a href={`mailto:${site.email}`} class="arrow-link text-sm">
+      Request a print
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path
+          d="M3 8h10M9 4l4 4-4 4"
+          stroke="currentColor"
+          stroke-width="1.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </a>
   </section>
 
   <dialog class="gallery-lightbox" data-gallery-lightbox aria-labelledby="gallery-lightbox-title">
@@ -202,7 +136,8 @@ const pad = (value: number) => String(value).padStart(2, '0');
               d="M4 4l8 8M12 4l-8 8"
               stroke="currentColor"
               stroke-width="1.2"
-              stroke-linecap="round"></path>
+              stroke-linecap="round"
+            />
           </svg>
         </button>
       </div>

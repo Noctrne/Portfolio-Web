@@ -24,6 +24,7 @@ const categoryIcons: Record<string, string> = {
   autonomy: 'orbit',
   software: 'code',
   embedded: 'chip',
+  design: 'pen',
 };
 ---
 
@@ -35,7 +36,7 @@ const categoryIcons: Record<string, string> = {
   style={`--reveal-delay: ${delay}ms`}
 >
   <a href={`/work/${entry.id}/`} class="block">
-    <div class="relative aspect-[4/5] overflow-hidden bg-paper-deep">
+    <div class="relative aspect-[4/3] overflow-hidden bg-paper-deep">
       <Image
         src={cover}
         alt={coverAlt || title}

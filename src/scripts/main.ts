@@ -116,6 +116,76 @@ function initParallax() {
   };
 }
 
+let cleanupTilt: (() => void) | null = null;
+
+function initTilt() {
+  cleanupTilt?.();
+  cleanupTilt = null;
+
+  if (reduceMotion.matches) return;
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+
+  const plates = Array.from(document.querySelectorAll<HTMLElement>('[data-tilt]'));
+  if (plates.length === 0) return;
+
+  const cleanups: Array<() => void> = [];
+
+  for (const plate of plates) {
+    let frame = 0;
+    let nx = 0;
+    let ny = 0;
+
+    const apply = () => {
+      plate.style.setProperty('--rx', `${(-ny * 4).toFixed(2)}deg`);
+      plate.style.setProperty('--ry', `${(nx * 5).toFixed(2)}deg`);
+      plate.style.setProperty('--px', `${(-nx * 15).toFixed(2)}px`);
+      plate.style.setProperty('--py', `${(-ny * 11).toFixed(2)}px`);
+      frame = 0;
+    };
+
+    const reset = () => {
+      if (frame) cancelAnimationFrame(frame);
+      frame = 0;
+      nx = 0;
+      ny = 0;
+      plate.classList.remove('is-hover');
+      plate.style.removeProperty('--rx');
+      plate.style.removeProperty('--ry');
+      plate.style.removeProperty('--px');
+      plate.style.removeProperty('--py');
+    };
+
+    const onEnter = () => plate.classList.add('is-hover');
+
+    const onMove = (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse') return;
+
+      const rect = plate.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+
+      nx = Math.max(-0.5, Math.min(0.5, (event.clientX - rect.left) / rect.width - 0.5));
+      ny = Math.max(-0.5, Math.min(0.5, (event.clientY - rect.top) / rect.height - 0.5));
+
+      if (!frame) frame = requestAnimationFrame(apply);
+    };
+
+    plate.addEventListener('pointerenter', onEnter);
+    plate.addEventListener('pointermove', onMove, { passive: true });
+    plate.addEventListener('pointerleave', reset);
+
+    cleanups.push(() => {
+      reset();
+      plate.removeEventListener('pointerenter', onEnter);
+      plate.removeEventListener('pointermove', onMove);
+      plate.removeEventListener('pointerleave', reset);
+    });
+  }
+
+  cleanupTilt = () => {
+    for (const cleanup of cleanups) cleanup();
+  };
+}
+
 function applyFilter(value: string) {
   const items = Array.from(document.querySelectorAll<HTMLElement>('[data-work]'));
   if (items.length === 0) return;
@@ -319,6 +389,7 @@ document.addEventListener('astro:page-load', () => {
   initReveal();
   initHeader();
   initParallax();
+  initTilt();
   initGallery();
   setMenu(false);
 });
@@ -326,6 +397,7 @@ document.addEventListener('astro:page-load', () => {
 document.addEventListener('astro:before-swap', () => {
   cleanupHeader?.();
   cleanupParallax?.();
+  cleanupTilt?.();
   closeGallery();
   setMenu(false);
 });
@@ -337,9 +409,11 @@ window.matchMedia('(min-width: 768px)').addEventListener('change', (event) => {
 reduceMotion.addEventListener('change', () => {
   initReveal();
   initParallax();
+  initTilt();
 });
 
 initReveal();
 initHeader();
 initParallax();
+initTilt();
 initGallery();

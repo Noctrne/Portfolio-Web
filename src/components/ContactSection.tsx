@@ -45,7 +45,7 @@ export default function ContactSection() {
 
           <aside className="contact-aside">
             <div>
-              <p className="contact-aside-label">Elsewhere</p>
+              <h3 className="contact-aside-label">Elsewhere</h3>
               <ul className="contact-socials">
                 {site.socials.map((social) => (
                   <li key={social.label}>
@@ -65,7 +65,7 @@ export default function ContactSection() {
             </div>
 
             <div>
-              <p className="contact-aside-label">Base</p>
+              <h3 className="contact-aside-label">Base</h3>
               <p className="contact-base">
                 {site.location}
                 <br />

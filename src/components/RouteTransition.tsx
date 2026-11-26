@@ -4,6 +4,34 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 
+// Links wrap decorative chrome (index numbers, arrows, year stamps), so raw
+// textContent reads like "01Work06 projects". Prefer real labels, then fall
+// back to visible text with the decoration stripped.
+const labelSelector = [
+  ".menu-item-label",
+  ".rail-card-title",
+  ".index-row-title",
+  ".photo-frame-caption > span:first-child",
+  "[data-transition-title]",
+].join(",");
+
+function readLabel(anchor: HTMLAnchorElement) {
+  const explicit = anchor.dataset.transitionLabel?.trim();
+  if (explicit) return explicit;
+
+  const labelled = anchor.querySelector<HTMLElement>(labelSelector)?.textContent?.trim();
+  if (labelled) return labelled;
+
+  const clone = anchor.cloneNode(true) as HTMLElement;
+  clone
+    .querySelectorAll(
+      "[aria-hidden='true'], .sr-only, .menu-item-index, .menu-item-meta, .rail-card-meta, .rail-card-index, .index-row-number, .index-row-side, .photo-frame-caption, .button-arrow",
+    )
+    .forEach((node) => node.remove());
+
+  return (clone.textContent ?? "").replace(/\s+/g, " ").trim();
+}
+
 export default function RouteTransition() {
   const router = useRouter();
   const pathname = usePathname();
@@ -12,6 +40,12 @@ export default function RouteTransition() {
   const labelRef = useRef<HTMLSpanElement>(null);
   const animating = useRef(false);
   const firstRender = useRef(true);
+
+  useEffect(() => {
+    return () => {
+      document.documentElement.classList.remove("route-changing");
+    };
+  }, []);
 
   useEffect(() => {
     if (firstRender.current) {
@@ -30,12 +64,23 @@ export default function RouteTransition() {
       onComplete: () => {
         animating.current = false;
         overlay.classList.remove("is-active");
+        document.documentElement.classList.remove("route-changing");
         gsap.set(overlay, { autoAlpha: 0 });
+        // Drop the full-screen filter as soon as the curtain is gone so no
+        // blurred layer stays alive behind the page.
+        gsap.set(panel, { filter: "none" });
       },
     });
 
-    tl.to(label, { autoAlpha: 0, y: -18, duration: 0.25, ease: "power2.in" }).to(panel, {
+    tl.to(label, {
+      autoAlpha: 0,
+      y: -18,
+      filter: "blur(10px)",
+      duration: 0.25,
+      ease: "power2.in",
+    }).to(panel, {
       yPercent: -100,
+      filter: "blur(12px)",
       duration: 0.7,
       ease: "expo.inOut",
     });
@@ -75,21 +120,23 @@ export default function RouteTransition() {
       event.stopPropagation();
       animating.current = true;
 
-      const text = (anchor.dataset.transitionLabel || anchor.textContent || "Next page")
-        .replace(/\s+/g, " ")
-        .trim()
-        .slice(0, 48);
+      const text = (readLabel(anchor) || "Next page").replace(/\s+/g, " ").slice(0, 64);
       label.textContent = text || "Next page";
 
       overlay.classList.add("is-active");
+      document.documentElement.classList.add("route-changing");
       gsap.set(overlay, { autoAlpha: 1 });
       gsap.set(panel, { yPercent: 100 });
-      gsap.set(label, { autoAlpha: 0, y: 24 });
+      gsap.set(label, { autoAlpha: 0, y: 24, filter: "blur(12px)" });
 
       gsap
         .timeline()
         .to(panel, { yPercent: 0, duration: 0.62, ease: "expo.inOut" })
-        .to(label, { autoAlpha: 1, y: 0, duration: 0.35, ease: "power2.out" }, "-=0.25");
+        .to(
+          label,
+          { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.35, ease: "power2.out" },
+          "-=0.25",
+        );
 
       window.setTimeout(() => {
         router.push(href);
@@ -104,7 +151,7 @@ export default function RouteTransition() {
     <div ref={overlayRef} className="route-transition" aria-hidden="true">
       <div ref={panelRef} className="route-transition-panel">
         <div className="route-transition-grid" />
-        <span className="route-transition-kicker">AP / Navigating</span>
+        <span className="route-transition-kicker">Portfolio / Navigating</span>
         <span ref={labelRef} className="route-transition-label">
           Next page
         </span>

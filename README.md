@@ -88,7 +88,8 @@ public/images/                   # portrait, work, gallery
 - **GalleryView** memberi tilt halus pada plat, pergeseran baris, dan lightbox
   `<dialog>` dengan navigasi keyboard.
 - **RouteTransition** menjalankan tirai oranye saat berpindah halaman internal;
-  **Cursor** dan **MagneticLink** menambah umpan balik pointer di desktop.
+  **Cursor** dan **MagneticLink** menambah umpan balik pointer di desktop. Cursor
+  berubah menjadi ink di atas section `.theme-signal` agar tetap terlihat.
 - **ReadingProgress** mengisi bar tipis mengikuti posisi baca di halaman studi kasus.
 - **OrbitField** berhenti saat keluar viewport dan tidak dirender untuk reduced motion.
 

@@ -32,16 +32,24 @@ export default function SiteMotion() {
         const delay = Number(el.dataset.delay ?? 0) / 1000;
 
         if (kind === "media") {
-          gsap.fromTo(
+          // Two tracks: the wipe is snappy, the focus pull is softer, so the
+          // image resolves out of depth instead of snapping into place.
+          const tl = gsap.timeline({
+            delay,
+            scrollTrigger: { trigger: el, start: "top 84%", once: true },
+            onComplete: () => gsap.set(el, { clipPath: "none", filter: "none" }),
+          });
+
+          tl.fromTo(
             el,
             { clipPath: "inset(100% 0 0 0)" },
-            {
-              clipPath: "inset(0% 0 0 0)",
-              duration: 1.15,
-              delay,
-              ease: "expo.out",
-              scrollTrigger: { trigger: el, start: "top 84%", once: true },
-            },
+            { clipPath: "inset(0% 0 0 0)", duration: 1.15, ease: "expo.out" },
+            0,
+          ).fromTo(
+            el,
+            { filter: "blur(18px)" },
+            { filter: "blur(0px)", duration: 1.35, ease: "power2.out" },
+            0,
           );
           continue;
         }
@@ -81,13 +89,28 @@ export default function SiteMotion() {
             // The CSS hide is a pre-hydration guard; split parents hand the
             // reveal to their masked lines, so clear it before animating.
             gsap.set(el, { autoAlpha: 1, y: 0 });
-            return gsap.from(self.lines, {
-              yPercent: 115,
-              duration: 0.9,
-              stagger: 0.07,
-              ease: "expo.out",
+            const lineTl = gsap.timeline({
               scrollTrigger: { trigger: el, start: "top 88%", once: true },
+              onComplete: () => gsap.set(el, { clearProps: "filter" }),
             });
+
+            lineTl
+              .from(self.lines, {
+                yPercent: 115,
+                duration: 0.9,
+                stagger: 0.07,
+                ease: "expo.out",
+              })
+              // One filter on the heading block instead of one per line:
+              // the focus pull costs a single raster per section.
+              .fromTo(
+                el,
+                { filter: "blur(8px)" },
+                { filter: "blur(0px)", duration: 0.9, ease: "power2.out" },
+                0,
+              );
+
+            return lineTl;
           },
         });
         splits.push(split);

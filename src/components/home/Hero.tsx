@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, type CSSProperties } from "react";
+import Icon from "@/components/Icon";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { site } from "@/content/site";
 
@@ -84,9 +85,6 @@ export default function Hero() {
     <section ref={rootRef} className="hero" aria-labelledby="hero-title">
       <div className="hero-grid" aria-hidden="true" />
       <div className="hero-glow" aria-hidden="true" />
-      <div className="hero-watermark" aria-hidden="true">
-        26
-      </div>
 
       <div className="hero-orbit" aria-hidden="true">
         <span />
@@ -108,13 +106,17 @@ export default function Hero() {
           <h1 id="hero-title" className="hero-title" data-no-split>
             <span className="hero-line-mask">
               <span className="hero-line-inner" style={{ "--i": 0 } as CSSProperties}>
-                Signal
+                Portfolio
               </span>
             </span>
-            <span className="hero-line-mask hero-line--second">
-              <span className="hero-line-inner" style={{ "--i": 1 } as CSSProperties}>
-                <span className="hero-amp">&amp;</span> image.
-              </span>
+            <span className="hero-title-name">
+              <Icon
+                name="asterisk"
+                size={22}
+                strokeWidth={1.2}
+                className="hero-name-mark"
+              />
+              <span>Abyasa Pradhipta</span>
             </span>
           </h1>
 

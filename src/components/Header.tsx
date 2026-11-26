@@ -152,9 +152,6 @@ export default function Header() {
       >
         <div className="site-header-inner">
           <Link href="/" className="brand">
-            <span className="brand-mark" aria-hidden="true">
-              AP<span>/</span>26
-            </span>
             <span className="brand-name">{site.name}</span>
           </Link>
 

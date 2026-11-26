@@ -158,7 +158,7 @@ export default async function WorkDetailPage({ params }: Props) {
             )}
 
             <div className="case-stamp" aria-hidden="true">
-              <span>AP</span>
+              <span>Work</span>
               <span>/</span>
               <span>{pad(index + 1)}</span>
             </div>

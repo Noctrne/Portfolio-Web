@@ -68,7 +68,7 @@ export default function ContactPage() {
       <section className="contact-page-body">
         <div className="wrap contact-page-grid">
           <div className="contact-info-block">
-            <p className="mono-label">Elsewhere</p>
+            <h2 className="mono-label">Elsewhere</h2>
             <ul className="contact-page-socials">
               {site.socials.map((social) => (
                 <li key={social.label}>
@@ -87,7 +87,7 @@ export default function ContactPage() {
           </div>
 
           <div className="contact-info-block contact-info-block--prompts">
-            <p className="mono-label">Helpful to include</p>
+            <h2 className="mono-label">Helpful to include</h2>
             <ol>
               {prompts.map((prompt, index) => (
                 <li key={prompt}>
@@ -99,7 +99,7 @@ export default function ContactPage() {
           </div>
 
           <div className="contact-info-block contact-info-block--base">
-            <p className="mono-label">Base</p>
+            <h2 className="mono-label">Base</h2>
             <p className="contact-page-base">
               {site.location}
               <br />

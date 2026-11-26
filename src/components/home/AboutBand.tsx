@@ -1,15 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
-import { plates } from "@/content/gallery";
 import { site } from "@/content/site";
 
-export default function AboutBand() {
-  const portrait = plates["self-in-leaves"];
+const portrait = {
+  src: "/images/portrait.jpg",
+  alt: "Abyasa Pradhipta standing on a road between tea terraces in Wonosobo",
+};
 
+export default function AboutBand() {
   return (
     <section className="about-band section" id="about">
       <div className="wrap about-band-grid">
-        <figure className="about-band-media" data-reveal="media">
+        <figure className="about-band-media" data-reveal>
           <Image
             src={portrait.src}
             alt={portrait.alt}
@@ -24,7 +26,7 @@ export default function AboutBand() {
             07°48′S / 110°21′E
           </span>
           <figcaption>
-            <span>Self-portrait</span>
+            <span>Portrait</span>
             <span>Wonosobo, 2025</span>
           </figcaption>
         </figure>

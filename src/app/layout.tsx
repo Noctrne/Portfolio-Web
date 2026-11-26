@@ -16,7 +16,7 @@ import SmoothScroll from "@/components/motion/SmoothScroll";
 import SiteMotion from "@/components/motion/SiteMotion";
 import { site } from "@/content/site";
 
-const defaultTitle = `${site.name} — ${site.role}`;
+const defaultTitle = `${site.name} — Portfolio`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
         url: "/og.jpg",
         width: 1200,
         height: 630,
-        alt: `${site.name} — ${site.role}`,
+        alt: `${site.name} — Portfolio`,
       },
     ],
   },
@@ -102,6 +102,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </a>
 
         <div className="page-rails" aria-hidden="true" />
+        <div className="print-frame" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+          <span />
+          <span className="print-frame-spine">Field report — {site.year}</span>
+        </div>
 
         <Header />
 

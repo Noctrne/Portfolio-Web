@@ -25,6 +25,20 @@ export default function Cursor() {
     let ringY = targetY;
     let frame = 0;
     let visible = false;
+    let onSignal = false;
+
+    const setSurface = (node: Element | null) => {
+      const next = Boolean(
+        node?.closest(".theme-signal, .route-transition, .loader-underlay"),
+      );
+      if (next === onSignal) return;
+      onSignal = next;
+      root.classList.toggle("is-on-signal", next);
+    };
+
+    const setSurfaceAtPointer = () => {
+      setSurface(document.elementFromPoint(targetX, targetY));
+    };
 
     const render = () => {
       ringX += (targetX - ringX) * 0.16;
@@ -39,6 +53,7 @@ export default function Cursor() {
     const onMove = (event: PointerEvent) => {
       targetX = event.clientX;
       targetY = event.clientY;
+      setSurface(event.target instanceof Element ? event.target : null);
       if (!visible) {
         visible = true;
         root.classList.add("is-visible");
@@ -48,6 +63,7 @@ export default function Cursor() {
     const onOver = (event: PointerEvent) => {
       const target = event.target;
       if (!(target instanceof Element)) return;
+      setSurface(target);
       const interactive = target.closest<HTMLElement>("[data-cursor], a, button, summary, label");
       const dataLabel = interactive?.getAttribute("data-cursor");
 
@@ -68,6 +84,8 @@ export default function Cursor() {
     document.addEventListener("pointerdown", onDown);
     document.addEventListener("pointerup", onUp);
     document.documentElement.addEventListener("pointerleave", onLeave);
+    window.addEventListener("scroll", setSurfaceAtPointer, { passive: true });
+    window.addEventListener("resize", setSurfaceAtPointer);
     frame = requestAnimationFrame(render);
 
     return () => {
@@ -77,6 +95,8 @@ export default function Cursor() {
       document.removeEventListener("pointerdown", onDown);
       document.removeEventListener("pointerup", onUp);
       document.documentElement.removeEventListener("pointerleave", onLeave);
+      window.removeEventListener("scroll", setSurfaceAtPointer);
+      window.removeEventListener("resize", setSurfaceAtPointer);
       document.documentElement.classList.remove("cursor-ready");
     };
   }, []);

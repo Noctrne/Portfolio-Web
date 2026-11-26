@@ -652,16 +652,13 @@
     align-items: stretch;
     min-height: 100svh;
     padding: calc(var(--header-h) + 2.5rem) var(--wrap-pad) 2.5rem;
-    /* The menu opens behind the clip wipe out of focus, then resolves. */
-    filter: blur(9px);
+    /* The menu resolves out of the clip wipe with a short rise. Blurring the
+       whole sheet would re-raster a full screen on every frame. */
     transform: translate3d(0, 1.2rem, 0);
-    transition:
-      filter 0.7s var(--ease-out-expo),
-      transform 0.7s var(--ease-out-expo);
+    transition: transform 0.7s var(--ease-out-expo);
   }
 
   .menu-overlay.is-open .menu-panel {
-    filter: blur(0);
     transform: translate3d(0, 0, 0);
   }
 
@@ -3214,39 +3211,37 @@
   }
 }
 
+/* The hero entrance runs behind the loader on a first visit and immediately
+   after the route curtain on a return. Blurring the display title and the
+   portrait there cost more raster time than the effect was worth, so the
+   entrance is carried by the mask wipe and the rise alone. */
 @keyframes hero-line-in {
   from {
     transform: translate3d(0, 115%, 0);
-    filter: blur(12px);
   }
   to {
     transform: translate3d(0, 0, 0);
-    filter: blur(0);
   }
 }
 
 @keyframes hero-image-in {
   from {
     clip-path: inset(100% 0 0 0);
-    filter: blur(16px);
   }
   to {
     /* Expanded past the box so plate shadows are not clipped once the
        wipe finishes. */
     clip-path: inset(-3rem -3rem -3rem -3rem);
-    filter: blur(0);
   }
 }
 
 @keyframes hero-float-in {
   from {
     opacity: 0;
-    filter: blur(10px);
     transform: translate3d(0, 2.2rem, 0) rotate(-9deg);
   }
   to {
     opacity: 1;
-    filter: blur(0);
     transform: translate3d(var(--hero-float-x, 0), var(--hero-float-y, 0), 0) rotate(-4deg);
   }
 }
@@ -3254,12 +3249,10 @@
 @keyframes hero-fade-up {
   from {
     opacity: 0;
-    filter: blur(6px);
     transform: translate3d(0, 1rem, 0);
   }
   to {
     opacity: 1;
-    filter: blur(0);
     transform: translate3d(0, 0, 0);
   }
 }
@@ -4419,10 +4412,10 @@
     overflow: hidden;
   }
 
+  /* A blurred full-screen backdrop has to be recomputed against a still-live
+     page. The plate is fully covered anyway, so the sheet is just denser. */
   .gallery-lightbox::backdrop {
-    background: rgba(4, 5, 4, 0.88);
-    backdrop-filter: blur(9px);
-    -webkit-backdrop-filter: blur(9px);
+    background: rgba(4, 5, 4, 0.94);
   }
 
   .gallery-lightbox-frame {
@@ -5507,12 +5500,10 @@
 @keyframes lightbox-image-in {
   from {
     opacity: 0;
-    filter: blur(14px);
     transform: translateY(10px) scale(0.985);
   }
   to {
     opacity: 1;
-    filter: blur(0);
     transform: none;
   }
 }
@@ -8290,6 +8281,33 @@ body::before {
     color-mix(in srgb, var(--color-signal) 9%, transparent) 38%,
     transparent 72%
   );
+}
+
+/* One blended layer per photograph instead of two. The duotone carries the
+   ink; the 3px halftone screen at 26% was invisible at reading distance and
+   added a multiply pass for every plate on screen. */
+.rail-media::after,
+.photo-frame-media::after,
+.plate--thumb .plate-frame::after,
+.plate--stack .plate-frame::after {
+  display: none;
+}
+
+/* A modal dialog renders in the top layer, above the fixed custom cursor,
+   while the native cursor is hidden — so the pointer vanished over the
+   lightbox. Hand the pointer back to the platform while a dialog is open. */
+@layer components {
+  html.cursor-ready.lightbox-open,
+  html.cursor-ready.lightbox-open *,
+  html.cursor-ready:has(dialog[open]),
+  html.cursor-ready:has(dialog[open]) * {
+    cursor: auto !important;
+  }
+}
+
+html.lightbox-open .cursor,
+html:has(dialog[open]) .cursor {
+  opacity: 0 !important;
 }
 
 /* Pre-hydration reveals reserve a compositor layer. Release it once the block

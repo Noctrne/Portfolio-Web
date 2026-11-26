@@ -72,25 +72,24 @@ export default function Loader() {
 
     tl.fromTo(
       ".loader-top > *",
-      { y: -14, autoAlpha: 0, filter: "blur(6px)" },
-      { y: 0, autoAlpha: 1, filter: "blur(0px)", duration: 0.7, stagger: 0.08, ease: "expo.out" },
+      { y: -14, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 0.7, stagger: 0.08, ease: "expo.out" },
       0,
     )
       .fromTo(
         ".loader-orbit",
-        { autoAlpha: 0, scale: 0.86, filter: "blur(10px)" },
-        { autoAlpha: 0.55, scale: 1, filter: "blur(0px)", duration: 1.2, ease: "expo.out" },
+        { autoAlpha: 0, scale: 0.86 },
+        { autoAlpha: 0.55, scale: 1, duration: 1.2, ease: "expo.out" },
         0,
       )
       .fromTo(
         ".loader-glyph",
-        { autoAlpha: 0, y: 26, scale: 0.72, rotate: -10, filter: "blur(12px)" },
+        { autoAlpha: 0, y: 26, scale: 0.72, rotate: -10 },
         {
           autoAlpha: 1,
           y: 0,
           scale: 1,
           rotate: 0,
-          filter: "blur(0px)",
           duration: 0.9,
           stagger: 0.07,
           ease: "expo.out",
@@ -99,8 +98,8 @@ export default function Loader() {
       )
       .fromTo(
         ".loader-signature, .loader-word--small, .loader-readout, .loader-bar, .loader-coord",
-        { autoAlpha: 0, y: 16, filter: "blur(6px)" },
-        { autoAlpha: 1, y: 0, filter: "blur(0px)", duration: 0.7, stagger: 0.05, ease: "expo.out" },
+        { autoAlpha: 0, y: 16 },
+        { autoAlpha: 1, y: 0, duration: 0.7, stagger: 0.05, ease: "expo.out" },
         0.35,
       )
       .to(state, { n: 34, duration: 0.6, ease: "power2.out", onUpdate: paint }, 0.15)
@@ -112,20 +111,19 @@ export default function Loader() {
           y: -18,
           autoAlpha: 0,
           scale: 0.9,
-          filter: "blur(10px)",
           duration: 0.45,
           stagger: 0.035,
           ease: "expo.in",
         },
         2.3,
       )
-      .to(".loader-signature", { autoAlpha: 0, y: -8, filter: "blur(8px)", duration: 0.3 }, 2.4)
-      .to(".loader-top, .loader-bottom", { autoAlpha: 0, filter: "blur(6px)", duration: 0.3 }, 2.45)
+      .to(".loader-signature", { autoAlpha: 0, y: -8, duration: 0.3 }, 2.4)
+      .to(".loader-top, .loader-bottom", { autoAlpha: 0, duration: 0.3 }, 2.45)
       .to(panel, { yPercent: -100, duration: 0.85, ease: "expo.inOut" }, 2.5)
       .fromTo(
         ".loader-underlay-name",
-        { yPercent: 45, autoAlpha: 0, filter: "blur(14px)" },
-        { yPercent: 0, autoAlpha: 1, filter: "blur(0px)", duration: 0.55, ease: "expo.out" },
+        { yPercent: 45, autoAlpha: 0 },
+        { yPercent: 0, autoAlpha: 1, duration: 0.55, ease: "expo.out" },
         2.62,
       )
       .to(loader, { yPercent: -100, duration: 0.8, ease: "expo.inOut" }, 3.1)

@@ -80,7 +80,8 @@ export default function RouteTransition() {
       ease: "power2.in",
     }).to(panel, {
       yPercent: -100,
-      filter: "blur(12px)",
+      // No filter on the sheet: a full-screen blur costs a re-raster per
+      // frame on the exit and reads as nothing on flat ink.
       duration: 0.7,
       ease: "expo.inOut",
     });

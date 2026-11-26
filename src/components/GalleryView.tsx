@@ -111,8 +111,6 @@ function PlateFrame({
             loading={eager ? "eager" : "lazy"}
             preload={eager}
             className="plate-img object-cover"
-            data-parallax-media
-            data-speed="0.075"
           />
 
           {(variant === "hero" || variant === "lead") && (

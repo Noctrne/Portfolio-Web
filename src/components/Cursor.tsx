@@ -27,6 +27,12 @@ export default function Cursor() {
 
     document.documentElement.classList.add("cursor-ready");
 
+    // The ring label is the only place the 500 cut of the mono is used, so the
+    // browser holds that face back until the first labelled hover. A font
+    // batch arriving mid-scroll makes every split heading re-measure at once,
+    // which reads as a stutter right when a photo comes under the pointer.
+    document.fonts?.load('500 1rem "IBM Plex Mono"').catch(() => {});
+
     let targetX = window.innerWidth / 2;
     let targetY = window.innerHeight / 2;
     let ringX = targetX;

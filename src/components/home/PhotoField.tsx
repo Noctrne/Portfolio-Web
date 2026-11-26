@@ -73,12 +73,12 @@ export default function PhotoField() {
       </div>
 
       <div className="photo-marquee" aria-label="Selected photographs">
-        <div className="photo-track">
+        <div className="photo-track" data-fx-pause>
           {sequence.map((key, index) => (
             <Frame key={key} plateKey={key} index={index} />
           ))}
         </div>
-        <div className="photo-track" aria-hidden="true">
+        <div className="photo-track" data-fx-pause aria-hidden="true">
           {sequence.map((key, index) => (
             <Frame key={`${key}-clone`} plateKey={key} index={index} clone />
           ))}

@@ -92,8 +92,12 @@ public/images/                   # portrait, work, gallery
   berubah menjadi ink di atas section `.theme-signal` agar tetap terlihat.
 - **ReadingProgress** mengisi bar tipis mengikuti posisi baca di halaman studi kasus.
 - **OrbitField** berhenti saat keluar viewport dan tidak dirender untuk reduced motion.
+- **PerfGovernor** mengukur frame saat scroll pertama. Kalau frame konsisten
+  terlewat, halaman turun ke tier `perf-low`: Lenis, gerak dekoratif, dan blur
+  reveal dimatikan, sementara warna, halftone, dan seluruh konten tetap ada.
 
 Gerak hanya aktif jika `prefers-reduced-motion` tidak diminta dan `saveData` mati.
+Perangkat dengan ≤ 4 core atau `update: slow` langsung memakai tier `perf-low`.
 Tanpa JavaScript, semua konten tetap terlihat karena kelas `.motion` tidak pernah
 ditambahkan. Tema gelap adalah default; `.theme-bone` dan `.theme-signal` dipakai
 untuk section yang membalik palet tanpa mengubah token global. Loader juga

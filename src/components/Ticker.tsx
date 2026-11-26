@@ -36,26 +36,64 @@ export default function Ticker({ items = defaultItems, className }: Props) {
         repeat: -1,
       });
 
+      // Fold the scroll velocity into the marquee, but only a few times a
+      // second: this runs on every scroll frame otherwise.
+      let lastBoost = 0;
       const st = ScrollTrigger.create({
         trigger: root,
         start: "top bottom",
         end: "bottom top",
         onUpdate: (self) => {
+          const now = performance.now();
+          if (now - lastBoost < 140) return;
+          lastBoost = now;
           const boost = 1 + Math.min(Math.abs(self.getVelocity()) / 600, 3);
-          gsap.to(tween, { timeScale: boost, duration: 0.2, overwrite: true });
-          gsap.to(tween, { timeScale: 1, duration: 1, delay: 0.2, ease: "power2.out" });
+          gsap.to(tween, {
+            timeScale: boost,
+            duration: 0.25,
+            overwrite: true,
+            onComplete: () => {
+              gsap.to(tween, { timeScale: 1, duration: 1.1, ease: "power2.out" });
+            },
+          });
         },
       });
 
-      const pause = () => tween.pause();
-      const play = () => tween.play();
-      root.addEventListener("pointerenter", pause);
-      root.addEventListener("pointerleave", play);
+      // Run only while the strip is on screen, and stop under the pointer.
+      let offscreen = false;
+      let hovering = false;
+      const sync = () => {
+        if (offscreen || hovering) tween.pause();
+        else tween.play();
+      };
+      const onEnter = () => {
+        hovering = true;
+        sync();
+      };
+      const onLeave = () => {
+        hovering = false;
+        sync();
+      };
+      root.addEventListener("pointerenter", onEnter);
+      root.addEventListener("pointerleave", onLeave);
+
+      const io =
+        "IntersectionObserver" in window
+          ? new IntersectionObserver(
+              (entries) => {
+                offscreen = !entries[0]?.isIntersecting;
+                sync();
+              },
+              { rootMargin: "160px 0px" },
+            )
+          : undefined;
+      io?.observe(root);
 
       return () => {
+        io?.disconnect();
         st.kill();
-        root.removeEventListener("pointerenter", pause);
-        root.removeEventListener("pointerleave", play);
+        root.removeEventListener("pointerenter", onEnter);
+        root.removeEventListener("pointerleave", onLeave);
       };
     },
     { scope: rootRef },

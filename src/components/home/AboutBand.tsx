@@ -74,7 +74,7 @@ export default function AboutBand() {
         </div>
       </div>
 
-      <div className="about-band-marquee" aria-hidden="true">
+      <div className="about-band-marquee" data-fx-pause aria-hidden="true">
         <span>
           Engineer <i>·</i> Photographer <i>·</i> Designer <i>·</i> Teacher <i>·</i> Engineer{" "}
           <i>·</i> Photographer <i>·</i> Designer <i>·</i>

@@ -925,8 +925,7 @@
     transform: translate3d(calc(var(--cursor-x) - 50%), calc(var(--cursor-y) - 50%), 0);
     transition:
       opacity 0.25s ease,
-      background 0.2s ease,
-      transform 0.05s linear;
+      background 0.2s ease;
   }
 
   .cursor-ring {
@@ -8245,6 +8244,129 @@ body::before {
 
 /* == END == */
 
+/* ==========================================================================
+   PERFORMANCE PASS — the same print, with fewer per-frame layers
+   The art direction above is unchanged; this block removes work the browser
+   was doing every frame without the reader seeing it.
+   ========================================================================== */
+
+/* The grain plate was fixed above the whole document (z-index 9999), so the
+   page underneath had to be re-blended against a full-viewport texture on
+   every scroll frame. The 4px halftone still gives the paper its tooth, so
+   the extra grain is gone. */
+body::before {
+  display: none;
+}
+
+/* Seam ticks and page rails animated `background-position`, which repaints a
+   strip every frame. Nobody sees a 2px march; the marks stay printed. */
+.motion .manifesto::before,
+.motion .work-rail::before,
+.motion .practice::before,
+.motion .photo-field::before,
+.motion .about-band::before,
+.motion .contact-section::before,
+.motion .page-rails::before,
+.motion .page-rails::after {
+  animation: none !important;
+}
+
+/* Sticky bars sit over a moving page, so a backdrop blur is recomputed for
+   the strip on every frame. They were already 90% opaque paper. */
+.index-filters,
+.case-toc {
+  background: var(--color-paper);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* A soft signal bloom without the 26px filter pass: bake the falloff into the
+   gradient instead of blurring an 800px disc. */
+.hero-glow {
+  filter: none;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-signal) 17%, transparent) 0%,
+    color-mix(in srgb, var(--color-signal) 9%, transparent) 38%,
+    transparent 72%
+  );
+}
+
+/* Pre-hydration reveals reserve a compositor layer. Release it once the block
+   has landed, so a long page does not keep dozens of layers alive. */
+.motion
+  [data-reveal]:not([data-reveal="hero"]):not([data-reveal="pop"]):not([data-reveal="media"]).is-revealed {
+  will-change: auto;
+}
+
+/* Four large moving fields were doing the work of ten. The washes are static
+   colour, so the page still changes temperature as it scrolls. */
+.motion .manifesto::after,
+.motion .practice-layout::before,
+.motion .photo-field-head::after,
+.motion .about-band-grid::before {
+  animation: none !important;
+}
+
+/* Keep the biggest turning fields inside a sane raster size. */
+.hero::before {
+  width: min(112vw, 1180px);
+}
+
+.contact-grid-bg::after {
+  width: min(118vw, 1100px);
+}
+
+.manifesto::after {
+  width: min(72vw, 860px);
+}
+
+/* Marquees only need to run while they are on screen. */
+[data-fx-pause].is-offscreen,
+[data-fx-pause].is-offscreen > * {
+  animation-play-state: paused !important;
+}
+
+/* ── Low-power tier ───────────────────────────────────────────────────────
+   Set by the inline gate for small devices or slow connections, and by the
+   runtime governor when scrolling cannot hold a usable frame rate. Colour and
+   halftone stay; movement and focus pulls step aside. */
+html.perf-low .hero::before,
+html.perf-low .hero::after,
+html.perf-low .hero-orbit,
+html.perf-low .manifesto::after,
+html.perf-low .work-rail-head::after,
+html.perf-low .practice-layout::before,
+html.perf-low .photo-field-head::after,
+html.perf-low .about-band-grid::before,
+html.perf-low .contact-grid-bg::before,
+html.perf-low .contact-grid-bg::after,
+html.perf-low .page-hero::before,
+html.perf-low .footer-seal .seal-text,
+html.perf-low .photo-track,
+html.perf-low .ticker-track {
+  animation: none !important;
+}
+
+html.perf-low [data-reveal],
+html.perf-low [data-reveal] *,
+html.perf-low h1,
+html.perf-low h1 *,
+html.perf-low h2,
+html.perf-low h2 *,
+html.perf-low h3,
+html.perf-low h3 *,
+html.perf-low .text-lede,
+html.perf-low .text-lede * {
+  filter: none !important;
+}
+
+html.perf-low .index-filters,
+html.perf-low .case-toc,
+html.perf-low .gallery-lightbox::backdrop {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
 
 
 

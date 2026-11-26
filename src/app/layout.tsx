@@ -14,6 +14,7 @@ import Loader from "@/components/motion/Loader";
 import RouteTransition from "@/components/RouteTransition";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import SiteMotion from "@/components/motion/SiteMotion";
+import PerfGovernor from "@/components/motion/PerfGovernor";
 import { site } from "@/content/site";
 
 const defaultTitle = `${site.name} — Portfolio`;
@@ -82,6 +83,9 @@ var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var save=navigator.connection&&navigator.connection.saveData;
 if(reduce||save)return;
 document.documentElement.classList.add('motion');
+var cores=navigator.hardwareConcurrency||8;
+var slow=window.matchMedia&&window.matchMedia('(update: slow)').matches;
+if(cores<=4||slow)document.documentElement.classList.add('perf-low');
 if(!navigator.webdriver){
 document.documentElement.classList.add('loading');
 }
@@ -121,6 +125,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Loader />
         <SmoothScroll />
         <SiteMotion />
+        <PerfGovernor />
       </body>
     </html>
   );

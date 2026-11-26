@@ -37,7 +37,10 @@ export default function SiteMotion() {
           const tl = gsap.timeline({
             delay,
             scrollTrigger: { trigger: el, start: "top 84%", once: true },
-            onComplete: () => gsap.set(el, { clipPath: "none", filter: "none" }),
+            onComplete: () => {
+              gsap.set(el, { clipPath: "none", filter: "none" });
+              el.classList.add("is-revealed");
+            },
           });
 
           tl.fromTo(
@@ -64,6 +67,7 @@ export default function SiteMotion() {
             delay,
             ease: "expo.out",
             scrollTrigger: { trigger: el, start: "top 88%", once: true },
+            onComplete: () => el.classList.add("is-revealed"),
           },
         );
       }
@@ -91,7 +95,10 @@ export default function SiteMotion() {
             gsap.set(el, { autoAlpha: 1, y: 0 });
             const lineTl = gsap.timeline({
               scrollTrigger: { trigger: el, start: "top 88%", once: true },
-              onComplete: () => gsap.set(el, { clearProps: "filter" }),
+              onComplete: () => {
+                gsap.set(el, { clearProps: "filter" });
+                el.classList.add("is-revealed");
+              },
             });
 
             lineTl
@@ -164,6 +171,21 @@ export default function SiteMotion() {
         });
       }
 
+      // ── Marquees rest while off screen ──────────────────────────────
+      const pausable = gsap.utils.toArray<HTMLElement>("[data-fx-pause]");
+      let pauseObserver: IntersectionObserver | undefined;
+      if (pausable.length && "IntersectionObserver" in window) {
+        pauseObserver = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              entry.target.classList.toggle("is-offscreen", !entry.isIntersecting);
+            }
+          },
+          { rootMargin: "180px 0px" },
+        );
+        for (const el of pausable) pauseObserver.observe(el);
+      }
+
       // ── Keep trigger positions honest while images stream in ────────
       const scheduleRefresh = () => {
         const timer = window.setTimeout(() => ScrollTrigger.refresh(), 120);
@@ -179,6 +201,7 @@ export default function SiteMotion() {
       document.fonts?.ready.then(() => ScrollTrigger.refresh());
 
       return () => {
+        pauseObserver?.disconnect();
         document.removeEventListener("load", onImageLoad, true);
         window.removeEventListener("resize", scheduleRefresh);
         for (const timer of refreshTimers) window.clearTimeout(timer);
